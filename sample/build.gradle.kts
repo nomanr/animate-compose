@@ -4,11 +4,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 android {
-    namespace = "com.nomanr.animated.compose"
+    namespace = "com.nomanr.animate.compose"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.nomanr.animated.compose.sample"
+        applicationId = "com.nomanr.animate.compose.sample"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":animated-compose"))
+    implementation(project(":animate-compose"))
 
     implementation(libs.androidx.corektx)
     implementation(libs.androidx.appcompat)
@@ -53,4 +53,5 @@ dependencies {
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation("androidx.compose.material3:material3:1.3.1")
 }

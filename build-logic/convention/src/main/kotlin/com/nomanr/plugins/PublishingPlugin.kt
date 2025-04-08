@@ -13,7 +13,7 @@ import org.gradle.kotlin.dsl.getByType
 open class PublishingPluginExtension {
     var publishGroupId: String = "com.nomanr"
     var publishVersion: String = "0.0.1"
-    var artifactId: String = "animated-compose"
+    var artifactId: String = "animate-compose"
     var githubUrl: String = "github.com/nomanr/composables"
     var developerId: String = "nomanr"
     var developerName: String = "Noman R"

@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "animate-compose"
 include(":sample")
-include(":animated-compose")
+include(":animate-compose")
  
