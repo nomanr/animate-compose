@@ -33,10 +33,3 @@ sealed class Keyframe {
     ) : Keyframe()
 }
 
-internal fun keyframeSegment(start: Float, end: Float, from: Float, to: Float, easing: Easing? = null) = Keyframe.Segment(
-    start = start,
-    end = end,
-    from = TransformProperties(scaleX = from, scaleY = from),
-    to = TransformProperties(scaleX = to, scaleY = to),
-    easing = easing
-)
