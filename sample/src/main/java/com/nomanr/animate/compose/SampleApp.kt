@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
-import com.nomanr.animate.compose.presets.attentionseekers.RubberBand
+import com.nomanr.animate.compose.presets.attentionseekers.HeartBeat
 
 
 @Composable
@@ -35,7 +35,7 @@ fun SampleApp() {
     var animationEnabled by remember { mutableStateOf(true) }
     val animationState = rememberAnimatedState()
 
-    val animation = RubberBand()
+    val animation = HeartBeat()
 
     Column(
         modifier = Modifier
