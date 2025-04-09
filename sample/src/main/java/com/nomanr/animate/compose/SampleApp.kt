@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
 import com.nomanr.animate.compose.presets.attentionseekers.Tada
+import com.nomanr.animate.compose.presets.attentionseekers.Wobble
 
 
 @Composable
@@ -35,7 +36,7 @@ fun SampleApp() {
     var animationEnabled by remember { mutableStateOf(true) }
     val animationState = rememberAnimatedState()
 
-    val animation = Tada()
+    val animation = Wobble()
 
     Column(
         modifier = Modifier
