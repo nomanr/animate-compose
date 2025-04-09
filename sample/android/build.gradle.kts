@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.nomanr.lumo.multiplatform.sample"
+    namespace = "com.nomanr.animate.compose"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.nomanr.lumo.multiplatform.sample"
+        applicationId = "com.nomanr.animate.compose.sample"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
