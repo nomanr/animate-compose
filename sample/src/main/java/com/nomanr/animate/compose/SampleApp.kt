@@ -36,7 +36,7 @@ fun SampleApp() {
     var animationEnabled by remember { mutableStateOf(true) }
     val animationState = rememberAnimatedState()
 
-    val animation = Bounce()
+    val animation = Flash(0.1f, 1f)
 
     Column(
         modifier = Modifier

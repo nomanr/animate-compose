@@ -15,34 +15,37 @@ import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.atProgress
 import com.nomanr.animate.compose.core.interpolate
 
-class Flash : AnimationPreset {
+class Flash(minAlpha: Float = 0f, maxAlpha: Float = 1f) : AnimationPreset {
 
-    private val ease = FastOutLinearInEasing
+    private val ease = FastOutSlowInEasing
 
     private val keyframes = listOf<Keyframe>(
-        Keyframe.Static(
-            percent = 0f,
-            transform = TransformProperties(alpha = 1f),
+        Keyframe.Segment(
+            start = 0f,
+            end = 0.25f,
+            from = TransformProperties(alpha = maxAlpha),
+            to = TransformProperties(alpha = minAlpha),
             easing = ease
         ),
-        Keyframe.Static(
-            percent = 0.25f,
-            transform = TransformProperties(alpha = 0f),
+        Keyframe.Segment(
+            start = 0.25f,
+            end = 0.5f,
+            from = TransformProperties(alpha = minAlpha),
+            to = TransformProperties(alpha = maxAlpha),
             easing = ease
         ),
-        Keyframe.Static(
-            percent = 0.5f,
-            transform = TransformProperties(alpha = 1f),
+        Keyframe.Segment(
+            start = 0.5f,
+            end = 0.75f,
+            from = TransformProperties(alpha = maxAlpha),
+            to = TransformProperties(alpha = minAlpha),
             easing = ease
         ),
-        Keyframe.Static(
-            percent = 0.75f,
-            transform = TransformProperties(alpha = 0f),
-            easing = ease
-        ),
-        Keyframe.Static(
-            percent = 1f,
-            transform = TransformProperties(alpha = 1f),
+        Keyframe.Segment(
+            start = 0.75f,
+            end = 1f,
+            from = TransformProperties(alpha = minAlpha),
+            to = TransformProperties(alpha = maxAlpha),
             easing = ease
         )
     )
