@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.animateKeyframe
 import com.nomanr.animate.compose.core.atProgress
 import com.nomanr.animate.compose.core.interpolate
 
@@ -59,7 +60,7 @@ class Bounce(bounceHeightInPx: Float = 60f) : AnimationPreset {
         Keyframe.Segment(
             start = 0.70f,
             end = 0.80f,
-            from = TransformProperties(translationY = -bounceHeightInPx / 2f, scaleY = 1f),
+            from = TransformProperties(translationY = -bounceHeightInPx / 2.1f, scaleY = 1f),
             to = TransformProperties(translationY = 0f, scaleY = 0.95f),
             easing = fallEasing
         ),
@@ -83,27 +84,12 @@ class Bounce(bounceHeightInPx: Float = 60f) : AnimationPreset {
 
     @Composable
     override fun animate(progress: State<Float>): Modifier {
-        return Modifier.graphicsLayer {
+        return Modifier.animateKeyframe(
+            progress = progress,
+            keyframes = keyframes,
+            transformOrigin = TransformOrigin(0.5f, 0.5f),
             clip = false
-            transformOrigin = TransformOrigin(0.5f, 1f)
-
-            val p = progress.value
-
-            val transform = when (val current = keyframes.atProgress(p)) {
-                is Keyframe.Segment -> {
-                    val fraction = (p - current.start) / (current.end - current.start)
-                    val eased = current.easing?.transform(fraction) ?: 1f
-                    current.from.interpolate(current.to, eased)
-                }
-
-                is Keyframe.Static -> current.transform
-
-                else -> TransformProperties()
-            }
-
-            transform.translationY?.let { this.translationY = it }
-            transform.scaleY?.let { this.scaleY = it }
-        }
+        )
     }
 }
 
