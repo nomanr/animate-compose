@@ -1,27 +1,71 @@
 package com.nomanr.animate.compose.presets.attentionseekers
 
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.util.lerp
 import com.nomanr.animate.compose.core.AnimationPreset
+import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
+import com.nomanr.animate.compose.core.atProgress
+import com.nomanr.animate.compose.core.interpolate
 
-object Flash : AnimationPreset {
+class Flash : AnimationPreset {
+
+    private val ease = FastOutLinearInEasing
+
+    private val keyframes = listOf<Keyframe>(
+        Keyframe.Static(
+            percent = 0f,
+            transform = TransformProperties(alpha = 1f),
+            easing = ease
+        ),
+        Keyframe.Static(
+            percent = 0.25f,
+            transform = TransformProperties(alpha = 0f),
+            easing = ease
+        ),
+        Keyframe.Static(
+            percent = 0.5f,
+            transform = TransformProperties(alpha = 1f),
+            easing = ease
+        ),
+        Keyframe.Static(
+            percent = 0.75f,
+            transform = TransformProperties(alpha = 0f),
+            easing = ease
+        ),
+        Keyframe.Static(
+            percent = 1f,
+            transform = TransformProperties(alpha = 1f),
+            easing = ease
+        )
+    )
+
     @Composable
     override fun animate(progress: State<Float>): Modifier {
         return Modifier.graphicsLayer {
-            val progressValue = progress.value
-            alpha = when {
-                progressValue < 0.25f -> lerp(1f, 0f, progressValue / 0.25f)
-                progressValue < 0.5f -> lerp(0f, 1f, (progressValue - 0.25f) / 0.25f)
-                progressValue < 0.75f -> lerp(1f, 0f, (progressValue - 0.5f) / 0.25f)
-                else -> lerp(0f, 1f, (progressValue - 0.75f) / 0.25f)
+            val p = progress.value
+
+            val current = keyframes.atProgress(p)
+            println(current.toString())
+            val transform = when (current) {
+                is Keyframe.Segment -> {
+                    val fraction = (p - current.start) / (current.end - current.start)
+                    val eased = current.easing?.transform(fraction) ?: 1f
+                    current.from.interpolate(current.to, eased)
+                }
+
+                is Keyframe.Static -> current.transform
+                else -> TransformProperties()
             }
-            translationX = 0f
-            translationY = 0f
-            scaleX = 1f
-            scaleY = 1f
+
+            transform.alpha?.let { this.alpha = it }
         }
     }
 }

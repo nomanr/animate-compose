@@ -32,7 +32,7 @@ fun List<Keyframe>.atProgress(progress: Float): Keyframe? {
     return this.findLast {
         when (it) {
             is Keyframe.Segment -> progress in it.start..it.end
-            is Keyframe.Static -> progress <= it.percent
+            is Keyframe.Static -> progress >= it.percent
         }
     }
 }
