@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,16 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
-import com.nomanr.animate.compose.presets.BounceAnimationPreset
+import com.nomanr.animate.compose.presets.attentionseekers.Bounce
 
 
 @Composable
 fun SampleApp() {
     var animationEnabled by remember { mutableStateOf(true) }
     val animationState = rememberAnimatedState()
+
+    val animation = Bounce(bounceHeight = 60f)
 
     Column(
         modifier = Modifier
@@ -41,23 +46,28 @@ fun SampleApp() {
 
     ) {
         Animated(
-            preset = BounceAnimationPreset, durationMillis = 1000, repeat = true, enabled = animationEnabled
+            preset = animation,  repeat = true, enabled = animationEnabled
         ) {
-            Box(
+            Text(
+                text = "Animated.compose",
                 modifier = Modifier
-                    .size(50.dp)
-                    .background(Color.Red)
+                    .padding(16.dp),
+                color = Color.Black,
+                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Black, fontSize = 35.sp)
             )
         }
 
+        Spacer(modifier = Modifier.height(32.dp))
 
         Animated(
-            preset = BounceAnimationPreset, state = animationState
+            preset = animation, state = animationState
         ) {
-            Box(
+            Text(
+                text = "Animated.compose",
                 modifier = Modifier
-                    .size(50.dp)
-                    .background(Color.Blue)
+                    .padding(16.dp),
+                color = Color.Black,
+                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Black, fontSize = 35.sp)
             )
         }
 

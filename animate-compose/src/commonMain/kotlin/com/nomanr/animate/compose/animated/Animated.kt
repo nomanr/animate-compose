@@ -1,6 +1,7 @@
 package com.nomanr.animate.compose.animated
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -71,7 +72,7 @@ private fun animationProgress(
             initialValue = 0f,
             targetValue = 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = durationMillis),
+                animation = tween(durationMillis = durationMillis, easing = LinearEasing),
                 repeatMode = RepeatMode.Restart
             )
         )
@@ -87,7 +88,7 @@ private fun animationProgress(
                 animatable.snapTo(0f)
                 animatable.animateTo(
                     targetValue = 1f,
-                    animationSpec = tween(durationMillis = durationMillis)
+                    animationSpec = tween(durationMillis = durationMillis, easing = LinearEasing),
                 )
             } else {
                 animatable.snapTo(1f)
