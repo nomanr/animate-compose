@@ -1,48 +1,76 @@
 package com.nomanr.animate.compose.presets.attentionseekers
 
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.util.lerp
 import com.nomanr.animate.compose.core.AnimationPreset
+import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
+import com.nomanr.animate.compose.core.animateKeyframe
 
-object RubberBand : AnimationPreset {
+class RubberBand(
+    exaggeration: Float = 0.2f,
+) : AnimationPreset {
+
+    private val ease = FastOutSlowInEasing
+
+    private val stretchX = 1f + exaggeration
+    private val squashY = 1f - exaggeration
+    private val squashX = 1f - exaggeration
+    private val stretchY = 1f + exaggeration
+
+    private val keyframes = listOf(
+        Keyframe.Segment(
+            start = 0f,
+            end = 0.3f,
+            from = TransformProperties(scaleX = 1f, scaleY = 1f),
+            to = TransformProperties(scaleX = stretchX, scaleY = squashY),
+            easing = ease
+        ),
+        Keyframe.Segment(
+            start = 0.3f,
+            end = 0.4f,
+            from = TransformProperties(scaleX = stretchX, scaleY = squashY),
+            to = TransformProperties(scaleX = squashX, scaleY = stretchY),
+            easing = ease
+        ),
+        Keyframe.Segment(
+            start = 0.4f,
+            end = 0.5f,
+            from = TransformProperties(scaleX = squashX, scaleY = stretchY),
+            to = TransformProperties(scaleX = 1.15f, scaleY = 0.85f),
+            easing = ease
+        ),
+        Keyframe.Segment(
+            start = 0.5f,
+            end = 0.65f,
+            from = TransformProperties(scaleX = 1.15f, scaleY = 0.85f),
+            to = TransformProperties(scaleX = 0.95f, scaleY = 1.05f),
+            easing = ease
+        ),
+        Keyframe.Segment(
+            start = 0.65f,
+            end = 0.75f,
+            from = TransformProperties(scaleX = 0.95f, scaleY = 1.05f),
+            to = TransformProperties(scaleX = 1.05f, scaleY = 0.95f),
+            easing = ease
+        ),
+        Keyframe.Segment(
+            start = 0.75f,
+            end = 1f,
+            from = TransformProperties(scaleX = 1.05f, scaleY = 0.95f),
+            to = TransformProperties(scaleX = 1f, scaleY = 1f),
+            easing = EaseOut
+        )
+    )
+
     @Composable
     override fun animate(progress: State<Float>): Modifier {
-        return Modifier.graphicsLayer {
-            val progressValue = progress.value
-            val (scaleXValue, scaleYValue) = when {
-                progressValue < 0.3f -> {
-                    val fraction = progressValue / 0.3f
-                    lerp(1f, 1.25f, fraction) to lerp(1f, 0.75f, fraction)
-                }
-                progressValue < 0.4f -> {
-                    val fraction = (progressValue - 0.3f) / 0.1f
-                    lerp(1.25f, 0.75f, fraction) to lerp(0.75f, 1.25f, fraction)
-                }
-                progressValue < 0.5f -> {
-                    val fraction = (progressValue - 0.4f) / 0.1f
-                    lerp(0.75f, 1.15f, fraction) to lerp(1.25f, 0.85f, fraction)
-                }
-                progressValue < 0.65f -> {
-                    val fraction = (progressValue - 0.5f) / 0.15f
-                    lerp(1.15f, 0.95f, fraction) to lerp(0.85f, 1.05f, fraction)
-                }
-                progressValue < 0.75f -> {
-                    val fraction = (progressValue - 0.65f) / 0.1f
-                    lerp(0.95f, 1.05f, fraction) to lerp(1.05f, 0.95f, fraction)
-                }
-                else -> {
-                    val fraction = (progressValue - 0.75f) / 0.25f
-                    lerp(1.05f, 1f, fraction) to lerp(0.95f, 1f, fraction)
-                }
-            }
-            scaleX = scaleXValue
-            scaleY = scaleYValue
-            translationX = 0f
-            translationY = 0f
-            alpha = 1f
-        }
+        return Modifier.animateKeyframe(
+            progress = progress,
+            keyframes = keyframes
+        )
     }
 }
