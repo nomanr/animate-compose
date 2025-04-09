@@ -8,6 +8,7 @@ data class TransformProperties(
     val scaleX: Float? = null,
     val scaleY: Float? = null,
     val rotationZ: Float? = null,
+    val rotationY: Float? = null,
     val skewX: Float? = null,
     val skewY: Float? = null,
     val alpha: Float? = null

@@ -30,6 +30,7 @@ fun Modifier.animateKeyframe(
         transform.translationY?.let { this.translationY = it }
         transform.scaleX?.let { this.scaleX = it }
         transform.scaleY?.let { this.scaleY = it }
+        transform.rotationY?.let { this.rotationY = it }
         transform.rotationZ?.let { this.rotationZ = it }
         transform.alpha?.let { this.alpha = it }
     }

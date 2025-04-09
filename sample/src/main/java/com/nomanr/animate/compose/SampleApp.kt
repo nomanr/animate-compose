@@ -27,8 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
-import com.nomanr.animate.compose.presets.attentionseekers.Flash
-import com.nomanr.animate.compose.presets.attentionseekers.Pulse
+import com.nomanr.animate.compose.presets.attentionseekers.HeadShake
 
 
 @Composable
@@ -36,7 +35,7 @@ fun SampleApp() {
     var animationEnabled by remember { mutableStateOf(true) }
     val animationState = rememberAnimatedState()
 
-    val animation = Pulse()
+    val animation = HeadShake()
 
     Column(
         modifier = Modifier
