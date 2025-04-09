@@ -5,6 +5,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.TransformProperties
@@ -70,7 +71,11 @@ class RubberBand(
     override fun animate(progress: State<Float>): Modifier {
         return Modifier.animateKeyframe(
             progress = progress,
-            keyframes = keyframes
+            keyframes = keyframes,
+            transformOrigin = TransformOrigin(
+                pivotFractionX = 0.5f,
+                pivotFractionY = 0.5f
+            )
         )
     }
 }
