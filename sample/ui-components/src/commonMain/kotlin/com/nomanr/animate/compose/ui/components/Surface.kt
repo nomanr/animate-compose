@@ -5,6 +5,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
@@ -37,11 +38,18 @@ fun Surface(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
     color: Color = AppTheme.colors.surface,
-    hardShadow: Boolean = true, contentColor: Color = contentColorFor(color),
+    hardShadow: Boolean = false, contentColor: Color = contentColorFor(color),
+    border: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     BaseSurface(
-        modifier = modifier, shape = shape, color = color, hardShadow = hardShadow, contentColor = contentColor, content = content
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        hardShadow = hardShadow,
+        border = border,
+        contentColor = contentColor,
+        content = content
     )
 }
 
@@ -53,7 +61,8 @@ fun Surface(
     enabled: Boolean = true,
     shape: Shape = RectangleShape,
     color: Color = AppTheme.colors.background,
-    hardShadow: Boolean = true,
+    hardShadow: Boolean = false,
+    border: Boolean = false,
     contentColor: Color = contentColorFor(color),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable () -> Unit,
@@ -65,6 +74,7 @@ fun Surface(
         contentColor = contentColor,
         interactionSource = interactionSource,
         hardShadow = hardShadow,
+        border = border,
         enabled = enabled,
         onClick = onClick,
         content = content
@@ -78,7 +88,8 @@ fun Surface(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    hardShadow: Boolean = true,
+    hardShadow: Boolean = false,
+    border: Boolean = false,
     shape: Shape = RectangleShape,
     color: Color = AppTheme.colors.background,
     contentColor: Color = contentColorFor(color),
@@ -92,6 +103,7 @@ fun Surface(
         contentColor = contentColor,
         interactionSource = interactionSource,
         hardShadow = hardShadow,
+        border = border,
         selected = selected,
         enabled = enabled,
         onClick = onClick,
@@ -106,7 +118,8 @@ fun Surface(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    hardShadow: Boolean = true,
+    hardShadow: Boolean = false,
+    border: Boolean = false,
     shape: Shape = RectangleShape,
     color: Color = AppTheme.colors.background,
     contentColor: Color = contentColorFor(color),
@@ -121,6 +134,7 @@ fun Surface(
         contentColor = contentColor,
         interactionSource = interactionSource,
         hardShadow = hardShadow,
+        border = border,
         checked = checked,
         onCheckedChange = onCheckedChange,
         content = content
@@ -135,7 +149,8 @@ private fun BaseSurface(
     color: Color = AppTheme.colors.surface,
     contentColor: Color = contentColorFor(color),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    hardShadow: Boolean = true,
+    hardShadow: Boolean = false,
+    border: Boolean = false,
     enabled: Boolean = true,
     selected: Boolean? = null,
     checked: Boolean? = null,
@@ -143,50 +158,46 @@ private fun BaseSurface(
     onCheckedChange: ((Boolean) -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
-    val isPressed by interactionSource.collectIsPressedAsState()
-
-    val offset by animateDpAsState(
-        targetValue = if (isPressed && hardShadow) 0.dp else if (hardShadow) 4.dp else 0.dp, label = "SurfaceOffsetAnimation"
-    )
-
     CompositionLocalProvider(
         LocalContentColor provides contentColor,
     ) {
-        Box(
-            modifier = modifier.background(
+        HardShadowContainer(
+            modifier = modifier,
             shape = shape,
+            interactionSource = interactionSource,
             color = hardShadowColorFor(color),
-        ).then(if (hardShadow) Modifier.offset { IntOffset(-offset.roundToPx(), -offset.roundToPx()) } else Modifier)) {
+            hardShadow = hardShadow,
+        ) {
             Box(
                 modifier = modifier.surface(
                     shape = shape,
                     backgroundColor = color,
-                    borderColor = hardShadowColorFor(color),
+                    border = border,
                 ).then(
                     when {
-                    !enabled -> Modifier
-                    onCheckedChange != null && checked != null -> Modifier.toggleable(
-                        value = checked,
-                        interactionSource = interactionSource,
-                        indication = ripple(),
-                        onValueChange = onCheckedChange,
-                    )
+                        !enabled -> Modifier
+                        onCheckedChange != null && checked != null -> Modifier.toggleable(
+                            value = checked,
+                            interactionSource = interactionSource,
+                            indication = ripple(),
+                            onValueChange = onCheckedChange,
+                        )
 
-                    onClick != null && selected != null -> Modifier.selectable(
-                        selected = selected,
-                        interactionSource = interactionSource,
-                        indication = ripple(),
-                        onClick = onClick,
-                    )
+                        onClick != null && selected != null -> Modifier.selectable(
+                            selected = selected,
+                            interactionSource = interactionSource,
+                            indication = ripple(),
+                            onClick = onClick,
+                        )
 
-                    onClick != null -> Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = ripple(),
-                        onClick = onClick,
-                    )
+                        onClick != null -> Modifier.clickable(
+                            interactionSource = interactionSource,
+                            indication = ripple(),
+                            onClick = onClick,
+                        )
 
-                    else -> Modifier.pointerInput(Unit) {}
-                }),
+                        else -> Modifier.pointerInput(Unit) {}
+                    }),
                 propagateMinConstraints = true,
             ) {
                 content()
@@ -196,8 +207,41 @@ private fun BaseSurface(
 }
 
 @Composable
+private fun HardShadowContainer(
+    modifier: Modifier,
+    interactionSource: InteractionSource,
+    shape: Shape,
+    color: Color,
+    hardShadow: Boolean,
+    content: @Composable () -> Unit,
+) {
+
+    if (!hardShadow) {
+        content()
+        return
+    }
+
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val offset by animateDpAsState(
+        targetValue = if (isPressed) 0.dp else 4.dp, label = "SurfaceOffsetAnimation"
+    )
+    Box(
+        modifier = modifier.background(
+            color = color,
+            shape = shape,
+        ).offset { IntOffset(-offset.roundToPx(), -offset.roundToPx()) }) {
+        content()
+    }
+}
+
+@Composable
 private fun Modifier.surface(
     shape: Shape,
     backgroundColor: Color,
-    borderColor: Color = backgroundColor,
-) = this.background(shape = shape, color = backgroundColor).border(BorderStroke(3.dp, color = borderColor), shape = shape).clip(shape)
+    border: Boolean,
+) = this.background(shape = shape, color = backgroundColor)
+    .then(if (border) Modifier.border(BorderStroke(BorderWidth, color = hardShadowColorFor(backgroundColor)), shape = shape) else Modifier)
+    .clip(shape)
+
+private val BorderWidth = 3.dp

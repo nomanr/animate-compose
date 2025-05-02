@@ -33,7 +33,7 @@ fun Scaffold(
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    Surface(modifier = modifier, color = containerColor, contentColor = contentColor) {
+    Surface(modifier = modifier, color = containerColor, contentColor = contentColor, hardShadow = false) {
         ScaffoldLayout(
             fabPosition = floatingActionButtonPosition,
             topBar = topBar,

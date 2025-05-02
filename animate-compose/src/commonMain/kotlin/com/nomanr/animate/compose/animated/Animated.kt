@@ -30,6 +30,11 @@ fun Animated(
 ) {
     val progress = animationProgress(durationMillis, enabled, repeat, state, animateOnEnter)
 
+// TODO: NOMAN - Add support for animating when preset changes
+//    LaunchedEffect(preset) {
+//        state.animate()
+//    }
+
     Layout(
         content = content, modifier = preset.animate(progress).then(modifier)
     ) { measurables, constraints ->
@@ -43,7 +48,7 @@ fun Animated(
 }
 
 
-class AnimatedState{
+class AnimatedState {
     private val _animationCounter = mutableStateOf(0)
     internal val animationCounter: State<Int> get() = _animationCounter
     fun animate() {
@@ -58,22 +63,15 @@ fun rememberAnimatedState(): AnimatedState {
 
 @Composable
 private fun animationProgress(
-    durationMillis: Int,
-    enabled: Boolean,
-    repeat: Boolean,
-    animatedState: AnimatedState?,
-    animateOnEnter: Boolean = false
+    durationMillis: Int, enabled: Boolean, repeat: Boolean, animatedState: AnimatedState?, animateOnEnter: Boolean = false
 ): State<Float> {
     return if (!enabled) {
         remember { mutableStateOf(1f) }
     } else if (repeat) {
         val infiniteTransition = rememberInfiniteTransition()
         infiniteTransition.animateFloat(
-            initialValue = 0f,
-            targetValue = 1f,
-            animationSpec = infiniteRepeatable(
-                animation = tween(durationMillis = durationMillis, easing = LinearEasing),
-                repeatMode = RepeatMode.Restart
+            initialValue = 0f, targetValue = 1f, animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = durationMillis, easing = LinearEasing), repeatMode = RepeatMode.Restart
             )
         )
     } else {
@@ -96,8 +94,7 @@ private fun animationProgress(
         }
         val progressState = remember { mutableStateOf(animatable.value) }
         LaunchedEffect(animatable) {
-            snapshotFlow { animatable.value }
-                .collect { progressState.value = it }
+            snapshotFlow { animatable.value }.collect { progressState.value = it }
         }
         progressState
     }

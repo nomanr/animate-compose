@@ -38,6 +38,7 @@ data class Typography(
     val h2: TextStyle,
     val h3: TextStyle,
     val h4: TextStyle,
+    val h5: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
     val body3: TextStyle,
@@ -68,6 +69,12 @@ private val defaultTypography = Typography(
         letterSpacing = 0.sp,
     ),
     h4 = TextStyle(
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+    ),
+    h5 = TextStyle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 24.sp,

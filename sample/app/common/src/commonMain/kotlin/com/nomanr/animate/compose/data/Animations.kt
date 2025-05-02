@@ -1,6 +1,5 @@
 package com.nomanr.animate.compose.data
 
-import androidx.compose.material3.DatePicker
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.presets.attentionseekers.Bounce
 import com.nomanr.animate.compose.presets.attentionseekers.Flash
@@ -26,13 +25,17 @@ class Animation(
 }
 
 data class AnimationSet(
-    val name: String,
+    val section: AnimationSection,
     val animations: List<Animation>
 )
 
+enum class AnimationSection(val title: String) {
+    AttentionSeekers("Attention Seekers"),
+}
+
 val animationSets = listOf(
     AnimationSet(
-        name = "Attention Seekers",
+        section = AnimationSection.AttentionSeekers,
         animations = listOf(
             Animation("Bounce", Bounce()),
             Animation("Flash", Flash()),
@@ -47,3 +50,4 @@ val animationSets = listOf(
         )
     ),
 )
+

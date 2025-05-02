@@ -50,6 +50,6 @@ fun VerticalDivider(
 }
 
 object DividerDefaults {
-    val Thickness: Dp = 1.dp
-    val color: Color @Composable get() = AppTheme.colors.surface
+    val Thickness: Dp = 3.dp
+    val color: Color @Composable get() = AppTheme.colors.outline
 }

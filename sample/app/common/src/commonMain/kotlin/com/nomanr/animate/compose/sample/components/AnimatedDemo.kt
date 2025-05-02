@@ -1,7 +1,6 @@
-package com.nomanr.animate.compose.components
+package com.nomanr.animate.compose.sample.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,22 +18,18 @@ import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
 import com.nomanr.animate.compose.data.Animation
 import com.nomanr.animate.compose.ui.AppTheme
-import com.nomanr.animate.compose.ui.components.Button
-import com.nomanr.animate.compose.ui.components.ButtonVariant
 import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
 fun AnimatedDemo(animation: Animation) {
     val animationState = rememberAnimatedState()
 
-    LaunchedEffect(animation){
-            animationState.animate()
+    LaunchedEffect(animation) {
+        animationState.animate()
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
     ) {
         Animated(
             preset = animation.preset, state = animationState
@@ -44,9 +39,6 @@ fun AnimatedDemo(animation: Animation) {
 
         Spacer(Modifier.height(40.dp))
 
-        Button(text = animation.name, variant = ButtonVariant.Secondary, onClick = {
-            animationState.animate()
-        })
     }
 }
 

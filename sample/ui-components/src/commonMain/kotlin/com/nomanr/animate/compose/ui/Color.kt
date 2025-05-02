@@ -15,7 +15,6 @@ val NeoSuccess = Color(0xFF90EE90)
 val LoudRed = Color(0xFFFF0033)
 val CoolGray = Color(0xFFF2F2F2)
 val ColdSurface = Color(0xFFF9F9F9)
-val SolidOutline = Color(0xFF333333)
 val LightGray = Color(0xFFE0E0E0)
 val MidGray = Color(0xFF9E9E9E)
 val SecondaryTextGray = Color(0xFF757575)
@@ -49,7 +48,6 @@ data class Colors(
     val textSecondary: Color,
     val textDisabled: Color,
     val scrim: Color,
-    val hardShadow: Color = Black,
 )
 
 internal val LightColors =
@@ -70,7 +68,7 @@ internal val LightColors =
         onSurface = Black,
         background = NeoLightBackground,
         onBackground = Black,
-        outline = SolidOutline,
+        outline = Black,
         transparent = Color.Transparent,
         white = White,
         black = Black,
@@ -78,7 +76,6 @@ internal val LightColors =
         textSecondary = SecondaryTextGray,
         textDisabled = DisabledTextGray,
         scrim = Black.copy(alpha = 0.5f),
-        hardShadow = Black,
     )
 
 internal val DarkColors =
@@ -99,7 +96,7 @@ internal val DarkColors =
         onSurface = White,
         background = NeoDarkBackground,
         onBackground = White,
-        outline = LightGray,
+        outline = Black,
         transparent = Color.Transparent,
         white = White,
         black = Black,
@@ -107,7 +104,6 @@ internal val DarkColors =
         textSecondary = DisabledTextGray,
         textDisabled = SecondaryTextGray,
         scrim = Black.copy(alpha = 0.7f),
-        hardShadow = White,
     )
 
 val LocalColors = staticCompositionLocalOf { LightColors }
@@ -130,5 +126,5 @@ fun Colors.contentColorFor(backgroundColor: Color): Color {
 
 fun Colors.hardShadowColorFor(color: Color): Color {
     // This is a placeholder function to determine the hard shadow color based on the provided color.
-    return hardShadow
+    return outline
 }

@@ -77,6 +77,8 @@ internal fun ButtonComponent(
         color = containerColor,
         contentColor = contentColor,
         interactionSource = interactionSource,
+        hardShadow = true,
+        border = true
     ) {
         DefaultButtonContent(
             text = text,
