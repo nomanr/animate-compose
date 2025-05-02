@@ -31,7 +31,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "animate-compose"
 include(":animate-compose")
-include(":sample:common")
-include(":sample:android")
-include(":sample:desktop")
-include(":sample:web")
+include(":sample:app:common")
+include(":sample:app:android")
+include(":sample:app:desktop")
+include(":sample:app:web")
+include(":sample:ui-components")

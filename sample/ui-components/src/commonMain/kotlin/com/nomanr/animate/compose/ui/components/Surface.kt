@@ -1,0 +1,203 @@
+package com.nomanr.animate.compose.ui.components
+
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import com.nomanr.animate.compose.ui.AppTheme
+import com.nomanr.animate.compose.ui.LocalContentColor
+import com.nomanr.animate.compose.ui.contentColorFor
+import com.nomanr.animate.compose.ui.foundation.ripple
+import com.nomanr.animate.compose.ui.hardShadowColorFor
+
+
+@Composable
+@NonRestartableComposable
+fun Surface(
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    color: Color = AppTheme.colors.surface,
+    hardShadow: Boolean = true, contentColor: Color = contentColorFor(color),
+    content: @Composable () -> Unit,
+) {
+    BaseSurface(
+        modifier = modifier, shape = shape, color = color, hardShadow = hardShadow, contentColor = contentColor, content = content
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Surface(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    shape: Shape = RectangleShape,
+    color: Color = AppTheme.colors.background,
+    hardShadow: Boolean = true,
+    contentColor: Color = contentColorFor(color),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit,
+) {
+    BaseSurface(
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        contentColor = contentColor,
+        interactionSource = interactionSource,
+        hardShadow = hardShadow,
+        enabled = enabled,
+        onClick = onClick,
+        content = content
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Surface(
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    hardShadow: Boolean = true,
+    shape: Shape = RectangleShape,
+    color: Color = AppTheme.colors.background,
+    contentColor: Color = contentColorFor(color),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit,
+) {
+    BaseSurface(
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        contentColor = contentColor,
+        interactionSource = interactionSource,
+        hardShadow = hardShadow,
+        selected = selected,
+        enabled = enabled,
+        onClick = onClick,
+        content = content
+    )
+}
+
+@Composable
+@NonRestartableComposable
+fun Surface(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    hardShadow: Boolean = true,
+    shape: Shape = RectangleShape,
+    color: Color = AppTheme.colors.background,
+    contentColor: Color = contentColorFor(color),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable () -> Unit,
+) {
+    BaseSurface(
+        modifier = modifier,
+        shape = shape,
+        color = color,
+        enabled = enabled,
+        contentColor = contentColor,
+        interactionSource = interactionSource,
+        hardShadow = hardShadow,
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        content = content
+    )
+}
+
+@Composable
+@NonRestartableComposable
+private fun BaseSurface(
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    color: Color = AppTheme.colors.surface,
+    contentColor: Color = contentColorFor(color),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    hardShadow: Boolean = true,
+    enabled: Boolean = true,
+    selected: Boolean? = null,
+    checked: Boolean? = null,
+    onClick: (() -> Unit)? = null,
+    onCheckedChange: ((Boolean) -> Unit)? = null,
+    content: @Composable () -> Unit,
+) {
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val offset by animateDpAsState(
+        targetValue = if (isPressed && hardShadow) 0.dp else if (hardShadow) 4.dp else 0.dp, label = "SurfaceOffsetAnimation"
+    )
+
+    CompositionLocalProvider(
+        LocalContentColor provides contentColor,
+    ) {
+        Box(
+            modifier = modifier.background(
+            shape = shape,
+            color = hardShadowColorFor(color),
+        ).then(if (hardShadow) Modifier.offset { IntOffset(-offset.roundToPx(), -offset.roundToPx()) } else Modifier)) {
+            Box(
+                modifier = modifier.surface(
+                    shape = shape,
+                    backgroundColor = color,
+                    borderColor = hardShadowColorFor(color),
+                ).then(
+                    when {
+                    !enabled -> Modifier
+                    onCheckedChange != null && checked != null -> Modifier.toggleable(
+                        value = checked,
+                        interactionSource = interactionSource,
+                        indication = ripple(),
+                        onValueChange = onCheckedChange,
+                    )
+
+                    onClick != null && selected != null -> Modifier.selectable(
+                        selected = selected,
+                        interactionSource = interactionSource,
+                        indication = ripple(),
+                        onClick = onClick,
+                    )
+
+                    onClick != null -> Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = ripple(),
+                        onClick = onClick,
+                    )
+
+                    else -> Modifier.pointerInput(Unit) {}
+                }),
+                propagateMinConstraints = true,
+            ) {
+                content()
+            }
+        }
+    }
+}
+
+@Composable
+private fun Modifier.surface(
+    shape: Shape,
+    backgroundColor: Color,
+    borderColor: Color = backgroundColor,
+) = this.background(shape = shape, color = backgroundColor).border(BorderStroke(3.dp, color = borderColor), shape = shape).clip(shape)
