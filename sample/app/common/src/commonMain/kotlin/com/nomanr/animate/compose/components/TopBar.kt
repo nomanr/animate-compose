@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import animate_compose.sample.app.common.generated.resources.Res
 import animate_compose.sample.app.common.generated.resources.github
+import animate_compose.sample.app.common.generated.resources.x
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.presets.attentionseekers.HeartBeat
 import com.nomanr.animate.compose.ui.AppTheme
@@ -90,7 +91,7 @@ fun Github(openUrl: (String) -> Unit) {
         onClick = { openUrl("https://github.com/nomanr/animate-compose") }
     ) {
         Icon(
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(16.dp),
             painter = painterResource(Res.drawable.github)
         )
     }
@@ -102,8 +103,8 @@ fun X(openUrl: (String) -> Unit) {
         onClick = { openUrl("https://x.com/nomanr_") }
     ) {
         Icon(
-            modifier = Modifier.size(24.dp),
-            painter = painterResource(Res.drawable.github) // TODO: Replace with X icon
+            modifier = Modifier.size(16.dp),
+            painter = painterResource(Res.drawable.x) // TODO: Replace with X icon
         )
     }
 }
