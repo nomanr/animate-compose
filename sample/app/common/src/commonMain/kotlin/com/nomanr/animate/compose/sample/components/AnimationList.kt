@@ -1,5 +1,6 @@
 package com.nomanr.animate.compose.sample.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -20,13 +21,20 @@ import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
 fun AnimationList(onSelectAnimation: (animation: Animation) -> Unit) {
+    val backgroundColors =
+        listOf(AppTheme.colors.neoColor1, AppTheme.colors.neoColor2, AppTheme.colors.neoColor3, AppTheme.colors.neoColor4)
+
     Column(
         modifier = Modifier.width(IntrinsicSize.Max).verticalScroll(rememberScrollState())
     ) {
-        animationSets.forEach { animationSet ->
-            AnimationListHeader(title = animationSet.section.title)
-            animationSet.animations.forEach { animation ->
-                AnimationListItem(animation = animation, onSelectAnimation = onSelectAnimation)
+        animationSets.forEachIndexed() { index, animationSet ->
+            Column(
+                modifier = Modifier.background(color = backgroundColors[index % backgroundColors.size])
+            ) {
+                AnimationListHeader(title = animationSet.section.title)
+                animationSet.animations.forEach { animation ->
+                    AnimationListItem(animation = animation, onSelectAnimation = onSelectAnimation)
+                }
             }
         }
     }

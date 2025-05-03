@@ -33,7 +33,7 @@ fun SampleScreen() {
             horizontalArrangement = Arrangement.Start
         ) {
             Row(
-                modifier = Modifier.wrapContentWidth().fillMaxHeight().background(AppTheme.colors.tertiary),
+                modifier = Modifier.wrapContentWidth().fillMaxHeight(),
                 horizontalArrangement = Arrangement.Start
             ) {
 

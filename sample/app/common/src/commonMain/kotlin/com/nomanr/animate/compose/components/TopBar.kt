@@ -117,7 +117,7 @@ private fun TopBarIconButton(
     IconButton(
         modifier = Modifier.size(32.dp),
         onClick = onClick,
-        variant = IconButtonVariant.Neutral
+        variant = IconButtonVariant.Secondary
     ) {
         content()
     }

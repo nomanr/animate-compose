@@ -8,19 +8,23 @@ import androidx.compose.ui.graphics.Color
 val Black = Color(0xFF0D0D0D)
 val White = Color(0xFFFFFFFF)
 
-val NeoPrimary = Color(0xFF90EE90)
-val NeoSecondary = Color(0xFFFFDB58)
+val NeoPrimary = Color(0xFFFF2E63)
+val NeoSecondary = Color(0xFFFFA700)
 val NeoTertiary = Color(0xFFB5D2AD)
 val NeoSuccess = Color(0xFF90EE90)
 val LoudRed = Color(0xFFFF0033)
 val CoolGray = Color(0xFFF2F2F2)
-val ColdSurface = Color(0xFFF9F9F9)
 val LightGray = Color(0xFFE0E0E0)
 val MidGray = Color(0xFF9E9E9E)
 val SecondaryTextGray = Color(0xFF757575)
 val DisabledTextGray = Color(0xFFBDBDBD)
-val NeoLightBackground = Color(0xFFE3EEDF)
+val NeoLightBackground = Color(0xFFFAF6F0)
 val NeoDarkBackground = Color(0xFF363739)
+
+val NeoColor1 = Color(0xFFA2DA4D)
+val NeoColor2 = Color(0xFFFFC65A)
+val NeoColor3 = Color(0xFF40E0C0)
+val NeoColor4 = Color(0xFFB07CFF)
 
 @Immutable
 data class Colors(
@@ -48,6 +52,10 @@ data class Colors(
     val textSecondary: Color,
     val textDisabled: Color,
     val scrim: Color,
+    val neoColor1: Color,
+    val neoColor2: Color,
+    val neoColor3: Color,
+    val neoColor4: Color,
 )
 
 internal val LightColors =
@@ -76,6 +84,10 @@ internal val LightColors =
         textSecondary = SecondaryTextGray,
         textDisabled = DisabledTextGray,
         scrim = Black.copy(alpha = 0.5f),
+        neoColor1 = NeoColor1,
+        neoColor2 = NeoColor2,
+        neoColor3 = NeoColor3,
+        neoColor4 = NeoColor4,
     )
 
 internal val DarkColors =
@@ -104,6 +116,10 @@ internal val DarkColors =
         textSecondary = DisabledTextGray,
         textDisabled = SecondaryTextGray,
         scrim = Black.copy(alpha = 0.7f),
+        neoColor1 = NeoColor1,
+        neoColor2 = NeoColor2,
+        neoColor3 = NeoColor3,
+        neoColor4 = NeoColor4,
     )
 
 val LocalColors = staticCompositionLocalOf { LightColors }
