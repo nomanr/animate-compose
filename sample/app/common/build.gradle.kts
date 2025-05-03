@@ -59,6 +59,10 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.multiplatform.navigation)
             implementation(libs.kotlin.serialization.json)
+            implementation(libs.androidx.material.size.classes)
+            implementation(libs.androidx.material3.adaptive)
+            implementation(libs.androidx.material3.adaptive.layout)
+            implementation(libs.androidx.material3.adaptive.navigation)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

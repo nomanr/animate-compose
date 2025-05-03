@@ -14,10 +14,10 @@ androidx-annotation = "1.9.1"
 
 androidx-appcompat = "1.7.0"
 androidx-corektx = "1.15.0"
-
 android-gradle-plugin = "8.2.2"
 
 androidx-multiplatform-navigation = "2.8.0-alpha12"
+androidx-material3-adaptive = "1.0.0-alpha03"
 
 kotlin = "2.1.0"
 kotlin-serialization-json = "1.6.3"
@@ -51,15 +51,21 @@ androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
-
 androidx-multiplatform-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-multiplatform-navigation" }
+
+androidx-material-size-classes = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "compose-multiplatform" }
+androidx-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "androidx-material3-adaptive" }
+androidx-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "androidx-material3-adaptive" }
+androidx-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "androidx-material3-adaptive" }
 
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 
+
 # For build-logic dependencies
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle-plugin" }
 vanniktech-gradle-plugin = { group = "com.vanniktech", name = "gradle-maven-publish-plugin", version.ref = "vanniktech-maven-publish" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

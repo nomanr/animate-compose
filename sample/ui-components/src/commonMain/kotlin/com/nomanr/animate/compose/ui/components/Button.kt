@@ -77,8 +77,8 @@ internal fun ButtonComponent(
         color = containerColor,
         contentColor = contentColor,
         interactionSource = interactionSource,
-        hardShadow = true,
-        border = true
+        hardShadow = style.hardShadow,
+        border = style.border
     ) {
         DefaultButtonContent(
             text = text,
@@ -124,15 +124,17 @@ enum class ButtonVariant {
     Primary,
     Secondary,
     Destructive,
+    Neutral,
     Ghost,
 }
 
 @Composable
 internal fun buttonStyleFor(variant: ButtonVariant): ButtonStyle {
     return when (variant) {
-        ButtonVariant.Primary -> ButtonDefaults.primaryFilled()
-        ButtonVariant.Secondary -> ButtonDefaults.secondaryFilled()
-        ButtonVariant.Destructive -> ButtonDefaults.destructiveFilled()
+        ButtonVariant.Primary -> ButtonDefaults.primary()
+        ButtonVariant.Secondary -> ButtonDefaults.secondary()
+        ButtonVariant.Destructive -> ButtonDefaults.destructive()
+        ButtonVariant.Neutral -> ButtonDefaults.neutral()
         ButtonVariant.Ghost -> ButtonDefaults.ghost()
     }
 }
@@ -154,7 +156,7 @@ internal object ButtonDefaults {
     private val filledShape = ButtonShape
 
     @Composable
-    fun primaryFilled() =
+    fun primary() =
         ButtonStyle(
             colors =
                 ButtonColors(
@@ -169,7 +171,7 @@ internal object ButtonDefaults {
 
 
     @Composable
-    fun secondaryFilled() =
+    fun secondary() =
         ButtonStyle(
             colors =
                 ButtonColors(
@@ -183,12 +185,26 @@ internal object ButtonDefaults {
         )
 
     @Composable
-    fun destructiveFilled() =
+    fun destructive() =
         ButtonStyle(
             colors =
                 ButtonColors(
                     containerColor = AppTheme.colors.error,
                     contentColor = AppTheme.colors.onError,
+                    disabledContainerColor = AppTheme.colors.disabled,
+                    disabledContentColor = AppTheme.colors.onDisabled,
+                ),
+            shape = filledShape,
+            contentPadding = contentPadding,
+        )
+
+    @Composable
+    fun neutral() =
+        ButtonStyle(
+            colors =
+                ButtonColors(
+                    containerColor = AppTheme.colors.transparent,
+                    contentColor = AppTheme.colors.onBackground,
                     disabledContainerColor = AppTheme.colors.disabled,
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
@@ -209,6 +225,8 @@ internal object ButtonDefaults {
                 ),
             shape = filledShape,
             contentPadding = contentPadding,
+            hardShadow = false,
+            border = false,
         )
 }
 
@@ -234,6 +252,8 @@ internal data class ButtonStyle(
     val colors: ButtonColors,
     val shape: Shape,
     val contentPadding: PaddingValues,
+    val hardShadow : Boolean = true,
+    val border: Boolean = true,
 )
 
 @Composable

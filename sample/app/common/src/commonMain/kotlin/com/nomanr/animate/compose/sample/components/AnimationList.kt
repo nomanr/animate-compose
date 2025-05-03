@@ -17,6 +17,7 @@ import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.HorizontalDivider
 import com.nomanr.animate.compose.ui.components.Text
 
+
 @Composable
 fun AnimationList(onSelectAnimation: (animation: Animation) -> Unit) {
     Column(

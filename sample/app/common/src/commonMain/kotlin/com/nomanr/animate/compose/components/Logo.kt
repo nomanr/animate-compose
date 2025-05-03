@@ -46,19 +46,20 @@ fun Logo() {
         ShakeX(offsetX = 4f),
         ShakeY(offsetY = 4f)
     )
-    var currentPreset by remember { mutableStateOf(presets.random()) }
+    var currentPreset by remember { mutableStateOf(presets.first()) }
+
 
     LaunchedEffect(Unit) {
         coroutineScope {
             while (true) {
                 delay(defaultDuration.toLong() * 3)
-                currentPreset = presets.random()
+                currentPreset = presets[(presets.indexOf(currentPreset) + 1) % presets.size]
             }
         }
     }
 
     Surface(
-        modifier = Modifier.padding(2.dp).size(32.dp), color = AppTheme.colors.primary, hardShadow = true, border = true
+        modifier = Modifier.size(32.dp), color = AppTheme.colors.primary, hardShadow = true, border = true
     ) {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center

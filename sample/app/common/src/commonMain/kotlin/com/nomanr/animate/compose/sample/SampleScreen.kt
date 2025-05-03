@@ -36,9 +36,11 @@ fun SampleScreen() {
                 modifier = Modifier.wrapContentWidth().fillMaxHeight().background(AppTheme.colors.tertiary),
                 horizontalArrangement = Arrangement.Start
             ) {
+
                 AnimationList { animation ->
                     currentAnimation = animation.copy()
                 }
+
                 VerticalDivider()
             }
 
