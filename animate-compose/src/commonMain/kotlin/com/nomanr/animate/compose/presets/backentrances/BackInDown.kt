@@ -14,6 +14,7 @@ import com.nomanr.animate.compose.core.LayoutInfo
 import com.nomanr.animate.compose.core.NeedsLayoutInfo
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
+import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackInDown(
     private val entranceOffsetY: Float = -1200f,
@@ -50,6 +51,6 @@ class BackInDown(
     }
 
     override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = -(layoutInfo.containerHeight - (layoutInfo.y - 40f)) //20f offset to make it look good
+        translationY = -(layoutInfo.containerHeight - (layoutInfo.y - AnimationTokens.SlideAnimationDelayOffset))
     }
 }

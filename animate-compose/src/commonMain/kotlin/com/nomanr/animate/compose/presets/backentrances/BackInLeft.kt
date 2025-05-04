@@ -7,18 +7,18 @@ import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.*
 import com.nomanr.animate.compose.tokens.AnimationTokens
 
-class BackInUp(
-    private val entranceOffsetY: Float = 1200f // positive because it enters from below
+class BackInLeft(
+    private val entranceOffsetX: Float = -2000f // starts from far left
 ) : AnimationPreset, NeedsLayoutInfo {
 
-    private var translationY by mutableStateOf(entranceOffsetY)
+    private var translationX by mutableStateOf(entranceOffsetX)
 
     private val keyframes: List<Keyframe>
         get() = listOf(
             Keyframe.Static(
                 percent = 0f,
                 transform = TransformProperties(
-                    translationY = translationY,
+                    translationX = translationX,
                     scaleX = 0.7f,
                     scaleY = 0.7f,
                     alpha = 0.7f
@@ -29,13 +29,13 @@ class BackInUp(
                 start = 0f,
                 end = 0.8f,
                 from = TransformProperties(
-                    translationY = translationY,
+                    translationX = translationX,
                     scaleX = 0.7f,
                     scaleY = 0.7f,
                     alpha = 0.7f
                 ),
                 to = TransformProperties(
-                    translationY = 0f,
+                    translationX = 0f,
                     scaleX = 0.7f,
                     scaleY = 0.7f,
                     alpha = 0.7f
@@ -46,13 +46,13 @@ class BackInUp(
                 start = 0.8f,
                 end = 1f,
                 from = TransformProperties(
-                    translationY = 0f,
+                    translationX = 0f,
                     scaleX = 0.7f,
                     scaleY = 0.7f,
                     alpha = 0.7f
                 ),
                 to = TransformProperties(
-                    translationY = 0f,
+                    translationX = 0f,
                     scaleX = 1f,
                     scaleY = 1f,
                     alpha = 1f
@@ -72,6 +72,6 @@ class BackInUp(
     }
 
     override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = (layoutInfo.containerHeight - layoutInfo.y) + AnimationTokens.SlideAnimationDelayOffset
+        translationX = -(layoutInfo.containerHeight - (layoutInfo.x - AnimationTokens.SlideAnimationDelayOffset))
     }
 }
