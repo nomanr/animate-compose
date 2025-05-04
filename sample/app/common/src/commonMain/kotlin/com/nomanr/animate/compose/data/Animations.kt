@@ -11,6 +11,7 @@ import com.nomanr.animate.compose.presets.attentionseekers.ShakeY
 import com.nomanr.animate.compose.presets.attentionseekers.Swing
 import com.nomanr.animate.compose.presets.attentionseekers.Tada
 import com.nomanr.animate.compose.presets.attentionseekers.Wobble
+import com.nomanr.animate.compose.presets.backentrances.BackInDown
 
 class Animation(
     val name: String,
@@ -31,9 +32,16 @@ data class AnimationSet(
 
 enum class AnimationSection(val title: String) {
     AttentionSeekers("Attention Seekers"),
+    BackEntrances("Back Entrances"),
 }
-
 val animationSets = listOf(
+    AnimationSet(
+        section = AnimationSection.AttentionSeekers,
+        animations = listOf(
+            Animation("Test",
+                BackInDown())
+        )
+    ),
     AnimationSet(
         section = AnimationSection.AttentionSeekers,
         animations = listOf(
@@ -49,5 +57,11 @@ val animationSets = listOf(
             Animation("Heart Beat", HeartBeat())
         )
     ),
+    AnimationSet(
+        section = AnimationSection.BackEntrances,
+        animations = listOf(
+            Animation("Back In Down", BackInDown())
+        )
+    )
 )
 

@@ -37,6 +37,9 @@ kotlin {
     }
 
     sourceSets {
+        val desktopMain by getting
+        val wasmJsMain by getting
+
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
@@ -53,6 +56,29 @@ kotlin {
                 implementation(libs.androidx.activity.ktx)
                 implementation(libs.androidx.activity.compose)
             }
+        }
+
+        val iosMain by creating {
+            dependsOn(commonMain)
+        }
+        val iosX64Main by getting { dependsOn(iosMain) }
+        val iosArm64Main by getting { dependsOn(iosMain) }
+        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
+
+        val macosMain by creating {
+            dependsOn(commonMain)
+        }
+        val macosX64Main by getting { dependsOn(macosMain) }
+        val macosArm64Main by getting { dependsOn(macosMain) }
+
+
+        val skikoMain by creating {
+            dependsOn(commonMain)
+            macosMain.dependsOn(this)
+            iosMain.dependsOn(this)
+            jsMain.get().dependsOn(this)
+            wasmJsMain.dependsOn(this)
+            desktopMain.dependsOn(this)
         }
     }
 

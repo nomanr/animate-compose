@@ -32,7 +32,7 @@ fun AnimatedDemo(animation: Animation) {
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
     ) {
         Animated(
-            preset = animation.preset, state = animationState
+            preset = animation.preset, state = animationState, useGlobalPosition = true,
         ) {
             AnimatedContent()
         }
