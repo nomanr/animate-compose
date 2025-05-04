@@ -3,7 +3,6 @@ package com.nomanr.animate.compose.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,11 +47,10 @@ fun Logo() {
     )
     var currentPreset by remember { mutableStateOf(presets.first()) }
 
-
     LaunchedEffect(Unit) {
         coroutineScope {
             while (true) {
-                delay(defaultDuration.toLong() * 3)
+                delay(defaultDuration.toLong() * 2)
                 currentPreset = presets[(presets.indexOf(currentPreset) + 1) % presets.size]
             }
         }
@@ -64,8 +62,9 @@ fun Logo() {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-
-            Animated(preset = currentPreset, durationMillis = defaultDuration, repeat = true) {
+            Animated(
+                preset = currentPreset, durationMillis = defaultDuration, animateOnEnter = true
+            ) {
                 Box(
                     modifier = Modifier.size(8.dp).background(color = AppTheme.colors.onPrimary, shape = RectangleShape),
                 )
