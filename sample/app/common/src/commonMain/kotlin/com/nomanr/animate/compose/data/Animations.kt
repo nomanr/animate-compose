@@ -12,6 +12,7 @@ import com.nomanr.animate.compose.presets.attentionseekers.Swing
 import com.nomanr.animate.compose.presets.attentionseekers.Tada
 import com.nomanr.animate.compose.presets.attentionseekers.Wobble
 import com.nomanr.animate.compose.presets.backentrances.BackInDown
+import com.nomanr.animate.compose.presets.backentrances.BackInUp
 
 class Animation(
     val name: String,
@@ -39,7 +40,8 @@ val animationSets = listOf(
         section = AnimationSection.AttentionSeekers,
         animations = listOf(
             Animation("Test",
-                BackInDown())
+                BackInUp()
+            )
         )
     ),
     AnimationSet(
@@ -60,7 +62,8 @@ val animationSets = listOf(
     AnimationSet(
         section = AnimationSection.BackEntrances,
         animations = listOf(
-            Animation("Back In Down", BackInDown())
+            Animation("Back In Down", BackInDown()),
+            Animation("Back In Up", BackInUp())
         )
     )
 )

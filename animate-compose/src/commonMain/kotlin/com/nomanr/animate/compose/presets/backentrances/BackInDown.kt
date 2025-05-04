@@ -50,6 +50,6 @@ class BackInDown(
     }
 
     override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = -(layoutInfo.containerHeight - (layoutInfo.y - 20f)) //20f offset to make it look good
+        translationY = -(layoutInfo.containerHeight - (layoutInfo.y - 40f)) //20f offset to make it look good
     }
 }
