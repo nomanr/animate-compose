@@ -72,6 +72,8 @@ class BackInUp(
     }
 
     override fun setLayoutInfo(layoutInfo: LayoutInfo) {
+        println("BackInUp: ${layoutInfo.containerHeight} ${layoutInfo.y}")
         translationY = (layoutInfo.containerHeight - layoutInfo.y) + AnimationTokens.SlideAnimationDelayOffset
+        println("BackInUp: $translationY")
     }
 }
