@@ -9,7 +9,7 @@ import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackInLeft(
     private val entranceOffsetX: Float = -2000f // starts from far left
-) : AnimationPreset, NeedsLayoutInfo {
+) : AnimationPreset {
 
     private var translationX by mutableStateOf(entranceOffsetX)
 
@@ -71,7 +71,4 @@ class BackInLeft(
         )
     }
 
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationX = -(layoutInfo.containerWidth - (layoutInfo.x - layoutInfo.width - AnimationTokens.SlideAnimationDelayOffset))
-    }
 }

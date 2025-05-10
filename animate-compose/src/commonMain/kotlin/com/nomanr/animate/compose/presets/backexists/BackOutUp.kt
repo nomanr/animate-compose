@@ -5,11 +5,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.*
-import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackOutUp(
-    private val exitOffsetY: Float = -700f
-) : AnimationPreset, NeedsLayoutInfo {
+    private val exitOffsetY: Float = -1200f
+) : AnimationPreset {
 
     private var translationY by mutableStateOf(exitOffsetY)
 
@@ -35,10 +34,6 @@ class BackOutUp(
                 easing = EaseOut
             )
         )
-
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = -layoutInfo.containerHeight -layoutInfo.height
-    }
 
     @Composable
     override fun animate(progress: State<Float>): Modifier {

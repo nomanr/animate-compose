@@ -9,7 +9,7 @@ import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackInUp(
     private val entranceOffsetY: Float = 1200f // positive because it enters from below
-) : AnimationPreset, NeedsLayoutInfo {
+) : AnimationPreset {
 
     private var translationY by mutableStateOf(entranceOffsetY)
 
@@ -71,9 +71,4 @@ class BackInUp(
         )
     }
 
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        println("BackInUp: ${layoutInfo.containerHeight} ${layoutInfo.y}")
-        translationY = (layoutInfo.containerHeight - layoutInfo.y) + AnimationTokens.SlideAnimationDelayOffset
-        println("BackInUp: $translationY")
-    }
 }

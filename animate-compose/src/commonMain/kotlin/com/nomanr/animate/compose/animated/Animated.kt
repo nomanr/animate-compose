@@ -10,98 +10,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.unit.IntSize
 import com.nomanr.animate.compose.core.AnimationPreset
-import com.nomanr.animate.compose.core.LayoutInfo
-import com.nomanr.animate.compose.core.NeedsLayoutInfo
-import com.nomanr.animate.compose.core.getContainerSize
 
-
-@Composable
-fun Animated(
-    modifier: Modifier = Modifier,
-    preset: AnimationPreset,
-    durationMillis: Int = 1000,
-    enabled: Boolean = true,
-    repeat: Boolean = false,
-    animateOnEnter: Boolean = false,
-    state: AnimatedState = rememberAnimatedState(),
-    useGlobalPosition: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    key(state.animationToken.value){
-        AnimatedWithGlobalPosition(
-            modifier = modifier,
-            preset = preset,
-            durationMillis = durationMillis,
-            enabled = enabled,
-            repeat = repeat,
-            animateOnEnter = animateOnEnter,
-            state = state,
-            useGlobalPosition = useGlobalPosition,
-            content = content
-        )
-    }
-}
-
-@Composable
-private fun AnimatedWithGlobalPosition(
-    modifier: Modifier = Modifier,
-    preset: AnimationPreset,
-    durationMillis: Int = 1000,
-    enabled: Boolean = true,
-    repeat: Boolean = false,
-    animateOnEnter: Boolean = false,
-    state: AnimatedState = rememberAnimatedState(),
-    useGlobalPosition: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    var size by remember { mutableStateOf(IntSize.Zero) }
-    var initialPosition by remember { mutableStateOf<Offset?>(null) }
-
-    val containerSize = getContainerSize()
-
-    val onPositionedModifier = if (useGlobalPosition) {
-        Modifier.onGloballyPositioned {
-            val position = it.positionInRoot()
-            println("position: $position")
-            size = it.size
-            if (initialPosition == null) {
-                initialPosition = position
-                if (preset is NeedsLayoutInfo) {
-                    preset.setLayoutInfo(
-                        LayoutInfo.create(
-                            size, position, containerSize
-                        )
-                    )
-                }
-            }
-
-        }
-    } else Modifier
-
-
-    Animated(
-        modifier = modifier.then(onPositionedModifier),
-        preset = preset,
-        durationMillis = durationMillis,
-        enabled = enabled && initialPosition != null,
-        repeat = repeat,
-        animateOnEnter = animateOnEnter,
-        state = state,
-        content = content
-    )
-}
 
 @Composable
 fun Animated(

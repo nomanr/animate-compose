@@ -1,5 +1,6 @@
 package com.nomanr.animate.compose.data
 
+import androidx.compose.runtime.Composable
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.presets.attentionseekers.Bounce
 import com.nomanr.animate.compose.presets.attentionseekers.Flash
@@ -19,11 +20,13 @@ import com.nomanr.animate.compose.presets.backexists.BackOutDown
 import com.nomanr.animate.compose.presets.backexists.BackOutLeft
 import com.nomanr.animate.compose.presets.backexists.BackOutRight
 import com.nomanr.animate.compose.presets.backexists.BackOutUp
+import com.nomanr.animate.compose.utils.getSlideInOutHeight
+import com.nomanr.animate.compose.utils.getSlideInOutWidth
+import com.nomanr.animate.compose.utils.getSlideInOutWidthWithMenuOffset
 
 class Animation(
     val name: String,
     val preset: AnimationPreset,
-    val resetOnFinish: Boolean = false,
     private val token: Int = 0,
 ) {
     fun copy(): Animation = Animation(
@@ -39,7 +42,8 @@ enum class AnimationSection(val title: String) {
     AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exist"),
 }
 
-val animationSets = listOf(
+@Composable
+fun animationSets() = listOf(
     AnimationSet(
         section = AnimationSection.AttentionSeekers, animations = listOf(
             Animation(
@@ -61,17 +65,17 @@ val animationSets = listOf(
         )
     ), AnimationSet(
         section = AnimationSection.BackEntrances, animations = listOf(
-            Animation("Back In Down", BackInDown()),
-            Animation("Back In Up", BackInUp()),
-            Animation("Back In Left", BackInLeft()),
-            Animation("Back In Right", BackInRight())
+            Animation("Back In Down", BackInDown(-getSlideInOutHeight())),
+            Animation("Back In Up", BackInUp(getSlideInOutHeight())),
+            Animation("Back In Left", BackInLeft(-getSlideInOutWidthWithMenuOffset())),
+            Animation("Back In Right", BackInRight(getSlideInOutWidth()))
         )
     ), AnimationSet(
         section = AnimationSection.BackExits, animations = listOf(
-            Animation("Back Out Down", BackOutDown(), resetOnFinish = true),
-            Animation("Back Out Up", BackOutUp(), resetOnFinish = true),
-            Animation("Back Out Left", BackOutLeft(), resetOnFinish = true),
-            Animation("Back Out Right", BackOutRight(), resetOnFinish = true)
+            Animation("Back Out Down", BackOutDown(getSlideInOutHeight())),
+            Animation("Back Out Up", BackOutUp(-getSlideInOutHeight())),
+            Animation("Back Out Left", BackOutLeft(-getSlideInOutWidthWithMenuOffset())),
+            Animation("Back Out Right", BackOutRight(getSlideInOutWidth()))
         )
     )
 )

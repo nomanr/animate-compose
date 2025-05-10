@@ -10,14 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.core.LayoutInfo
-import com.nomanr.animate.compose.core.NeedsLayoutInfo
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
 
 class BackOutDown(
-    private val exitOffsetY: Float = 700f
-) : AnimationPreset, NeedsLayoutInfo {
+    private val exitOffsetY: Float = 1200f
+) : AnimationPreset {
 
     private var translationY by mutableStateOf(exitOffsetY)
 
@@ -39,10 +37,6 @@ class BackOutDown(
                 easing = EaseOut
             )
         )
-
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = layoutInfo.containerHeight + layoutInfo.height
-    }
 
     @Composable
     override fun animate(progress: State<Float>): Modifier {

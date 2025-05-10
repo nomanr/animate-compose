@@ -10,14 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.core.LayoutInfo
-import com.nomanr.animate.compose.core.NeedsLayoutInfo
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
 
 class BackOutLeft(
     private val exitOffsetX: Float = -2000f
-) : AnimationPreset, NeedsLayoutInfo {
+) : AnimationPreset {
 
     private var translationX by mutableStateOf(exitOffsetX)
 
@@ -43,10 +41,6 @@ class BackOutLeft(
                 easing = EaseOut
             )
         )
-
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationX = -(layoutInfo.containerWidth - (layoutInfo.x  + layoutInfo.width))
-    }
 
     @Composable
     override fun animate(progress: State<Float>): Modifier {

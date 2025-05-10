@@ -21,7 +21,8 @@ import com.nomanr.animate.compose.ui.components.VerticalDivider
 
 @Composable
 fun SampleScreen() {
-    var currentAnimation by remember { mutableStateOf(animationSets.first().animations.first()) }
+    val firstAnimation = animationSets().first().animations.first()
+    var currentAnimation by remember { mutableStateOf(firstAnimation) }
 
     Column(modifier = Modifier.fillMaxSize()) {
 

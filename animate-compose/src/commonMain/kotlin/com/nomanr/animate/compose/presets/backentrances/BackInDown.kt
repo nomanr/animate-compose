@@ -10,15 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.core.LayoutInfo
-import com.nomanr.animate.compose.core.NeedsLayoutInfo
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
-import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackInDown(
     private val entranceOffsetY: Float = -1200f,
-) : AnimationPreset, NeedsLayoutInfo {
+) : AnimationPreset {
 
     private var translationY by mutableStateOf(entranceOffsetY)
 
@@ -46,11 +43,11 @@ class BackInDown(
     @Composable
     override fun animate(progress: State<Float>): Modifier {
         return Modifier.animateKeyframe(
-            progress = progress, keyframes = keyframes, transformOrigin = TransformOrigin.Center, clip = false
+            progress = progress,
+            keyframes = keyframes,
+            transformOrigin = TransformOrigin.Center,
+            clip = false
         )
     }
 
-    override fun setLayoutInfo(layoutInfo: LayoutInfo) {
-        translationY = -(layoutInfo.containerHeight - (layoutInfo.y - AnimationTokens.SlideAnimationDelayOffset))
-    }
 }

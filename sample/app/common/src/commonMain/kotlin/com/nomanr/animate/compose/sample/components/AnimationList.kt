@@ -3,10 +3,9 @@ package com.nomanr.animate.compose.sample.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -21,13 +20,19 @@ import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
 fun AnimationList(onSelectAnimation: (animation: Animation) -> Unit) {
-    val backgroundColors =
-        listOf(AppTheme.colors.neoColor1, AppTheme.colors.neoColor2, AppTheme.colors.neoColor3, AppTheme.colors.neoColor4)
+    val animationSetsMap = animationSets()
+    val backgroundColors = listOf(
+        AppTheme.colors.neoColor1,
+        AppTheme.colors.neoColor2,
+        AppTheme.colors.neoColor3,
+        AppTheme.colors.neoColor4
+    )
 
     Column(
-        modifier = Modifier.width(IntrinsicSize.Max).verticalScroll(rememberScrollState())
+        modifier = Modifier.widthIn(max = AnimationListMaxWidth)
+            .verticalScroll(rememberScrollState())
     ) {
-        animationSets.forEachIndexed() { index, animationSet ->
+        animationSetsMap.forEachIndexed() { index, animationSet ->
             Column(
                 modifier = Modifier.background(color = backgroundColors[index % backgroundColors.size])
             ) {
@@ -46,7 +51,9 @@ fun AnimationListHeader(
 ) {
     ListItem {
         Text(
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp), text = title, style = AppTheme.typography.h2
+            modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
+            text = title,
+            style = AppTheme.typography.h2
         )
     }
 }
@@ -57,7 +64,9 @@ fun AnimationListItem(
 ) {
     ListItem {
         Text(
-            text = animation.name, style = AppTheme.typography.h4, modifier = Modifier.fillMaxWidth().clickable(
+            text = animation.name,
+            style = AppTheme.typography.h4,
+            modifier = Modifier.fillMaxWidth().clickable(
                 onClick = { onSelectAnimation(animation) },
             ).padding(horizontal = 40.dp, vertical = 12.dp)
         )
@@ -73,3 +82,5 @@ private fun ListItem(
         HorizontalDivider()
     }
 }
+
+val AnimationListMaxWidth = 240.dp
