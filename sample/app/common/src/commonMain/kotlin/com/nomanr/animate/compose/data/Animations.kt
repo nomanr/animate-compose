@@ -20,6 +20,19 @@ import com.nomanr.animate.compose.presets.backexists.BackOutDown
 import com.nomanr.animate.compose.presets.backexists.BackOutLeft
 import com.nomanr.animate.compose.presets.backexists.BackOutRight
 import com.nomanr.animate.compose.presets.backexists.BackOutUp
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeIn
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomLeft
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomRight
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInDown
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInDownBig
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInLeft
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInLeftBig
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInRight
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInRightBig
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInTopLeft
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInTopRight
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInUp
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInUpBig
 import com.nomanr.animate.compose.utils.getSlideInOutHeight
 import com.nomanr.animate.compose.utils.getSlideInOutWidth
 import com.nomanr.animate.compose.utils.getSlideInOutWidthWithMenuOffset
@@ -39,7 +52,9 @@ data class AnimationSet(
 )
 
 enum class AnimationSection(val title: String) {
-    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exist"),
+    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"), FadeInEntrances(
+        "Fade In Entrances"
+    )
 }
 
 @Composable
@@ -71,11 +86,31 @@ fun animationSets() = listOf(
             Animation("Back In Right", BackInRight(getSlideInOutWidth()))
         )
     ), AnimationSet(
-        section = AnimationSection.BackExits, animations = listOf(
+        section = AnimationSection.BackExits,
+        animations = listOf(
             Animation("Back Out Down", BackOutDown(getSlideInOutHeight())),
             Animation("Back Out Up", BackOutUp(-getSlideInOutHeight())),
             Animation("Back Out Left", BackOutLeft(-getSlideInOutWidthWithMenuOffset())),
             Animation("Back Out Right", BackOutRight(getSlideInOutWidth()))
+        ),
+    ), AnimationSet(
+        section = AnimationSection.FadeInEntrances, animations = listOf(
+            Animation("Fade In", FadeIn()),
+            Animation("Fade In Down", FadeInDown()),
+            Animation("Fade In Down Big", FadeInDownBig(-getSlideInOutHeight())),
+            Animation("Fade In Up", FadeInUp()),
+            Animation("Fade In Up Big", FadeInUpBig(getSlideInOutHeight())),
+            Animation("Fade In Left", FadeInLeft()),
+            Animation("Fade In Left Big", FadeInLeftBig(-getSlideInOutWidthWithMenuOffset())),
+            Animation("Fade In Right", FadeInRight()),
+            Animation("Fade In Right Big", FadeInRightBig(getSlideInOutWidth())),
+            Animation("Fade In Top Left", FadeInTopLeft()),
+            Animation("Fade In Top Right", FadeInTopRight()),
+            Animation("Fade In Bottom Left", FadeInBottomLeft()),
+            Animation("Fade In Bottom Right", FadeInBottomRight()),
+
+
+
         )
     )
 )

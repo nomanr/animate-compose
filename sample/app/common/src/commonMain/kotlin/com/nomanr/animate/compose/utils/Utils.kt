@@ -22,4 +22,4 @@ fun getSlideInOutHeight(): Float {
     return getContainerSize().height * Offset
 }
 
-private const val Offset = 0.8f
+private const val Offset = 0.7f

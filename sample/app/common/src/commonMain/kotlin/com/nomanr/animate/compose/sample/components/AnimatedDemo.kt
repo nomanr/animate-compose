@@ -16,7 +16,6 @@ import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,44 +25,53 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nomanr.animate.compose.animated.Animated
+import com.nomanr.animate.compose.animated.EnterExitAnimated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
 import com.nomanr.animate.compose.data.Animation
+import com.nomanr.animate.compose.presets.backexists.BackOutLeft
+import com.nomanr.animate.compose.presets.fadeinentrances.FadeInLeftBig
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
 fun AnimatedDemo(animation: Animation) {
     val animationState = rememberAnimatedState()
-    var trigger by remember { mutableStateOf(Pair(0, true)) }
+    var trigger by remember { mutableStateOf(Pair(0, false)) }
 
     LaunchedEffect(animation) {
-        trigger = Pair(trigger.first + 1, true)
+        trigger = Pair(trigger.first + 1, !trigger.second)
         animationState.animate()
     }
 
-    LaunchedEffect(animationState.isAnimationFinished.value) {
-        if (animationState.isAnimationFinished.value == true) {
-            trigger = Pair(trigger.first + 1, false)
-        }
-    }
-
+//    LaunchedEffect(animationState.isAnimationFinished.value) {
+//        if (animationState.isAnimationFinished.value == true) {
+//            trigger = Pair(trigger.first + 1, false)
+//        }
+//    }
+//
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-            if (trigger.second) {
-                Animated(
-                    preset = animation.preset,
-                    state = animationState,
-                ) {
-                    AnimatedContent()
-                }
-            } else {
-                AnimatedContent()
-            }
+        EnterExitAnimated(
+            enter = FadeInLeftBig(),
+            exit = BackOutLeft(),
+            visible = trigger.second,
+        ) {
+            AnimatedContent()
+        }
+//            if (trigger.second) {
+//                Animated(
+//                    preset = animation.preset,
+//                    state = animationState,
+//                ) {
+//                    AnimatedContent()
+//                }
+//            } else {
+//                AnimatedContent()
+//            }
     }
 }
 
