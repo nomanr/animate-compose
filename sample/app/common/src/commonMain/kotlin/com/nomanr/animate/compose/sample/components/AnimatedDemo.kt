@@ -58,6 +58,7 @@ fun AnimatedDemo(animation: Animation) {
             Animated(
                 preset = animation.preset,
                 state = animationState,
+//                durationMillis = 3000
             ) {
                 AnimatedContent()
             }
@@ -70,10 +71,10 @@ fun AnimatedDemo(animation: Animation) {
 @Composable
 fun AnimatedContent() {
     Text(
-        text = "Animated.compose",
+        text = "Animated",
         modifier = Modifier.padding(16.dp),
         color = Color.Black,
-        style = AppTheme.typography.h1.copy(fontWeight = FontWeight.Black, fontSize = 35.sp)
+        style = AppTheme.typography.h1.copy(fontWeight = FontWeight.Black, fontSize = 50.sp)
     )
 }
 

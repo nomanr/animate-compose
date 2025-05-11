@@ -46,6 +46,11 @@ import com.nomanr.animate.compose.presets.fadeoutexits.FadeOutTopLeft
 import com.nomanr.animate.compose.presets.fadeoutexits.FadeOutTopRight
 import com.nomanr.animate.compose.presets.fadeoutexits.FadeOutUp
 import com.nomanr.animate.compose.presets.fadeoutexits.FadeOutUpBig
+import com.nomanr.animate.compose.presets.flippers.Flip
+import com.nomanr.animate.compose.presets.flippers.FlipInX
+import com.nomanr.animate.compose.presets.flippers.FlipInY
+import com.nomanr.animate.compose.presets.flippers.FlipOutX
+import com.nomanr.animate.compose.presets.flippers.FlipOutY
 import com.nomanr.animate.compose.utils.getSlideInOutHeight
 import com.nomanr.animate.compose.utils.getSlideInOutWidth
 import com.nomanr.animate.compose.utils.getSlideInOutWidthWithMenuOffset
@@ -70,7 +75,8 @@ enum class AnimationSection(val title: String) {
     BackEntrances("Back Entrances"),
     BackExits("Back Exists"),
     FadeInEntrances("Fade In Entrances"),
-    FadeOutExits("Fade Out Exits")
+    FadeOutExits("Fade Out Exits"),
+    Flippers("Flippers"),
 }
 
 @Composable
@@ -78,7 +84,7 @@ fun animationSets() = listOf(
     AnimationSet(
         section = AnimationSection.AttentionSeekers,
         animations = listOf(
-            Animation("Test", BackOutDown())
+            Animation("Test", Flip())
         )
     ),
     AnimationSet(
@@ -148,6 +154,16 @@ fun animationSets() = listOf(
             Animation("Fade Out Top Right", FadeOutTopRight()),
             Animation("Fade Out Bottom Left", FadeOutBottomLeft()),
             Animation("Fade Out Bottom Right", FadeOutBottomRight())
+        )
+    ),
+    AnimationSet(
+        section = AnimationSection.Flippers,
+        animations = listOf(
+            Animation("Flip", Flip()),
+            Animation("Flip In X", FlipInX()),
+            Animation("Flip In Y", FlipInY()),
+            Animation("Flip Out X", FlipOutX()),
+            Animation("Flip Out Y", FlipOutY()),
         )
     )
 )
