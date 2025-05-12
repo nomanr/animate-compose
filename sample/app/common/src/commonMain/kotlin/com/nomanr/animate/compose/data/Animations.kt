@@ -7,6 +7,7 @@ import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.presets.attentionseekers.Bounce
 import com.nomanr.animate.compose.presets.attentionseekers.Flash
 import com.nomanr.animate.compose.presets.attentionseekers.HeartBeat
+import com.nomanr.animate.compose.presets.attentionseekers.Jello
 import com.nomanr.animate.compose.presets.attentionseekers.Pulse
 import com.nomanr.animate.compose.presets.attentionseekers.RubberBand
 import com.nomanr.animate.compose.presets.attentionseekers.ShakeX
@@ -88,7 +89,7 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
     return listOf(
         AnimationSet(
             section = AnimationSection.AttentionSeekers, animations = listOf(
-                Animation("Test", LightSpeedInLeft())
+                Animation("Test", Jello())
             )
         ),
         AnimationSet(
@@ -99,6 +100,7 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Rubber Band", RubberBand()),
                 Animation("ShakeX", ShakeX()),
                 Animation("ShakeY", ShakeY()),
+                Animation("Jello", Jello()),
                 Animation("Swing", Swing()),
                 Animation("Tada", Tada()),
                 Animation("Wobble", Wobble()),
