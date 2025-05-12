@@ -2,6 +2,7 @@ package com.nomanr.animate.compose.core
 
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.util.lerp
@@ -24,6 +25,12 @@ fun Modifier.animateKeyframe(
         else -> TransformProperties()
     }
 
+    val skewModifier = if (transform.hasSkew()) {
+        Modifier.skew(transform.skewX ?: 0f, transform.skewY ?: 0f)
+    } else {
+        Modifier
+    }
+
     return this.graphicsLayer {
         this.transformOrigin = transformOrigin
         this.clip = clip
@@ -36,10 +43,27 @@ fun Modifier.animateKeyframe(
         transform.rotationZ?.let { this.rotationZ = it }
         transform.alpha?.let { this.alpha = it }
         transform.cameraDistance?.let { this.cameraDistance = it }
+    }.then(skewModifier)
+}
+
+fun Modifier.skew(
+    skewX: Float = 0f,
+    skewY: Float = 0f,
+): Modifier = this.drawWithCache {
+    onDrawWithContent {
+        val pivotFraction = 0.5f
+        val px = size.width * pivotFraction
+        val py = size.height * pivotFraction
+        drawContext.canvas.translate(px, py)
+        drawContext.canvas.skew(skewX, skewY)
+        drawContext.canvas.translate(-px, -py)
+        drawContent()
     }
 }
 
-internal fun TransformProperties.interpolate(to: TransformProperties, fraction: Float): TransformProperties {
+internal fun TransformProperties.interpolate(
+    to: TransformProperties, fraction: Float
+): TransformProperties {
     return TransformProperties(
         translationX = lerpIfNotNull(this.translationX, to.translationX, fraction),
         translationY = lerpIfNotNull(this.translationY, to.translationY, fraction),
@@ -61,4 +85,9 @@ private fun lerpIfNotNull(start: Float?, end: Float?, fraction: Float): Float? {
     } else {
         end ?: start
     }
+}
+
+
+private fun TransformProperties.hasSkew(): Boolean {
+    return skewX != null || skewY != null
 }

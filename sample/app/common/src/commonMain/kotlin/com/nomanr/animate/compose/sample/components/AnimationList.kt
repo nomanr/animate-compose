@@ -12,15 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.data.Animation
-import com.nomanr.animate.compose.data.animationSets
+import com.nomanr.animate.compose.data.AnimationSet
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.HorizontalDivider
 import com.nomanr.animate.compose.ui.components.Text
 
 
 @Composable
-fun AnimationList(onSelectAnimation: (animation: Animation) -> Unit) {
-    val animationSetsMap = animationSets()
+fun AnimationList(animationSetsMap:  List<AnimationSet>, onSelectAnimation: (animation: Animation) -> Unit) {
     val backgroundColors = listOf(
         AppTheme.colors.neoColor1,
         AppTheme.colors.neoColor2,
