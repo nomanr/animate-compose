@@ -73,6 +73,11 @@ import com.nomanr.animate.compose.presets.rotatingentrances.RotateInDownLeft
 import com.nomanr.animate.compose.presets.rotatingentrances.RotateInDownRight
 import com.nomanr.animate.compose.presets.rotatingentrances.RotateInUpLeft
 import com.nomanr.animate.compose.presets.rotatingentrances.RotateInUpRight
+import com.nomanr.animate.compose.presets.rotatingexits.RotateOut
+import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownLeft
+import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownRight
+import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpLeft
+import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpRight
 
 class Animation(
     val name: String,
@@ -238,11 +243,11 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
         ),
         AnimationSet(
             section = AnimationSection.RotatingExits, animations = listOf(
-                Animation("Rotate Out", BounceOut()),
-                Animation("Rotate Out Down", BounceOutDown(containerHeight)),
-                Animation("Rotate Out Up", BounceOutUp(-containerHeight)),
-                Animation("Rotate Out Left", BounceOutLeft(-containerWidth)),
-                Animation("Rotate Out Right", BounceOutRight(containerWidth))
+                Animation("Rotate Out", RotateOut()),
+                Animation("Rotate Out Down Left", RotateOutDownLeft()),
+                Animation("Rotate Out Up Left", RotateOutUpLeft()),
+                Animation("Rotate Out Up Right", RotateOutUpRight()),
+                Animation("Rotate Out Down Right", RotateOutDownRight())
             )
         ),
     )
