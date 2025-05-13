@@ -67,7 +67,7 @@ fun AnimationListItem(
             style = AppTheme.typography.h4,
             modifier = Modifier.fillMaxWidth().clickable(
                 onClick = { onSelectAnimation(animation) },
-            ).padding(horizontal = 40.dp, vertical = 12.dp)
+            ).padding(horizontal = 32.dp, vertical = 8.dp)
         )
     }
 }

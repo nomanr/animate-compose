@@ -23,6 +23,11 @@ import com.nomanr.animate.compose.presets.backexists.BackOutDown
 import com.nomanr.animate.compose.presets.backexists.BackOutLeft
 import com.nomanr.animate.compose.presets.backexists.BackOutRight
 import com.nomanr.animate.compose.presets.backexists.BackOutUp
+import com.nomanr.animate.compose.presets.bounceentrances.BounceIn
+import com.nomanr.animate.compose.presets.bounceentrances.BounceInDown
+import com.nomanr.animate.compose.presets.bounceentrances.BounceInLeft
+import com.nomanr.animate.compose.presets.bounceentrances.BounceInRight
+import com.nomanr.animate.compose.presets.bounceentrances.BounceInUp
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeIn
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomLeft
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomRight
@@ -74,7 +79,9 @@ data class AnimationSet(
 )
 
 enum class AnimationSection(val title: String) {
-    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"), FadeInEntrances(
+    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"),
+    BounceEntrances("Bounce Entrances"), BounceExits("Bounce Exits"),
+    FadeInEntrances(
         "Fade In Entrances"
     ),
     FadeOutExits("Fade Out Exits"), Flippers("Flippers"), LightSpeed("Light Speed"),
@@ -121,6 +128,23 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Back Out Up", BackOutUp(-containerHeight)),
                 Animation("Back Out Left", BackOutLeft(-containerWidth)),
                 Animation("Back Out Right", BackOutRight(containerWidth))
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.BackExits, animations = listOf(
+                Animation("Back Out Down", BackOutDown(containerHeight)),
+                Animation("Back Out Up", BackOutUp(-containerHeight)),
+                Animation("Back Out Left", BackOutLeft(-containerWidth)),
+                Animation("Back Out Right", BackOutRight(containerWidth))
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.BounceEntrances, animations = listOf(
+                Animation("Bounce In", BounceIn()),
+                Animation("Bounce In Down", BounceInDown(-containerHeight)),
+                Animation("Bounce In Up", BounceInUp(containerHeight)),
+                Animation("Bounce In Left", BounceInLeft(-containerWidth)),
+                Animation("Bounce In Right", BounceInRight(containerWidth))
             )
         ),
         AnimationSet(
