@@ -23,11 +23,16 @@ import com.nomanr.animate.compose.presets.backexists.BackOutDown
 import com.nomanr.animate.compose.presets.backexists.BackOutLeft
 import com.nomanr.animate.compose.presets.backexists.BackOutRight
 import com.nomanr.animate.compose.presets.backexists.BackOutUp
-import com.nomanr.animate.compose.presets.bounceentrances.BounceIn
-import com.nomanr.animate.compose.presets.bounceentrances.BounceInDown
-import com.nomanr.animate.compose.presets.bounceentrances.BounceInLeft
-import com.nomanr.animate.compose.presets.bounceentrances.BounceInRight
-import com.nomanr.animate.compose.presets.bounceentrances.BounceInUp
+import com.nomanr.animate.compose.presets.bouncingentrances.BounceIn
+import com.nomanr.animate.compose.presets.bouncingentrances.BounceInDown
+import com.nomanr.animate.compose.presets.bouncingentrances.BounceInLeft
+import com.nomanr.animate.compose.presets.bouncingentrances.BounceInRight
+import com.nomanr.animate.compose.presets.bouncingentrances.BounceInUp
+import com.nomanr.animate.compose.presets.bouncingexits.BounceOut
+import com.nomanr.animate.compose.presets.bouncingexits.BounceOutDown
+import com.nomanr.animate.compose.presets.bouncingexits.BounceOutLeft
+import com.nomanr.animate.compose.presets.bouncingexits.BounceOutRight
+import com.nomanr.animate.compose.presets.bouncingexits.BounceOutUp
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeIn
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomLeft
 import com.nomanr.animate.compose.presets.fadeinentrances.FadeInBottomRight
@@ -63,6 +68,11 @@ import com.nomanr.animate.compose.presets.lightspeed.LightSpeedInLeft
 import com.nomanr.animate.compose.presets.lightspeed.LightSpeedInRight
 import com.nomanr.animate.compose.presets.lightspeed.LightSpeedOutLeft
 import com.nomanr.animate.compose.presets.lightspeed.LightSpeedOutRight
+import com.nomanr.animate.compose.presets.rotatingentrances.RotateIn
+import com.nomanr.animate.compose.presets.rotatingentrances.RotateInDownLeft
+import com.nomanr.animate.compose.presets.rotatingentrances.RotateInDownRight
+import com.nomanr.animate.compose.presets.rotatingentrances.RotateInUpLeft
+import com.nomanr.animate.compose.presets.rotatingentrances.RotateInUpRight
 
 class Animation(
     val name: String,
@@ -80,7 +90,8 @@ data class AnimationSet(
 
 enum class AnimationSection(val title: String) {
     AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"),
-    BounceEntrances("Bounce Entrances"), BounceExits("Bounce Exits"),
+    BouncingEntrances("Bouncing Entrances"), BouncingExits("Bouncing Exits"),
+    RotatingEntrances("Rotating Entrances"), RotatingExits("Rotating Exits"),
     FadeInEntrances(
         "Fade In Entrances"
     ),
@@ -139,12 +150,21 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
             )
         ),
         AnimationSet(
-            section = AnimationSection.BounceEntrances, animations = listOf(
+            section = AnimationSection.BouncingEntrances, animations = listOf(
                 Animation("Bounce In", BounceIn()),
                 Animation("Bounce In Down", BounceInDown(-containerHeight)),
                 Animation("Bounce In Up", BounceInUp(containerHeight)),
                 Animation("Bounce In Left", BounceInLeft(-containerWidth)),
                 Animation("Bounce In Right", BounceInRight(containerWidth))
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.BouncingExits, animations = listOf(
+                Animation("Bounce Out", BounceOut()),
+                Animation("Bounce Out Down", BounceOutDown(containerHeight)),
+                Animation("Bounce Out Up", BounceOutUp(-containerHeight)),
+                Animation("Bounce Out Left", BounceOutLeft(-containerWidth)),
+                Animation("Bounce Out Right", BounceOutRight(containerWidth))
             )
         ),
         AnimationSet(
@@ -206,7 +226,25 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                     )
                 )
             )
-        )
+        ),
+        AnimationSet(
+            section = AnimationSection.RotatingEntrances, animations = listOf(
+                Animation("Rotate In", RotateIn()),
+                Animation("Rotate In Down Left", RotateInDownLeft()),
+                Animation("Rotate In Up Left", RotateInUpLeft()),
+                Animation("Rotate In Up Right", RotateInUpRight()),
+                Animation("Rotate In Down Right", RotateInDownRight())
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.RotatingExits, animations = listOf(
+                Animation("Rotate Out", BounceOut()),
+                Animation("Rotate Out Down", BounceOutDown(containerHeight)),
+                Animation("Rotate Out Up", BounceOutUp(-containerHeight)),
+                Animation("Rotate Out Left", BounceOutLeft(-containerWidth)),
+                Animation("Rotate Out Right", BounceOutRight(containerWidth))
+            )
+        ),
     )
 }
 

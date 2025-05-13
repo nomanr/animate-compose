@@ -1,6 +1,5 @@
-package com.nomanr.animate.compose.presets.bounceentrances
+package com.nomanr.animate.compose.presets.bouncingentrances
 
-import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -9,7 +8,7 @@ import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
-import com.nomanr.animate.compose.presets.bounceentrances.bounceeasings.bounceEasing
+import com.nomanr.animate.compose.presets.common.bounceInEasing
 
 
 class BounceInDown(
@@ -20,35 +19,35 @@ class BounceInDown(
         Keyframe.Static(
             percent = 0f,
             transform = TransformProperties(alpha = 0f, translationY = entranceOffsetY, scaleY = 3f),
-            easing = bounceEasing
+            easing = bounceInEasing
         ),
         Keyframe.Segment(
             start = 0f,
             end = 0.6f,
             from = TransformProperties(translationY = entranceOffsetY, scaleY = 3f),
             to = TransformProperties(alpha = 1f, translationY = 25f, scaleY = 0.9f),
-            easing = bounceEasing
+            easing = bounceInEasing
         ),
         Keyframe.Segment(
             start = 0.6f,
             end = 0.75f,
             from = TransformProperties(alpha = 1f, translationY = 25f, scaleY = 0.9f),
             to = TransformProperties(translationY = -10f, scaleY = 0.95f),
-            easing = bounceEasing
+            easing = bounceInEasing
         ),
         Keyframe.Segment(
             start = 0.75f,
             end = 0.9f,
             from = TransformProperties(translationY = -10f, scaleY = 0.95f),
             to = TransformProperties(translationY = 5f, scaleY = 0.985f),
-            easing = bounceEasing
+            easing = bounceInEasing
         ),
         Keyframe.Segment(
             start = 0.9f,
             end = 1f,
             from = TransformProperties(translationY = 5f, scaleY = 0.985f),
             to = TransformProperties(translationY = 0f, scaleY = 1f),
-            easing = bounceEasing
+            easing = bounceInEasing
         )
     )
 
