@@ -78,6 +78,10 @@ import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownRight
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpRight
+import com.nomanr.animate.compose.presets.specials.Hinge
+import com.nomanr.animate.compose.presets.specials.JackInTheBox
+import com.nomanr.animate.compose.presets.specials.RollIn
+import com.nomanr.animate.compose.presets.specials.RollOut
 
 class Animation(
     val name: String,
@@ -94,9 +98,12 @@ data class AnimationSet(
 )
 
 enum class AnimationSection(val title: String) {
-    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"),
-    BouncingEntrances("Bouncing Entrances"), BouncingExits("Bouncing Exits"),
-    RotatingEntrances("Rotating Entrances"), RotatingExits("Rotating Exits"),
+    AttentionSeekers("Attention Seekers"), BackEntrances("Back Entrances"), BackExits("Back Exists"), BouncingEntrances(
+        "Bouncing Entrances"
+    ),
+    BouncingExits("Bouncing Exits"), RotatingEntrances("Rotating Entrances"), RotatingExits("Rotating Exits"), Specials(
+        "Specials"
+    ),
     FadeInEntrances(
         "Fade In Entrances"
     ),
@@ -216,18 +223,14 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
             )
         ),
         AnimationSet(
-            section = AnimationSection.LightSpeed,
-            animations = listOf(
-                Animation("Light Speed In Left", LightSpeedInLeft(-getContainerWidth(containerSize))),
-                Animation(
-                    "Light Speed In Right", LightSpeedInRight(getContainerWidth(containerSize))
-                ),
-                Animation(
-                    "Light Speed Out Left", LightSpeedOutLeft(-getContainerWidth(containerSize))
-                ),
-                Animation(
+            section = AnimationSection.LightSpeed, animations = listOf(
+                Animation("Light Speed In Left", LightSpeedInLeft(-containerWidth)), Animation(
+                    "Light Speed In Right", LightSpeedInRight(containerWidth)
+                ), Animation(
+                    "Light Speed Out Left", LightSpeedOutLeft(-containerWidth)
+                ), Animation(
                     "Light Speed Out Right", LightSpeedOutRight(
-                        getContainerWidth(containerSize)
+                        containerWidth
                     )
                 )
             )
@@ -250,6 +253,14 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Rotate Out Down Right", RotateOutDownRight())
             )
         ),
+        AnimationSet(
+            section = AnimationSection.Specials, animations = listOf(
+                Animation("Hinge", Hinge()),
+                Animation("Jack In The Box", JackInTheBox()),
+                Animation("Roll In", RollIn(-containerWidth)),
+                Animation("Roll Out", RollOut()),
+            )
+        ),
     )
 }
 
@@ -257,7 +268,7 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
 @Composable
 private fun getContainerWidth(size: DpSize): Float {
     val density = LocalDensity.current
-    return with(density){
+    return with(density) {
         size.width.toPx()
     }
 }
@@ -265,7 +276,7 @@ private fun getContainerWidth(size: DpSize): Float {
 @Composable
 private fun getContainerHeight(size: DpSize): Float {
     val density = LocalDensity.current
-    return with(density){
+    return with(density) {
         size.width.toPx()
     }
 }
