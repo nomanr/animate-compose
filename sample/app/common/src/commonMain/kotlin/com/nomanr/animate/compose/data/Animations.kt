@@ -82,6 +82,11 @@ import com.nomanr.animate.compose.presets.specials.Hinge
 import com.nomanr.animate.compose.presets.specials.JackInTheBox
 import com.nomanr.animate.compose.presets.specials.RollIn
 import com.nomanr.animate.compose.presets.specials.RollOut
+import com.nomanr.animate.compose.presets.zoomingextrances.ZoomIn
+import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInDown
+import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInLeft
+import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInRight
+import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInUp
 
 class Animation(
     val name: String,
@@ -107,7 +112,10 @@ enum class AnimationSection(val title: String) {
     FadeInEntrances(
         "Fade In Entrances"
     ),
-    FadeOutExits("Fade Out Exits"), Flippers("Flippers"), LightSpeed("Light Speed"),
+    FadeOutExits("Fade Out Exits"), Flippers("Flippers"), LightSpeed("Light Speed"), ZoomingEntrances(
+        "Zooming Entrances"
+    ),
+    ZoomingExits("Zooming Exits")
 }
 
 @Composable
@@ -259,6 +267,25 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Jack In The Box", JackInTheBox()),
                 Animation("Roll In", RollIn(-containerWidth)),
                 Animation("Roll Out", RollOut()),
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.ZoomingEntrances, animations = listOf(
+                Animation("Zoom In", ZoomIn()),
+                Animation(
+                    "Zoom In Down", ZoomInDown(
+                        peakOffsetY = -(containerHeight / 3),
+                        prePeakDelta = (containerHeight / 3) * 0.1f
+                    )
+                ),
+                Animation("Zoom In Left", ZoomInLeft(peakOffsetX = -(containerWidth / 3))),
+                Animation("Zoom In Right", ZoomInRight(peakOffsetX = containerWidth / 3)),
+                Animation(
+                    "Zoom In Up", ZoomInUp(
+                        peakOffsetY = (containerHeight / 3),
+                        prePeakDelta = (containerHeight / 3) * 0.1f
+                    )
+                ),
             )
         ),
     )

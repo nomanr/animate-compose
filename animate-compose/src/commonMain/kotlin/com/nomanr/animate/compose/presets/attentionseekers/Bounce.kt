@@ -5,13 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.animateKeyframe
-import com.nomanr.animate.compose.core.atProgress
-import com.nomanr.animate.compose.core.interpolate
 
 class Bounce(bounceHeightInPx: Float = 60f) : AnimationPreset {
 
