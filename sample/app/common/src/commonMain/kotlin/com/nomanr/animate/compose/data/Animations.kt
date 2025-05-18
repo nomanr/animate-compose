@@ -78,6 +78,10 @@ import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownRight
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpRight
+import com.nomanr.animate.compose.presets.slidingentrances.SlideInDown
+import com.nomanr.animate.compose.presets.slidingentrances.SlideInLeft
+import com.nomanr.animate.compose.presets.slidingentrances.SlideInRight
+import com.nomanr.animate.compose.presets.slidingentrances.SlideInUp
 import com.nomanr.animate.compose.presets.specials.Hinge
 import com.nomanr.animate.compose.presets.specials.JackInTheBox
 import com.nomanr.animate.compose.presets.specials.RollIn
@@ -114,13 +118,12 @@ enum class AnimationSection(val title: String) {
     BouncingExits("Bouncing Exits"), RotatingEntrances("Rotating Entrances"), RotatingExits("Rotating Exits"), Specials(
         "Specials"
     ),
-    FadeInEntrances(
-        "Fade In Entrances"
+    FadeInEntrances("Fade In Entrances"), FadeOutExits("Fade Out Exits"), Flippers("Flippers"), LightSpeed(
+        "Light Speed"
     ),
-    FadeOutExits("Fade Out Exits"), Flippers("Flippers"), LightSpeed("Light Speed"), ZoomingEntrances(
-        "Zooming Entrances"
-    ),
-    ZoomingExits("Zooming Exits")
+    SlidingEntrances("Sliding Entrances"), SlidingExits("Sliding Exits"), ZoomingEntrances("Zooming Entrances"), ZoomingExits(
+        "Zooming Exits"
+    )
 }
 
 @Composable
@@ -272,6 +275,29 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Jack In The Box", JackInTheBox()),
                 Animation("Roll In", RollIn(-containerWidth)),
                 Animation("Roll Out", RollOut()),
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.SlidingEntrances, animations = listOf(
+                Animation("Slide In Down", SlideInDown()),
+                Animation("Slide In Left", SlideInLeft()),
+                Animation("Slide In Right", SlideInRight()),
+                Animation(
+                    "Slide In Up", SlideInUp()
+                ),
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.SlidingExits, animations = listOf(
+                Animation("Slide In Down", SlideInUp()),
+                Animation("Slide In Left", ZoomInLeft(peakOffsetX = -(containerWidth / 3))),
+                Animation("Slide In Right", ZoomInRight(peakOffsetX = containerWidth / 3)),
+                Animation(
+                    "Slide In Up", ZoomInUp(
+                        peakOffsetY = (containerHeight / 3),
+                        prePeakDelta = (containerHeight / 3) * 0.1f
+                    )
+                ),
             )
         ),
         AnimationSet(
