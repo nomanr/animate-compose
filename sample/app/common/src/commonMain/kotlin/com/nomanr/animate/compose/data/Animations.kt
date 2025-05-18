@@ -87,6 +87,11 @@ import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInDown
 import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInLeft
 import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInRight
 import com.nomanr.animate.compose.presets.zoomingextrances.ZoomInUp
+import com.nomanr.animate.compose.presets.zooms.ZoomOut
+import com.nomanr.animate.compose.presets.zooms.ZoomOutDown
+import com.nomanr.animate.compose.presets.zooms.ZoomOutLeft
+import com.nomanr.animate.compose.presets.zooms.ZoomOutRight
+import com.nomanr.animate.compose.presets.zooms.ZoomOutUp
 
 class Animation(
     val name: String,
@@ -284,6 +289,23 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                     "Zoom In Up", ZoomInUp(
                         peakOffsetY = (containerHeight / 3),
                         prePeakDelta = (containerHeight / 3) * 0.1f
+                    )
+                ),
+            )
+        ),
+        AnimationSet(
+            section = AnimationSection.ZoomingExits, animations = listOf(
+                Animation("Zoom Out", ZoomOut()),
+                Animation(
+                    "Zoom Out Down", ZoomOutDown(
+                        vanishOffsetY = -(containerHeight / 3),
+                    )
+                ),
+                Animation("Zoom Out Left", ZoomOutLeft(vanishOffsetX = -(containerWidth / 3))),
+                Animation("Zoom Out Right", ZoomOutRight(vanishOffsetX = containerWidth / 3)),
+                Animation(
+                    "Zoom Out Up", ZoomOutUp(
+                        vanishOffsetY = (containerHeight / 3),
                     )
                 ),
             )
