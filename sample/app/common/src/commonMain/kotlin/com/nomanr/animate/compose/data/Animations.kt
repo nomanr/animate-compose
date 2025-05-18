@@ -78,6 +78,10 @@ import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutDownRight
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpLeft
 import com.nomanr.animate.compose.presets.rotatingexits.RotateOutUpRight
+import com.nomanr.animate.compose.presets.slidingexits.SlideOutDown
+import com.nomanr.animate.compose.presets.slidingexits.SlideOutLeft
+import com.nomanr.animate.compose.presets.slidingexits.SlideOutRight
+import com.nomanr.animate.compose.presets.slidingexits.SlideOutUp
 import com.nomanr.animate.compose.presets.slidingentrances.SlideInDown
 import com.nomanr.animate.compose.presets.slidingentrances.SlideInLeft
 import com.nomanr.animate.compose.presets.slidingentrances.SlideInRight
@@ -289,14 +293,11 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
         ),
         AnimationSet(
             section = AnimationSection.SlidingExits, animations = listOf(
-                Animation("Slide In Down", SlideInUp()),
-                Animation("Slide In Left", ZoomInLeft(peakOffsetX = -(containerWidth / 3))),
-                Animation("Slide In Right", ZoomInRight(peakOffsetX = containerWidth / 3)),
+                Animation("Slide In Down", SlideOutDown()),
+                Animation("Slide In Left", SlideOutLeft()),
+                Animation("Slide In Right", SlideOutRight()),
                 Animation(
-                    "Slide In Up", ZoomInUp(
-                        peakOffsetY = (containerHeight / 3),
-                        prePeakDelta = (containerHeight / 3) * 0.1f
-                    )
+                    "Slide Out Up", SlideOutUp()
                 ),
             )
         ),
