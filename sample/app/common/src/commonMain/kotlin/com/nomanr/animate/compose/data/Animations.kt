@@ -139,11 +139,6 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
     return listOf(
         AnimationSet(
             section = AnimationSection.AttentionSeekers, animations = listOf(
-                Animation("Test", Jello())
-            )
-        ),
-        AnimationSet(
-            section = AnimationSection.AttentionSeekers, animations = listOf(
                 Animation("Bounce", Bounce()),
                 Animation("Flash", Flash()),
                 Animation("Pulse", Pulse()),
