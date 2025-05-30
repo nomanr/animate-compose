@@ -50,6 +50,7 @@ fun SampleScreen() {
                 VerticalDivider()
             }
 
+
             BoxWithConstraints(
                 modifier = Modifier.fillMaxHeight(),
                 contentAlignment = Alignment.Center

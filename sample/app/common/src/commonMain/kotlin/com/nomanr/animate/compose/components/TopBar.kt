@@ -38,10 +38,10 @@ fun AppTopbar() {
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                        Logo()
+                        Logo()
                         Spacer(Modifier.width(8.dp))
-                        Docs()
-//                        Playground()
+//                        Docs()
+                        Playground()
                     }
 
                     Row(
