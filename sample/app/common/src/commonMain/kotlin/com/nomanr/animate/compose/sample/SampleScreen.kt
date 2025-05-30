@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.DpSize
 import com.nomanr.animate.compose.components.AppTopbar
 import com.nomanr.animate.compose.data.animationSets
 import com.nomanr.animate.compose.sample.components.AdaptiveSampleLayout
+import com.nomanr.animate.compose.ui.AdaptiveProvider
 
 @Composable
 fun SampleScreen() {
@@ -18,18 +19,20 @@ fun SampleScreen() {
 
     var currentAnimation by remember { mutableStateOf(animationSetsMap.first().animations.first()) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        AppTopbar()
-        
-        AdaptiveSampleLayout(
-            animationSets = animationSetsMap,
-            currentAnimation = currentAnimation,
-            onAnimationSelected = { animation ->
-                currentAnimation = animation.copy()
-            },
-            onSizeChanged = { size ->
-                maxSize = size
-            }
-        )
+    AdaptiveProvider(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            AppTopbar()
+            
+            AdaptiveSampleLayout(
+                animationSets = animationSetsMap,
+                currentAnimation = currentAnimation,
+                onAnimationSelected = { animation ->
+                    currentAnimation = animation.copy()
+                },
+                onSizeChanged = { size ->
+                    maxSize = size
+                }
+            )
+        }
     }
 }

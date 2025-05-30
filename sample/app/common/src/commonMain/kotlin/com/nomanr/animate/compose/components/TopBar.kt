@@ -15,11 +15,13 @@ import com.nomanr.animate.compose.presets.attentionseekers.HeartBeat
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.*
 import com.nomanr.animate.compose.ui.components.topbar.TopBar
+import com.nomanr.animate.compose.ui.currentAdaptiveInfo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AppTopbar() {
     val openUrl = rememberOpenUrl()
+    val adaptiveInfo = currentAdaptiveInfo()
 
     Column {
         TopBar {
@@ -41,7 +43,9 @@ fun AppTopbar() {
                         Logo()
                         Spacer(Modifier.width(8.dp))
 //                        Docs()
-                        Playground()
+                        if (!adaptiveInfo.isCompact) {
+                            Playground()
+                        }
                     }
 
                     Row(
