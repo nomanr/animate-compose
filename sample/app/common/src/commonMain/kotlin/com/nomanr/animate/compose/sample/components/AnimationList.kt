@@ -19,7 +19,11 @@ import com.nomanr.animate.compose.ui.components.Text
 
 
 @Composable
-fun AnimationList(animationSetsMap:  List<AnimationSet>, onSelectAnimation: (animation: Animation) -> Unit) {
+fun AnimationList(
+    animationSetsMap: List<AnimationSet>, 
+    onSelectAnimation: (animation: Animation) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val backgroundColors = listOf(
         AppTheme.colors.neoColor1,
         AppTheme.colors.neoColor2,
@@ -28,7 +32,8 @@ fun AnimationList(animationSetsMap:  List<AnimationSet>, onSelectAnimation: (ani
     )
 
     Column(
-        modifier = Modifier.widthIn(max = AnimationListMaxWidth)
+        modifier = modifier
+            .widthIn(max = AnimationListMaxWidth)
             .verticalScroll(rememberScrollState())
     ) {
         animationSetsMap.forEachIndexed() { index, animationSet ->
