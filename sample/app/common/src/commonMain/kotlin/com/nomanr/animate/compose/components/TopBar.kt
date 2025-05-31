@@ -1,6 +1,15 @@
 package com.nomanr.animate.compose.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -13,7 +22,13 @@ import animate_compose.sample.app.common.generated.resources.x
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.presets.attentionseekers.HeartBeat
 import com.nomanr.animate.compose.ui.AppTheme
-import com.nomanr.animate.compose.ui.components.*
+import com.nomanr.animate.compose.ui.components.Button
+import com.nomanr.animate.compose.ui.components.ButtonVariant
+import com.nomanr.animate.compose.ui.components.HorizontalDivider
+import com.nomanr.animate.compose.ui.components.Icon
+import com.nomanr.animate.compose.ui.components.IconButton
+import com.nomanr.animate.compose.ui.components.IconButtonVariant
+import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.topbar.TopBar
 import com.nomanr.animate.compose.ui.currentAdaptiveInfo
 import org.jetbrains.compose.resources.painterResource
@@ -26,14 +41,16 @@ fun AppTopbar() {
     Column {
         TopBar {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = if (adaptiveInfo.isCompact) {
+                        Arrangement.SpaceBetween
+                    } else {
+                        Arrangement.SpaceAround
+                    },
                 ) {
                     Row(
                         modifier = Modifier.fillMaxHeight(),
@@ -82,9 +99,7 @@ fun Playground() {
 @Composable
 fun LumoUI(openUrl: (String) -> Unit) {
     Button(
-        variant = ButtonVariant.Ghost,
-        onClick = { openUrl("https://lumoui.com") }
-    ) {
+        variant = ButtonVariant.Ghost, onClick = { openUrl("https://lumoui.com") }) {
         Text(text = "Lumo UI", style = AppTheme.typography.h5)
     }
 }
@@ -92,11 +107,9 @@ fun LumoUI(openUrl: (String) -> Unit) {
 @Composable
 fun Github(openUrl: (String) -> Unit) {
     TopBarIconButton(
-        onClick = { openUrl("https://github.com/nomanr/animate-compose") }
-    ) {
+        onClick = { openUrl("https://github.com/nomanr/animate-compose") }) {
         Icon(
-            modifier = Modifier.size(16.dp),
-            painter = painterResource(Res.drawable.github)
+            modifier = Modifier.size(16.dp), painter = painterResource(Res.drawable.github)
         )
     }
 }
@@ -104,8 +117,7 @@ fun Github(openUrl: (String) -> Unit) {
 @Composable
 fun X(openUrl: (String) -> Unit) {
     TopBarIconButton(
-        onClick = { openUrl("https://x.com/nomanr_") }
-    ) {
+        onClick = { openUrl("https://x.com/nomanr_") }) {
         Icon(
             modifier = Modifier.size(16.dp),
             painter = painterResource(Res.drawable.x) // TODO: Replace with X icon
@@ -119,9 +131,7 @@ private fun TopBarIconButton(
     content: @Composable () -> Unit,
 ) {
     IconButton(
-        modifier = Modifier.size(32.dp),
-        onClick = onClick,
-        variant = IconButtonVariant.Secondary
+        modifier = Modifier.size(32.dp), onClick = onClick, variant = IconButtonVariant.Secondary
     ) {
         content()
     }
