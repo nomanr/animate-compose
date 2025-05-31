@@ -34,7 +34,9 @@ import com.nomanr.animate.compose.ui.currentAdaptiveInfo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun AppTopbar() {
+fun AppTopbar(
+    onNavigateToPlayground: (() -> Unit)? = null
+) {
     val openUrl = rememberOpenUrl()
     val adaptiveInfo = currentAdaptiveInfo()
 
@@ -61,7 +63,7 @@ fun AppTopbar() {
                         Spacer(Modifier.width(8.dp))
 //                        Docs()
                         if (!adaptiveInfo.isCompact) {
-                            Playground()
+                            Playground(onNavigateToPlayground)
                         }
                     }
 
@@ -88,9 +90,12 @@ fun Docs() {
 }
 
 @Composable
-fun Playground() {
+fun Playground(onNavigateToPlayground: (() -> Unit)? = null) {
     Animated(preset = HeartBeat(heartScale = 1.1f), repeat = true, durationMillis = 2000) {
-        Button(variant = ButtonVariant.Ghost) {
+        Button(
+            variant = ButtonVariant.Ghost,
+            onClick = { onNavigateToPlayground?.invoke() }
+        ) {
             Text(text = "Playground", style = AppTheme.typography.h5)
         }
     }

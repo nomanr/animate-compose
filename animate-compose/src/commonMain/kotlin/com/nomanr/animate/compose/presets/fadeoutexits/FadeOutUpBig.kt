@@ -20,7 +20,7 @@ class FadeOutUpBig(
             start = 0f,
             end = 1f,
             from = TransformProperties(alpha = 1f, translationY = 0f),
-            to   = TransformProperties(alpha = 0f, translationY = offsetY),
+            to = TransformProperties(alpha = 0f, translationY = offsetY),
             easing = ease
         )
     )

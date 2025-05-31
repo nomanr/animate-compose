@@ -69,7 +69,7 @@ private fun CompactLayout(
         HorizontalDivider()
 
         AnimationList(
-            animationSets, 
+            animationSets,
             onAnimationSelected,
             modifier = Modifier.fillMaxWidth().weight(0.6f)
         )

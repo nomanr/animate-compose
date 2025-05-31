@@ -20,19 +20,19 @@ class BounceOut : AnimationPreset {
         Keyframe.Segment(
             start = 0f, end = 0.2f,
             from = TransformProperties(alpha = 1f, scaleX = 1f, scaleY = 1f),
-            to   = TransformProperties(scaleX = 0.9f, scaleY = 0.9f),
+            to = TransformProperties(scaleX = 0.9f, scaleY = 0.9f),
             easing = bounceOutEasing
         ),
         Keyframe.Segment(
             start = 0.2f, end = 0.55f,
             from = TransformProperties(scaleX = 0.9f, scaleY = 0.9f),
-            to   = TransformProperties(alpha = 1f, scaleX = 1.1f, scaleY = 1.1f),
+            to = TransformProperties(alpha = 1f, scaleX = 1.1f, scaleY = 1.1f),
             easing = bounceOutEasing
         ),
         Keyframe.Segment(
             start = 0.55f, end = 1f,
             from = TransformProperties(alpha = 1f, scaleX = 1.1f, scaleY = 1.1f),
-            to   = TransformProperties(alpha = 0f, scaleX = 0.3f, scaleY = 0.3f),
+            to = TransformProperties(alpha = 0f, scaleX = 0.3f, scaleY = 0.3f),
             easing = bounceOutEasing
         )
     )

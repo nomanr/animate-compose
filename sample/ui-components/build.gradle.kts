@@ -41,8 +41,10 @@ kotlin {
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
+            api(libs.nomanr.composables)
             api(compose.components.resources)
             api(compose.components.uiToolingPreview)
+            api(libs.androidx.lifecycle.runtime.multiplatform)
         }
 
     }

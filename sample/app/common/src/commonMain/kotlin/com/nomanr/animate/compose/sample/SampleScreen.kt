@@ -12,15 +12,17 @@ import com.nomanr.animate.compose.data.animationSets
 import com.nomanr.animate.compose.sample.components.AdaptiveSampleLayout
 
 @Composable
-fun SampleScreen() {
+fun SampleScreen(
+    onNavigateToPlayground: (() -> Unit)? = null
+) {
     var maxSize by remember { mutableStateOf(DpSize.Zero) }
     val animationSetsMap = animationSets(maxSize)
 
     var currentAnimation by remember { mutableStateOf(animationSetsMap.first().animations.first()) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppTopbar()
-        
+        AppTopbar(onNavigateToPlayground = onNavigateToPlayground)
+
         AdaptiveSampleLayout(
             animationSets = animationSetsMap,
             currentAnimation = currentAnimation,

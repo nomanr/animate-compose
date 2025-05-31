@@ -88,12 +88,12 @@ class EnterAlwaysScrollBehavior(
             ): Velocity {
                 val superConsumed = super.onPostFling(consumed, available)
                 return superConsumed +
-                    settleBar(
-                        state,
-                        available.y,
-                        flingAnimationSpec,
-                        snapAnimationSpec,
-                    )
+                        settleBar(
+                            state,
+                            available.y,
+                            flingAnimationSpec,
+                            snapAnimationSpec,
+                        )
             }
         }
 }
@@ -162,12 +162,12 @@ class ExitUntilCollapsedScrollBehavior(
             ): Velocity {
                 val superConsumed = super.onPostFling(consumed, available)
                 return superConsumed +
-                    settleBar(
-                        state,
-                        available.y,
-                        flingAnimationSpec,
-                        snapAnimationSpec,
-                    )
+                        settleBar(
+                            state,
+                            available.y,
+                            flingAnimationSpec,
+                            snapAnimationSpec,
+                        )
             }
         }
 }

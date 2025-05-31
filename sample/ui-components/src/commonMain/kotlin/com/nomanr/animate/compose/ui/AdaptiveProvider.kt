@@ -21,7 +21,7 @@ data class AdaptiveInfo(
     companion object {
         val CompactMaxWidth = 600.dp
         val MediumMaxWidth = 840.dp
-        
+
         fun fromSize(width: Dp, height: Dp): AdaptiveInfo {
             return AdaptiveInfo(
                 screenWidth = width,
@@ -51,7 +51,7 @@ fun AdaptiveProvider(
 ) {
     BoxWithConstraints(modifier = modifier) {
         val adaptiveInfo = AdaptiveInfo.fromSize(maxWidth, maxHeight)
-        
+
         CompositionLocalProvider(
             LocalAdaptiveInfo provides adaptiveInfo,
             content = content

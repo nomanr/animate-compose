@@ -5,7 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
-import com.nomanr.animate.compose.core.*
+import com.nomanr.animate.compose.core.AnimationPreset
+import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
+import com.nomanr.animate.compose.core.animateKeyframe
 
 class SlideInRight(
     private val startOffsetX: Float = 200f

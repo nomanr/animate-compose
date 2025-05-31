@@ -21,7 +21,7 @@ class FadeOutTopLeft(
             start = 0f,
             end = 1f,
             from = TransformProperties(alpha = 1f, translationX = 0f, translationY = 0f),
-            to   = TransformProperties(alpha = 0f, translationX = offsetX, translationY = offsetY),
+            to = TransformProperties(alpha = 0f, translationX = offsetX, translationY = offsetY),
             easing = ease
         )
     )

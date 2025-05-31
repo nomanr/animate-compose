@@ -241,7 +241,14 @@ private fun Modifier.surface(
     backgroundColor: Color,
     border: Boolean,
 ) = this.background(shape = shape, color = backgroundColor)
-    .then(if (border) Modifier.border(BorderStroke(BorderWidth, color = hardShadowColorFor(backgroundColor)), shape = shape) else Modifier)
+    .then(
+        if (border) Modifier.border(
+            BorderStroke(
+                BorderWidth,
+                color = hardShadowColorFor(backgroundColor)
+            ), shape = shape
+        ) else Modifier
+    )
     .clip(shape)
 
 private val BorderWidth = 3.dp

@@ -77,7 +77,10 @@ private fun IconButtonComponent(
         onClick = onClick,
         modifier =
             modifier
-                .defaultMinSize(minWidth = IconButtonDefaults.ButtonSize, minHeight = IconButtonDefaults.ButtonSize)
+                .defaultMinSize(
+                    minWidth = IconButtonDefaults.ButtonSize,
+                    minHeight = IconButtonDefaults.ButtonSize
+                )
                 .semantics { role = Role.Button },
         enabled = enabled,
         shape = style.shape,
@@ -200,10 +203,12 @@ data class IconButtonColors(
     val disabledBorderColor: Color? = null,
 ) {
     @Composable
-    fun containerColor(enabled: Boolean) = rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
+    fun containerColor(enabled: Boolean) =
+        rememberUpdatedState(if (enabled) containerColor else disabledContainerColor)
 
     @Composable
-    fun contentColor(enabled: Boolean) = rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
+    fun contentColor(enabled: Boolean) =
+        rememberUpdatedState(if (enabled) contentColor else disabledContentColor)
 
 }
 
@@ -263,9 +268,13 @@ fun GhostIconButtonPreview() {
         ) {
             BasicText(text = "Ghost Icon Buttons", style = AppTheme.typography.h2)
 
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.background),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.background),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.background)) {
@@ -276,7 +285,8 @@ fun GhostIconButtonPreview() {
                 }
 
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.primary),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.primary),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.primary)) {
@@ -287,7 +297,8 @@ fun GhostIconButtonPreview() {
                 }
 
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.secondary),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.secondary),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.secondary)) {
@@ -298,7 +309,8 @@ fun GhostIconButtonPreview() {
                 }
 
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.tertiary),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.tertiary),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.tertiary)) {
@@ -309,7 +321,8 @@ fun GhostIconButtonPreview() {
                 }
 
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.surface),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.surface),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.surface)) {
@@ -320,7 +333,8 @@ fun GhostIconButtonPreview() {
                 }
 
                 Box(
-                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8)).background(AppTheme.colors.error),
+                    modifier = Modifier.size(56.dp).clip(RoundedCornerShape(8))
+                        .background(AppTheme.colors.error),
                     contentAlignment = Alignment.Center,
                 ) {
                     CompositionLocalProvider(LocalContentColor provides contentColorFor(color = AppTheme.colors.error)) {

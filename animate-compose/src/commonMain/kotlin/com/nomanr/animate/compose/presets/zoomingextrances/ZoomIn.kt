@@ -41,7 +41,7 @@ class ZoomIn(
             easing = ease
         ),
 
-    )
+        )
 
     @Composable
     override fun animate(progress: State<Float>): Modifier =

@@ -252,7 +252,7 @@ internal data class ButtonStyle(
     val colors: ButtonColors,
     val shape: Shape,
     val contentPadding: PaddingValues,
-    val hardShadow : Boolean = true,
+    val hardShadow: Boolean = true,
     val border: Boolean = true,
 )
 
@@ -335,7 +335,10 @@ fun DestructiveButtonPreview() {
             Text(text = "Destructive Buttons", style = AppTheme.typography.h2)
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Button(text = "DestructiveFilled", variant = ButtonVariant.Destructive, onClick = {})
+                Button(
+                    text = "DestructiveFilled",
+                    variant = ButtonVariant.Destructive,
+                    onClick = {})
 
                 Button(
                     text = "Disabled",

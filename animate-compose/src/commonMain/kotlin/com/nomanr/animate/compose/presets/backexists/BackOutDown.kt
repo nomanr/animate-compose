@@ -22,7 +22,9 @@ class BackOutDown(
     private val keyframes: List<Keyframe>
         get() = listOf(
             Keyframe.Static(
-                percent = 0f, transform = TransformProperties(scaleX = 1f, scaleY = 1f, alpha = 1f), easing = EaseOut
+                percent = 0f,
+                transform = TransformProperties(scaleX = 1f, scaleY = 1f, alpha = 1f),
+                easing = EaseOut
             ), Keyframe.Segment(
                 start = 0f,
                 end = 0.2f,
@@ -32,8 +34,18 @@ class BackOutDown(
             ), Keyframe.Segment(
                 start = 0.2f,
                 end = 1f,
-                from = TransformProperties(translationY = 0f, scaleX = 0.7f, scaleY = 0.7f, alpha = 0.7f),
-                to = TransformProperties(translationY = translationY, scaleX = 0.7f, scaleY = 0.7f, alpha = 0.7f),
+                from = TransformProperties(
+                    translationY = 0f,
+                    scaleX = 0.7f,
+                    scaleY = 0.7f,
+                    alpha = 0.7f
+                ),
+                to = TransformProperties(
+                    translationY = translationY,
+                    scaleX = 0.7f,
+                    scaleY = 0.7f,
+                    alpha = 0.7f
+                ),
                 easing = EaseOut
             )
         )
@@ -41,7 +53,10 @@ class BackOutDown(
     @Composable
     override fun animate(progress: State<Float>): Modifier {
         return Modifier.animateKeyframe(
-            progress = progress, keyframes = keyframes, transformOrigin = TransformOrigin.Center, clip = false
+            progress = progress,
+            keyframes = keyframes,
+            transformOrigin = TransformOrigin.Center,
+            clip = false
         )
     }
 }

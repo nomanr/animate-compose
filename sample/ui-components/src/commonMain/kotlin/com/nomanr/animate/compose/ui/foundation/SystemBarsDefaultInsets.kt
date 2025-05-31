@@ -1,4 +1,3 @@
-
 package com.nomanr.animate.compose.ui.foundation
 
 import androidx.compose.foundation.layout.WindowInsets

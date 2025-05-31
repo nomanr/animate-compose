@@ -6,8 +6,8 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
-import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
 
 class Bounce(bounceHeightInPx: Float = 60f) : AnimationPreset {

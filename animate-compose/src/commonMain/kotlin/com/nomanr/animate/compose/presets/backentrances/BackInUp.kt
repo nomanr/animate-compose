@@ -1,11 +1,17 @@
 package com.nomanr.animate.compose.presets.backentrances
 
 import androidx.compose.animation.core.EaseOut
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
-import com.nomanr.animate.compose.core.*
-import com.nomanr.animate.compose.tokens.AnimationTokens
+import com.nomanr.animate.compose.core.AnimationPreset
+import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
+import com.nomanr.animate.compose.core.animateKeyframe
 
 class BackInUp(
     private val entranceOffsetY: Float = 1200f // positive because it enters from below

@@ -33,7 +33,12 @@ fun Scaffold(
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    Surface(modifier = modifier, color = containerColor, contentColor = contentColor, hardShadow = false) {
+    Surface(
+        modifier = modifier,
+        color = containerColor,
+        contentColor = contentColor,
+        hardShadow = false
+    ) {
         ScaffoldLayout(
             fabPosition = floatingActionButtonPosition,
             topBar = topBar,
@@ -153,7 +158,7 @@ private fun ScaffoldLayout(
                 fabPlacement?.let {
                     if (bottomBarHeight == null) {
                         it.height + FabSpacing.roundToPx() +
-                            contentWindowInsets.getBottom(this@SubcomposeLayout)
+                                contentWindowInsets.getBottom(this@SubcomposeLayout)
                     } else {
                         // Total height is the bottom bar height + the FAB height + the padding
                         // between the FAB and bottom bar
@@ -164,10 +169,10 @@ private fun ScaffoldLayout(
             val snackbarOffsetFromBottom =
                 if (snackbarHeight != 0) {
                     snackbarHeight +
-                        (
-                            fabOffsetFromBottom ?: bottomBarHeight
-                                ?: contentWindowInsets.getBottom(this@SubcomposeLayout)
-                        )
+                            (
+                                    fabOffsetFromBottom ?: bottomBarHeight
+                                    ?: contentWindowInsets.getBottom(this@SubcomposeLayout)
+                                    )
                 } else {
                     0
                 }
@@ -206,10 +211,10 @@ private fun ScaffoldLayout(
             snackbarPlaceables.forEach {
                 it.place(
                     (layoutWidth - snackbarWidth) / 2 +
-                        contentWindowInsets.getLeft(
-                            this@SubcomposeLayout,
-                            layoutDirection,
-                        ),
+                            contentWindowInsets.getLeft(
+                                this@SubcomposeLayout,
+                                layoutDirection,
+                            ),
                     layoutHeight - snackbarOffsetFromBottom,
                 )
             }

@@ -18,7 +18,7 @@ class FadeOut : AnimationPreset {
             start = 0f,
             end = 1f,
             from = TransformProperties(alpha = 1f),
-            to   = TransformProperties(alpha = 0f),
+            to = TransformProperties(alpha = 0f),
             easing = ease
         )
     )

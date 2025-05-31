@@ -1,5 +1,4 @@
 import java.util.Properties
-import java.io.File
 
 fun getLocalProperty(key: String): String? {
     val properties = Properties()
@@ -61,7 +60,8 @@ subprojects {
 allprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         compilerOptions {
-            freeCompilerArgs = listOf("-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+            freeCompilerArgs =
+                listOf("-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api")
         }
     }
 }

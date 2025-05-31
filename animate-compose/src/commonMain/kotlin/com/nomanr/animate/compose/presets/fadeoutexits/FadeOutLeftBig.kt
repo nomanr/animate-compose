@@ -19,8 +19,8 @@ class FadeOutLeftBig(
         Keyframe.Segment(
             start = 0f,
             end = 1f,
-            from = TransformProperties(alpha = 1f,  translationX = 0f),
-            to   = TransformProperties(alpha = 0f, translationX = offsetX),
+            from = TransformProperties(alpha = 1f, translationX = 0f),
+            to = TransformProperties(alpha = 0f, translationX = offsetX),
             easing = ease
         )
     )

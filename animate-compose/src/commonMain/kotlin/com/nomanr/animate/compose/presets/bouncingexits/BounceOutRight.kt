@@ -22,13 +22,13 @@ class BounceOutRight(
         Keyframe.Segment(
             start = 0f, end = 0.2f,
             from = TransformProperties(translationX = 0f, scaleX = 1f),
-            to   = TransformProperties(alpha = 1f, translationX = -20f, scaleX = 0.9f),
+            to = TransformProperties(alpha = 1f, translationX = -20f, scaleX = 0.9f),
             easing = bounceOutEasing
         ),
         Keyframe.Segment(
             start = 0.2f, end = 1f,
             from = TransformProperties(alpha = 1f, translationX = -20f, scaleX = 0.9f),
-            to   = TransformProperties(alpha = 0f, translationX = exitOffsetX, scaleX = 2f),
+            to = TransformProperties(alpha = 0f, translationX = exitOffsetX, scaleX = 2f),
             easing = bounceOutEasing
         )
     )

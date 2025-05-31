@@ -133,7 +133,11 @@ internal fun TopBarLayout(
     // calculating based on scrolling behaviour
     val dynamicHeight = height.intValue + (scrollBehavior?.state?.heightOffset ?: 0).toInt()
 
-    Surface(modifier = modifier.then(topBarDragModifier), color = topBarContainerColor, hardShadow = false) {
+    Surface(
+        modifier = modifier.then(topBarDragModifier),
+        color = topBarContainerColor,
+        hardShadow = false
+    ) {
         CompositionLocalProvider(LocalContentColor provides topBarContentColor) {
             Layout(
                 content = content,
@@ -263,11 +267,11 @@ class TopBarState(
         get() =
             if (heightOffsetLimit != 0f) {
                 1 - (
-                    (heightOffsetLimit - contentOffset).coerceIn(
-                        minimumValue = heightOffsetLimit,
-                        maximumValue = 0f,
-                    ) / heightOffsetLimit
-                )
+                        (heightOffsetLimit - contentOffset).coerceIn(
+                            minimumValue = heightOffsetLimit,
+                            maximumValue = 0f,
+                        ) / heightOffsetLimit
+                        )
             } else {
                 0f
             }

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import com.nomanr.animate.compose.core.AnimationPreset
-import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.Easings
+import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
 
@@ -17,7 +17,7 @@ class FadeIn : AnimationPreset {
         Keyframe.Segment(
             start = 0f, end = 1f,
             from = TransformProperties(alpha = 0f),
-            to   = TransformProperties(alpha = 1f),
+            to = TransformProperties(alpha = 1f),
             easing = ease
         )
     )

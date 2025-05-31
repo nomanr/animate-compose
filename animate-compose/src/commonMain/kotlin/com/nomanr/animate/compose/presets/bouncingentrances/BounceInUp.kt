@@ -17,7 +17,11 @@ class BounceInUp(
     private val keyframes = listOf(
         Keyframe.Static(
             percent = 0f,
-            transform = TransformProperties(alpha = 0f, translationY = entranceOffsetY, scaleY = 5f),
+            transform = TransformProperties(
+                alpha = 0f,
+                translationY = entranceOffsetY,
+                scaleY = 5f
+            ),
             easing = bounceInEasing
         ),
         Keyframe.Segment(

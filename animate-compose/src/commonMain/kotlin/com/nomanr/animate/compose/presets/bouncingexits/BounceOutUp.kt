@@ -22,19 +22,19 @@ class BounceOutUp(
         Keyframe.Segment(
             start = 0f, end = 0.2f,
             from = TransformProperties(translationY = 0f, scaleY = 1f),
-            to   = TransformProperties(translationY = -10f, scaleY = 0.985f),
+            to = TransformProperties(translationY = -10f, scaleY = 0.985f),
             easing = bounceOutEasing
         ),
         Keyframe.Segment(
             start = 0.2f, end = 0.45f,
             from = TransformProperties(translationY = -10f, scaleY = 0.985f),
-            to   = TransformProperties(alpha = 1f, translationY = 20f, scaleY = 0.9f),
+            to = TransformProperties(alpha = 1f, translationY = 20f, scaleY = 0.9f),
             easing = bounceOutEasing
         ),
         Keyframe.Segment(
             start = 0.45f, end = 1f,
             from = TransformProperties(alpha = 1f, translationY = 20f, scaleY = 0.9f),
-            to   = TransformProperties(alpha = 0f, translationY = exitOffsetY, scaleY = 3f),
+            to = TransformProperties(alpha = 0f, translationY = exitOffsetY, scaleY = 3f),
             easing = bounceOutEasing
         )
     )

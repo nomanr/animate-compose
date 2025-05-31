@@ -10,10 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import com.nomanr.animate.compose.core.AnimationPreset
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.core.LayoutInfo
 import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.core.animateKeyframe
-import com.nomanr.animate.compose.tokens.AnimationTokens
 
 class BackInRight(
     private val entranceOffsetX: Float = 2000f

@@ -15,7 +15,7 @@ data class LayoutInfo(
     val containerWidth: Int,
     val containerHeight: Int,
 
-){
+    ) {
     companion object {
         fun create(size: IntSize, position: Offset, containerSize: IntSize): LayoutInfo {
             return LayoutInfo(

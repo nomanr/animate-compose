@@ -16,8 +16,8 @@ class RotateInDownRight(
     private val keyframes = listOf(
         Keyframe.Segment(
             start = 0f, end = 1f,
-            from = TransformProperties(rotationZ =  rotationAngle, alpha = 0f),
-            to   = TransformProperties(rotationZ =   0f, alpha = 1f),
+            from = TransformProperties(rotationZ = rotationAngle, alpha = 0f),
+            to = TransformProperties(rotationZ = 0f, alpha = 1f),
             easing = EaseOut
         )
     )

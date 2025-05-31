@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nomanr.animate.compose.SampleAppState
+import com.nomanr.animate.compose.playground.PlaygroundScreen
 
 @Composable
 fun SampleAppNavHost(
@@ -16,7 +17,21 @@ fun SampleAppNavHost(
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable<NavRoute.Sample> {
-            SampleScreen()
+            SampleScreen(
+                onNavigateToPlayground = {
+                    navController.navigate(NavRoute.Playground)
+                }
+            )
+        }
+
+        composable<NavRoute.Playground> {
+            PlaygroundScreen(
+                onNavigateToSample = {
+                    navController.navigate(NavRoute.Sample) {
+                        popUpTo(NavRoute.Sample) { inclusive = true }
+                    }
+                }
+            )
         }
 
 //        composable<NavRoute.Demo>(

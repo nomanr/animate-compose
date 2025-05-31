@@ -40,7 +40,7 @@ class Hinge(
         ),
         Keyframe.Segment(
             start = 0.8f, end = 1f,
-            from = TransformProperties(rotationZ = 60f, translationY =  0f, alpha = 1f),
+            from = TransformProperties(rotationZ = 60f, translationY = 0f, alpha = 1f),
             to = TransformProperties(rotationZ = 10f, translationY = fallDistance, alpha = 0f),
             easing = EaseInOut
         )

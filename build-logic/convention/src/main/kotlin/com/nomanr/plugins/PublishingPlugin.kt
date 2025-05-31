@@ -1,14 +1,10 @@
 package com.nomanr.plugins
 
-import com.android.build.api.dsl.LibraryExtension
-import com.android.tools.r8.internal.id
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.getByType
 
 open class PublishingPluginExtension {
     var publishGroupId: String = "com.nomanr"
@@ -36,7 +32,11 @@ class PublishingPlugin : Plugin<Project> {
             publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
             signAllPublications()
 
-            coordinates(extension.publishGroupId, extension.artifactId.ifEmpty { project.name }, extension.publishVersion)
+            coordinates(
+                extension.publishGroupId,
+                extension.artifactId.ifEmpty { project.name },
+                extension.publishVersion
+            )
 
             pom {
                 name.set("Animate Compose")

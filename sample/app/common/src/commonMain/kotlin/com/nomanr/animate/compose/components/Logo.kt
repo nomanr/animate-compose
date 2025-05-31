@@ -57,7 +57,10 @@ fun Logo() {
     }
 
     Surface(
-        modifier = Modifier.size(32.dp), color = AppTheme.colors.primary, hardShadow = true, border = true
+        modifier = Modifier.size(32.dp),
+        color = AppTheme.colors.primary,
+        hardShadow = true,
+        border = true
     ) {
         Box(
             modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
@@ -66,7 +69,8 @@ fun Logo() {
                 preset = currentPreset, durationMillis = defaultDuration, animateOnEnter = true
             ) {
                 Box(
-                    modifier = Modifier.size(8.dp).background(color = AppTheme.colors.onPrimary, shape = RectangleShape),
+                    modifier = Modifier.size(8.dp)
+                        .background(color = AppTheme.colors.onPrimary, shape = RectangleShape),
                 )
             }
         }

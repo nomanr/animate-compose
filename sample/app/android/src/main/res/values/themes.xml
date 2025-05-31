@@ -1,3 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
+
     <style name="Theme.Animate.Compose" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

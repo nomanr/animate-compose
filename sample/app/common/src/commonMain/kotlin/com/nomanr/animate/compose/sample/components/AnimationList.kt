@@ -20,7 +20,7 @@ import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
 fun AnimationList(
-    animationSetsMap: List<AnimationSet>, 
+    animationSetsMap: List<AnimationSet>,
     onSelectAnimation: (animation: Animation) -> Unit,
     modifier: Modifier = Modifier
 ) {

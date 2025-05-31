@@ -8,12 +8,12 @@ package com.nomanr.animate.compose.animated
  * and when it finishes
  */
 interface AnimationCallbacks {
-  /** called once, immediately before the animation to 1f begins */
-  fun onStart() = Unit
+    /** called once, immediately before the animation to 1f begins */
+    fun onStart() = Unit
 
-  /** called each time the animated progress value updates */
-  fun onAnimating(progress: Float) = Unit
+    /** called each time the animated progress value updates */
+    fun onAnimating(progress: Float) = Unit
 
-  /** called once, as soon as the animation reaches its end */
-  fun onFinish() = Unit
+    /** called once, as soon as the animation reaches its end */
+    fun onFinish() = Unit
 }

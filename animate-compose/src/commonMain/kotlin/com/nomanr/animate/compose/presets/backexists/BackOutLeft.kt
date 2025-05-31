@@ -36,8 +36,18 @@ class BackOutLeft(
             Keyframe.Segment(
                 start = 0.2f,
                 end = 1f,
-                from = TransformProperties(translationX = 0f, scaleX = 0.7f, scaleY = 0.7f, alpha = 0.7f),
-                to = TransformProperties(translationX = translationX, scaleX = 0.7f, scaleY = 0.7f, alpha = 0.7f),
+                from = TransformProperties(
+                    translationX = 0f,
+                    scaleX = 0.7f,
+                    scaleY = 0.7f,
+                    alpha = 0.7f
+                ),
+                to = TransformProperties(
+                    translationX = translationX,
+                    scaleX = 0.7f,
+                    scaleY = 0.7f,
+                    alpha = 0.7f
+                ),
                 easing = EaseOut
             )
         )

@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.text.font.FontWeight
@@ -86,12 +85,14 @@ fun SkewGrid(
 
     Box(Modifier.size(sizeDp).border(1.dp, Color.Black).drawWithCache {
         // precompute a 4×4 column-major skew matrix
-        val mat4 = Matrix(floatArrayOf(
-            1f, 0f, 0f, 0f,
-            skewX, 1f, 0f, 0f,
-            0f, 0f, 1f, 0f,
-            0f, 0f, 0f, 1f
-        ))
+        val mat4 = Matrix(
+            floatArrayOf(
+                1f, 0f, 0f, 0f,
+                skewX, 1f, 0f, 0f,
+                0f, 0f, 1f, 0f,
+                0f, 0f, 0f, 1f
+            )
+        )
         onDrawWithContent {
 
             drawContext.canvas.skew(skewX, 0f)
@@ -100,7 +101,7 @@ fun SkewGrid(
 
             drawContext.canvas.restore()
         }
-    }){
+    }) {
         Box(Modifier.size(sizeDp).background(Color.Green))
     }
 

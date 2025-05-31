@@ -26,7 +26,7 @@ tasks {
 }
 
 gradlePlugin {
-    plugins{
+    plugins {
         register("mavenPublishingPlugin") {
             id = "com.nomanr.publishing-plugin"
             implementationClass = "com.nomanr.plugins.PublishingPlugin"
