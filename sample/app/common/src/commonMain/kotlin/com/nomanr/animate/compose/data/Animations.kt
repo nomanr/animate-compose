@@ -320,14 +320,14 @@ fun animationSets(containerSize: DpSize): List<AnimationSet> {
                 Animation("Zoom Out", ZoomOut()),
                 Animation(
                     "Zoom Out Down", ZoomOutDown(
-                        vanishOffsetY = -(containerHeight / 3),
+                        vanishOffsetY = (containerHeight / 3),
                     )
                 ),
                 Animation("Zoom Out Left", ZoomOutLeft(vanishOffsetX = -(containerWidth / 3))),
                 Animation("Zoom Out Right", ZoomOutRight(vanishOffsetX = containerWidth / 3)),
                 Animation(
                     "Zoom Out Up", ZoomOutUp(
-                        vanishOffsetY = (containerHeight / 3),
+                        vanishOffsetY = -(containerHeight / 3),
                     )
                 ),
             )
