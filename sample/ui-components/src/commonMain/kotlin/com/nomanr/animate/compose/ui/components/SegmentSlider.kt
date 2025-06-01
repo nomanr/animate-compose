@@ -1,12 +1,21 @@
 package com.nomanr.animate.compose.ui.components
 
 import androidx.annotation.IntRange
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.composables.slider.BasicRangeSlider
@@ -22,7 +31,7 @@ fun SegmentSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     @IntRange(from = 0) steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
-    colors: SegmentSliderColors = SegmentSliderDefaults.colors(),
+    colors: SliderColors = SegmentSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
@@ -37,7 +46,7 @@ fun SegmentSlider(
     }
 
     state.onValueChangeFinished = onValueChangeFinished
-    state.onValueChange = { onValueChange(it.start..it.endInclusive) }
+    state.onValueChange = { range -> onValueChange(range.start..range.endInclusive) }
     state.activeRangeStart = value.start
     state.activeRangeEnd = value.endInclusive
 
@@ -56,66 +65,123 @@ fun SegmentSlider(
     state: RangeSliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: SegmentSliderColors = SegmentSliderDefaults.colors(),
+    colors: SliderColors = SegmentSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     require(state.steps >= 0) { "steps should be >= 0" }
 
     BasicRangeSlider(
-        modifier = modifier.height(32.dp),
         state = state,
+        modifier = modifier.height(32.dp),
         enabled = enabled,
+        colors = colors,
+        trackHeight = 32.dp,
+        onlyThumbDraggable = true,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
-        colors = colors.toSliderColors(),
-        onlyThumbDraggable = true
+        track = { rangeSliderState ->
+            SegmentTrack(
+                rangeSliderState = rangeSliderState,
+                colors = colors,
+                enabled = enabled
+            )
+        }
     )
 }
 
-data class SegmentSliderColors(
-    val segmentColor: Color,
-    val handleColor: Color,
-    val trackColor: Color,
-    val disabledSegmentColor: Color,
-    val disabledHandleColor: Color,
-    val disabledTrackColor: Color,
+@Composable
+private fun SegmentTrack(
+    rangeSliderState: RangeSliderState,
+    colors: SliderColors,
+    enabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
-    fun toSliderColors(): SliderColors {
-        return SliderColors(
-            // Thumbs become handles
-            thumbColor = handleColor,
-            // Active track becomes segment
-            activeTrackColor = segmentColor,
-            activeTickColor = Color.Transparent,
-            // Inactive track becomes timeline track
-            inactiveTrackColor = trackColor,
-            inactiveTickColor = Color.Transparent,
-            // Disabled states
-            disabledThumbColor = disabledHandleColor,
-            disabledActiveTrackColor = disabledSegmentColor,
-            disabledActiveTickColor = Color.Transparent,
-            disabledInactiveTrackColor = disabledTrackColor,
-            disabledInactiveTickColor = Color.Transparent,
+    val inactiveTrackColor = if (enabled) colors.inactiveTrackColor else colors.disabledInactiveTrackColor
+    val activeTrackColor = if (enabled) colors.activeTrackColor else colors.disabledActiveTrackColor
+    
+    // Calculate fractions manually since internal properties aren't accessible
+    val valueRange = rangeSliderState.valueRange
+    val activeRangeStartFraction = (rangeSliderState.activeRangeStart - valueRange.start) / (valueRange.endInclusive - valueRange.start)
+    val activeRangeEndFraction = (rangeSliderState.activeRangeEnd - valueRange.start) / (valueRange.endInclusive - valueRange.start)
+    
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(32.dp)
+    ) {
+        drawSegmentTrack(
+            activeRangeStartFraction,
+            activeRangeEndFraction,
+            inactiveTrackColor,
+            activeTrackColor
         )
     }
 }
 
+private fun DrawScope.drawSegmentTrack(
+    activeRangeStart: Float,
+    activeRangeEnd: Float,
+    inactiveTrackColor: Color,
+    activeTrackColor: Color
+) {
+    val trackHeight = size.height
+    val trackWidth = size.width
+    val cornerRadius = trackHeight / 2f
+
+    // Draw full background track
+    drawTrackPath(
+        offset = Offset.Zero,
+        size = Size(trackWidth, trackHeight),
+        color = inactiveTrackColor,
+        cornerRadius = cornerRadius
+    )
+
+    // Draw active segment
+    val activeStart = activeRangeStart * trackWidth
+    val activeWidth = (activeRangeEnd - activeRangeStart) * trackWidth
+    
+    if (activeWidth > 0f) {
+        drawTrackPath(
+            offset = Offset(activeStart, 0f),
+            size = Size(activeWidth, trackHeight),
+            color = activeTrackColor,
+            cornerRadius = cornerRadius
+        )
+    }
+}
+
+private fun DrawScope.drawTrackPath(
+    offset: Offset,
+    size: Size,
+    color: Color,
+    cornerRadius: Float
+) {
+    val trackPath = Path()
+    val cornerRadiusObj = CornerRadius(cornerRadius, cornerRadius)
+    val roundRect = RoundRect(
+        rect = Rect(offset, size),
+        topLeft = cornerRadiusObj,
+        topRight = cornerRadiusObj,
+        bottomRight = cornerRadiusObj,
+        bottomLeft = cornerRadiusObj
+    )
+    trackPath.addRoundRect(roundRect)
+    drawPath(trackPath, color)
+}
+
 object SegmentSliderDefaults {
     @Composable
-    fun colors(
-        segmentColor: Color = AppTheme.colors.primary,
-        handleColor: Color = AppTheme.colors.onPrimary,
-        trackColor: Color = AppTheme.colors.outline.copy(alpha = 0.3f),
-        disabledSegmentColor: Color = AppTheme.colors.disabled,
-        disabledHandleColor: Color = AppTheme.colors.onDisabled,
-        disabledTrackColor: Color = AppTheme.colors.disabled.copy(alpha = 0.3f),
-    ) = SegmentSliderColors(
-        segmentColor = segmentColor,
-        handleColor = handleColor,
-        trackColor = trackColor,
-        disabledSegmentColor = disabledSegmentColor,
-        disabledHandleColor = disabledHandleColor,
-        disabledTrackColor = disabledTrackColor,
+    fun colors() = SliderColors(
+        thumbColor = AppTheme.colors.primary,
+        activeTrackColor = AppTheme.colors.primary,
+        activeTickColor = AppTheme.colors.transparent,
+        inactiveTrackColor = AppTheme.colors.tertiary,
+        inactiveTickColor = AppTheme.colors.transparent,
+        disabledThumbColor = AppTheme.colors.transparent,
+        disabledActiveTrackColor = AppTheme.colors.transparent,
+        disabledActiveTickColor = AppTheme.colors.transparent,
+        disabledInactiveTrackColor = AppTheme.colors.transparent,
+        disabledInactiveTickColor = AppTheme.colors.transparent,
     )
 }
