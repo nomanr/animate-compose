@@ -46,7 +46,6 @@ fun AnimatedDemo(animation: Animation) {
         }
     }
 
-
     Column(
         modifier = Modifier.fillMaxSize().clipToBounds(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,7 +55,6 @@ fun AnimatedDemo(animation: Animation) {
             Animated(
                 preset = animation.preset,
                 state = animationState,
-//                durationMillis = 5000
             ) {
                 AnimatedContent()
             }
@@ -82,9 +80,7 @@ fun SkewGrid(
     lines: Int = 10,
     sizeDp: Dp = 150.dp
 ) {
-
     Box(Modifier.size(sizeDp).border(1.dp, Color.Black).drawWithCache {
-        // precompute a 4×4 column-major skew matrix
         val mat4 = Matrix(
             floatArrayOf(
                 1f, 0f, 0f, 0f,
@@ -94,37 +90,11 @@ fun SkewGrid(
             )
         )
         onDrawWithContent {
-
             drawContext.canvas.skew(skewX, 0f)
-
             drawContent()
-
             drawContext.canvas.restore()
         }
     }) {
         Box(Modifier.size(sizeDp).background(Color.Green))
     }
-
-//    Canvas(Modifier.size(sizeDp).border(1.dp, Color.Black)) {
-//        val w = size.width
-//        val h = size.height
-//        val cx = w / 2f
-//        val cy = h / 2f
-//
-//
-//        // 2) save, pivot to center, concat, pivot back
-//        drawContext.canvas.skew(skewX, 0f)
-//
-//        // 3) draw your grid
-//        val stepX = w / lines
-//        val stepY = h / lines
-//        for (i in 0..lines) {
-//            drawLine(Color.Green, Offset(0f, i*stepY), Offset(w, i*stepY),   2f)
-//            drawLine(Color.Green, Offset(i*stepX, 0f),    Offset(i*stepX, h), 2f)
-//        }
-//        drawLine(Color.Green, Offset.Zero, Offset(w, h), 4f)
-//
-//        // 4) restore so nothing else is skewed
-//        drawContext.canvas.restore()
-//    }
 }
