@@ -9,10 +9,10 @@ import com.nomanr.animate.compose.core.TransformProperties
 
 @Stable
 class TimelineState(
-    initialNodes: List<TimelineNode> = emptyList(),
+    initialKeyframes: List<Keyframe> = emptyList(),
     initialDuration: Float = 1.0f
 ) {
-    var nodes by mutableStateOf(initialNodes)
+    var keyframes by mutableStateOf(initialKeyframes)
         private set
 
     var duration by mutableStateOf(initialDuration)
@@ -21,7 +21,7 @@ class TimelineState(
     var currentTime by mutableStateOf(0f)
         private set
 
-    var selectedNodeId by mutableStateOf<String?>(null)
+    var selectedKeyframeIndex by mutableStateOf<Int?>(null)
         private set
 
     var isPlaying by mutableStateOf(false)
@@ -30,53 +30,73 @@ class TimelineState(
     var dragState by mutableStateOf<DragState?>(null)
         private set
 
-    fun addNode(time: Float, type: TimelineNodeType): TimelineNode {
-        val newNode = TimelineNode(
-            id = generateNodeId(),
-            time = time,
-            type = type,
-            transformProperties = TransformProperties()
+    fun addStaticKeyframe(time: Float): Keyframe.Static {
+        val newKeyframe = Keyframe.Static(
+            percent = time,
+            transform = TransformProperties(),
+            easing = null
         )
-
-        nodes = (nodes + newNode).sortedBy { it.time }
-        return newNode
+        keyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        return newKeyframe
     }
 
-    fun updateNode(nodeId: String, update: (TimelineNode) -> TimelineNode) {
-        nodes = nodes.map { node ->
-            if (node.id == nodeId) update(node) else node
+    fun addSegmentKeyframe(startTime: Float, endTime: Float): Keyframe.Segment {
+        val newKeyframe = Keyframe.Segment(
+            start = startTime,
+            end = endTime,
+            from = TransformProperties(),
+            to = TransformProperties(),
+            easing = null
+        )
+        keyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        return newKeyframe
+    }
+
+    private fun getKeyframeTime(keyframe: Keyframe): Float {
+        return when (keyframe) {
+            is Keyframe.Static -> keyframe.percent
+            is Keyframe.Segment -> keyframe.start
         }
     }
 
-    fun removeNode(nodeId: String) {
-        nodes = nodes.filter { it.id != nodeId }
-        if (selectedNodeId == nodeId) {
-            selectedNodeId = null
+    fun updateKeyframe(index: Int, update: (Keyframe) -> Keyframe) {
+        keyframes = keyframes.mapIndexed { i, keyframe ->
+            if (i == index) update(keyframe) else keyframe
         }
     }
 
-    fun selectNode(nodeId: String?) {
-        selectedNodeId = nodeId
+    fun removeKeyframe(index: Int) {
+        keyframes = keyframes.filterIndexed { i, _ -> i != index }
+        if (selectedKeyframeIndex == index) {
+            selectedKeyframeIndex = null
+        }
     }
 
-    fun updateNodeTime(nodeId: String, newTime: Float) {
-        updateNode(nodeId) { node ->
-            when (val type = node.type) {
-                is TimelineNodeType.Static -> node.copy(time = newTime)
-                is TimelineNodeType.Segment -> {
-                    val segmentDuration = type.endTime - node.time
-                    node.copy(
-                        time = newTime,
-                        type = type.copy(endTime = newTime + segmentDuration)
+    fun selectKeyframe(index: Int?) {
+        selectedKeyframeIndex = index
+    }
+
+    fun updateKeyframeTime(index: Int, newTime: Float) {
+        updateKeyframe(index) { keyframe ->
+            when (keyframe) {
+                is Keyframe.Static -> keyframe.copy(percent = newTime)
+                is Keyframe.Segment -> {
+                    val segmentDuration = keyframe.end - keyframe.start
+                    keyframe.copy(
+                        start = newTime,
+                        end = newTime + segmentDuration
                     )
                 }
             }
         }
     }
 
-    fun updateNodeTransform(nodeId: String, newTransform: TransformProperties) {
-        updateNode(nodeId) { node ->
-            node.copy(transformProperties = newTransform)
+    fun updateKeyframeTransform(index: Int, newTransform: TransformProperties) {
+        updateKeyframe(index) { keyframe ->
+            when (keyframe) {
+                is Keyframe.Static -> keyframe.copy(transform = newTransform)
+                is Keyframe.Segment -> keyframe.copy(from = newTransform)
+            }
         }
     }
 
@@ -89,34 +109,34 @@ class TimelineState(
         currentTime = currentTime.coerceIn(0f, this.duration)
     }
 
-    fun startDrag(nodeId: String, dragType: DragType, startTime: Float) {
-        val node = nodes.find { it.id == nodeId } ?: return
+    fun startDrag(keyframeIndex: Int, dragType: DragType, startTime: Float) {
+        val keyframe = keyframes.getOrNull(keyframeIndex) ?: return
         dragState = DragState(
-            nodeId = nodeId,
+            keyframeIndex = keyframeIndex,
             type = dragType,
             startTime = startTime,
-            originalNodeTime = node.time,
-            originalEndTime = if (node.type is TimelineNodeType.Segment) node.type.endTime else node.time
+            originalKeyframeTime = getKeyframeTime(keyframe),
+            originalEndTime = if (keyframe is Keyframe.Segment) keyframe.end else getKeyframeTime(keyframe)
         )
     }
 
     fun updateDrag(currentTime: Float) {
         val drag = dragState ?: return
-        val node = nodes.find { it.id == drag.nodeId } ?: return
+        val keyframe = keyframes.getOrNull(drag.keyframeIndex) ?: return
 
         when (drag.type) {
             DragType.MOVE -> {
                 val delta = currentTime - drag.startTime
-                val newTime = (drag.originalNodeTime + delta).coerceIn(0f, duration)
+                val newTime = (drag.originalKeyframeTime + delta).coerceIn(0f, duration)
 
-                updateNode(drag.nodeId) { oldNode ->
-                    when (val type = oldNode.type) {
-                        is TimelineNodeType.Static -> oldNode.copy(time = newTime)
-                        is TimelineNodeType.Segment -> {
-                            val segmentDuration = type.endTime - oldNode.time
-                            oldNode.copy(
-                                time = newTime,
-                                type = type.copy(endTime = newTime + segmentDuration)
+                updateKeyframe(drag.keyframeIndex) { oldKeyframe ->
+                    when (oldKeyframe) {
+                        is Keyframe.Static -> oldKeyframe.copy(percent = newTime)
+                        is Keyframe.Segment -> {
+                            val segmentDuration = oldKeyframe.end - oldKeyframe.start
+                            oldKeyframe.copy(
+                                start = newTime,
+                                end = newTime + segmentDuration
                             )
                         }
                     }
@@ -124,31 +144,29 @@ class TimelineState(
             }
 
             DragType.RESIZE_END -> {
-                if (node.type is TimelineNodeType.Segment) {
-                    val newEndTime = currentTime.coerceIn(node.time + 0.05f, duration)
-                    updateNode(drag.nodeId) { oldNode ->
-                        oldNode.copy(
-                            type = (oldNode.type as TimelineNodeType.Segment).copy(endTime = newEndTime)
-                        )
+                if (keyframe is Keyframe.Segment) {
+                    val newEndTime = currentTime.coerceIn(keyframe.start + 0.05f, duration)
+                    updateKeyframe(drag.keyframeIndex) { oldKeyframe ->
+                        (oldKeyframe as Keyframe.Segment).copy(end = newEndTime)
                     }
                 }
             }
 
             DragType.RESIZE_START -> {
                 val newStartTime = currentTime.coerceIn(0f, duration)
-                when (val type = node.type) {
-                    is TimelineNodeType.Static -> {
-                        updateNode(drag.nodeId) { oldNode ->
-                            oldNode.copy(time = newStartTime)
+                when (keyframe) {
+                    is Keyframe.Static -> {
+                        updateKeyframe(drag.keyframeIndex) { oldKeyframe ->
+                            (oldKeyframe as Keyframe.Static).copy(percent = newStartTime)
                         }
                     }
 
-                    is TimelineNodeType.Segment -> {
-                        val newEndTime = maxOf(newStartTime + 0.05f, type.endTime)
-                        updateNode(drag.nodeId) { oldNode ->
-                            oldNode.copy(
-                                time = newStartTime,
-                                type = type.copy(endTime = newEndTime)
+                    is Keyframe.Segment -> {
+                        val newEndTime = maxOf(newStartTime + 0.05f, keyframe.end)
+                        updateKeyframe(drag.keyframeIndex) { oldKeyframe ->
+                            (oldKeyframe as Keyframe.Segment).copy(
+                                start = newStartTime,
+                                end = newEndTime
                             )
                         }
                     }
@@ -176,49 +194,36 @@ class TimelineState(
     }
 
     fun toKeyframes(): List<Keyframe> {
-        return nodes.map { node ->
-            when (val type = node.type) {
-                is TimelineNodeType.Static -> Keyframe.Static(
-                    percent = node.time,
-                    transform = node.transformProperties,
-                    easing = null
-                )
-
-                is TimelineNodeType.Segment -> Keyframe.Segment(
-                    start = node.time,
-                    end = type.endTime,
-                    from = node.transformProperties,
-                    to = type.toTransformProperties,
-                    easing = null
-                )
-            }
-        }
+        return keyframes
     }
 
-    private fun generateNodeId(): String = "node_${(0..999999).random()}"
-}
-
-data class TimelineNode(
-    val id: String,
-    val time: Float,
-    val type: TimelineNodeType,
-    val transformProperties: TransformProperties
-)
-
-sealed class TimelineNodeType {
-    data object Static : TimelineNodeType()
-
-    data class Segment(
-        val endTime: Float,
-        val toTransformProperties: TransformProperties
-    ) : TimelineNodeType()
+    fun getCurrentTransformProperties(progress: Float): TransformProperties {
+        // Simple interpolation for demo purposes
+        val currentKeyframes = keyframes.filter { 
+            when (it) {
+                is Keyframe.Static -> it.percent <= progress
+                is Keyframe.Segment -> it.start <= progress && progress <= it.end
+            }
+        }
+        
+        return currentKeyframes.lastOrNull()?.let { keyframe ->
+            when (keyframe) {
+                is Keyframe.Static -> keyframe.transform
+                is Keyframe.Segment -> {
+                    val segmentProgress = (progress - keyframe.start) / (keyframe.end - keyframe.start)
+                    // Simple interpolation between from and to
+                    keyframe.from // Simplified - could add actual interpolation here
+                }
+            }
+        } ?: TransformProperties()
+    }
 }
 
 data class DragState(
-    val nodeId: String,
+    val keyframeIndex: Int,
     val type: DragType,
     val startTime: Float,
-    val originalNodeTime: Float,
+    val originalKeyframeTime: Float,
     val originalEndTime: Float
 )
 

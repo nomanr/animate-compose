@@ -42,10 +42,7 @@ fun TimelineView(
 
             VerticalDivider()
 
-            UpdateKeyframe(
-                state = state, 
-                modifier = Modifier.width(300.dp)
-            )
+
         }
 
     }

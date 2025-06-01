@@ -53,14 +53,6 @@ fun Timeline(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Timeline controls
-        TimelineControls(
-            state = state,
-            onPlay = { state.play() },
-            onPause = { state.pause() },
-            onStop = { state.stop() }
-        )
-
         // Timeline track
         Box(
             modifier = Modifier
@@ -75,16 +67,16 @@ fun Timeline(
                         onDragStart = { offset ->
                             val time = offsetToTime(offset.x, timelineSize.width, state.duration)
 
-                            // Check if clicking on existing node
-                            val clickedNode = findNodeAtPosition(offset, timelineSize, state)
-                            if (clickedNode != null) {
-                                state.selectNode(clickedNode.node.id)
-                                onNodeSelected?.invoke(clickedNode.node.id)
+                            // Check if clicking on existing keyframe
+                            val clickedKeyframe = findKeyframeAtPosition(offset, timelineSize, state)
+                            if (clickedKeyframe != null) {
+                                state.selectKeyframe(clickedKeyframe.index)
+                                onNodeSelected?.invoke(clickedKeyframe.index.toString())
 
-                                val dragType = determineDragType(clickedNode)
-                                state.startDrag(clickedNode.node.id, dragType, time)
+                                val dragType = determineDragType(clickedKeyframe)
+                                state.startDrag(clickedKeyframe.index, dragType, time)
                             } else {
-                                // Clicking on empty space - add new node
+                                // Clicking on empty space - add new keyframe
                                 pendingAddTime = time
                                 menuPosition = with(density) {
                                     DpOffset(offset.x.toDp(), offset.y.toDp())
@@ -107,7 +99,7 @@ fun Timeline(
             Canvas(modifier = Modifier.matchParentSize()) {
                 drawTimelineBackground()
                 drawTimeMarkers(state)
-                drawNodes(state)
+                drawKeyframes(state)
                 drawPlayhead(state)
             }
         }
@@ -125,7 +117,7 @@ fun Timeline(
                     Button(
                         variant = ButtonVariant.Ghost,
                         onClick = {
-                            state.addNode(pendingAddTime, TimelineNodeType.Static)
+                            state.addStaticKeyframe(pendingAddTime)
                             showNodeTypeMenu = false
                         }
                     ) {
@@ -134,13 +126,8 @@ fun Timeline(
                     Button(
                         variant = ButtonVariant.Ghost,
                         onClick = {
-                            state.addNode(
-                                pendingAddTime,
-                                TimelineNodeType.Segment(
-                                    endTime = (pendingAddTime + 0.5f).coerceAtMost(state.duration),
-                                    toTransformProperties = com.nomanr.animate.compose.core.TransformProperties()
-                                )
-                            )
+                            val endTime = (pendingAddTime + 0.5f).coerceAtMost(state.duration)
+                            state.addSegmentKeyframe(pendingAddTime, endTime)
                             showNodeTypeMenu = false
                         }
                     ) {
@@ -149,38 +136,48 @@ fun Timeline(
                 }
             }
         }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Button(
+                    variant = ButtonVariant.Primary,
+                    onClick = {
+                        val time = state.currentTime + 0.5f
+                        state.addStaticKeyframe(time)
+                    }
+                ) {
+                    Text("Add Static")
+                }
+
+                Button(
+                    variant = ButtonVariant.Secondary,
+                    onClick = {
+                        val time = state.currentTime + 0.5f
+                        val endTime = (time + 0.5f).coerceAtMost(state.duration)
+                        state.addSegmentKeyframe(time, endTime)
+                    }
+                ) {
+                    Text("Add Segment")
+                }
+            }
+
+            Button(
+                variant = ButtonVariant.Primary,
+                onClick = {
+                    state.play()
+                }
+            ) {
+                Text("Play")
+            }
+        }
     }
 }
 
-@Composable
-private fun TimelineControls(
-    state: TimelineState,
-    onPlay: () -> Unit,
-    onPause: () -> Unit,
-    onStop: () -> Unit
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Button(
-            variant = ButtonVariant.Primary,
-            onClick = if (state.isPlaying) onPause else onPlay
-        ) {
-            Text(if (state.isPlaying) "Pause" else "Play")
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Button(
-            variant = ButtonVariant.Secondary,
-            onClick = onStop
-        ) {
-            Text("Stop")
-        }
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Text("${(state.currentTime * 1000).toInt()}ms / ${(state.duration * 1000).toInt()}ms")
-    }
-}
 
 private fun DrawScope.drawTimelineBackground() {
     drawRect(
@@ -206,30 +203,30 @@ private fun DrawScope.drawTimeMarkers(state: TimelineState) {
     }
 }
 
-private fun DrawScope.drawNodes(state: TimelineState) {
-    state.nodes.forEach { node ->
-        val isSelected = node.id == state.selectedNodeId
-        val nodeColor = if (isSelected) Color.Blue else Color.Red
+private fun DrawScope.drawKeyframes(state: TimelineState) {
+    state.keyframes.forEachIndexed { index, keyframe ->
+        val isSelected = index == state.selectedKeyframeIndex
+        val keyframeColor = if (isSelected) Color.Blue else Color.Red
 
-        when (val type = node.type) {
-            is TimelineNodeType.Static -> {
-                val x = (node.time / state.duration) * size.width
-                val nodeWidth = 8.dp.toPx()
+        when (keyframe) {
+            is com.nomanr.animate.compose.core.Keyframe.Static -> {
+                val x = (keyframe.percent / state.duration) * size.width
+                val keyframeWidth = 8.dp.toPx()
 
                 drawRect(
-                    color = nodeColor,
-                    topLeft = Offset(x - nodeWidth / 2, size.height * 0.2f),
-                    size = androidx.compose.ui.geometry.Size(nodeWidth, size.height * 0.6f)
+                    color = keyframeColor,
+                    topLeft = Offset(x - keyframeWidth / 2, size.height * 0.2f),
+                    size = androidx.compose.ui.geometry.Size(keyframeWidth, size.height * 0.6f)
                 )
             }
 
-            is TimelineNodeType.Segment -> {
-                val startX = (node.time / state.duration) * size.width
-                val endX = (type.endTime / state.duration) * size.width
+            is com.nomanr.animate.compose.core.Keyframe.Segment -> {
+                val startX = (keyframe.start / state.duration) * size.width
+                val endX = (keyframe.end / state.duration) * size.width
                 val segmentWidth = endX - startX
 
                 drawRect(
-                    color = nodeColor.copy(alpha = 0.6f),
+                    color = keyframeColor.copy(alpha = 0.6f),
                     topLeft = Offset(startX, size.height * 0.3f),
                     size = androidx.compose.ui.geometry.Size(segmentWidth, size.height * 0.4f)
                 )
@@ -237,12 +234,12 @@ private fun DrawScope.drawNodes(state: TimelineState) {
                 // Draw resize handles
                 val handleWidth = 4.dp.toPx()
                 drawRect(
-                    color = nodeColor,
+                    color = keyframeColor,
                     topLeft = Offset(startX - handleWidth / 2, size.height * 0.2f),
                     size = androidx.compose.ui.geometry.Size(handleWidth, size.height * 0.6f)
                 )
                 drawRect(
-                    color = nodeColor,
+                    color = keyframeColor,
                     topLeft = Offset(endX - handleWidth / 2, size.height * 0.2f),
                     size = androidx.compose.ui.geometry.Size(handleWidth, size.height * 0.6f)
                 )
@@ -267,46 +264,47 @@ private fun offsetToTime(offsetX: Float, timelineWidth: Int, duration: Float): F
     return ratio * duration
 }
 
-private data class NodeHitResult(
-    val node: TimelineNode,
-    val hitType: NodeHitType
+private data class KeyframeHitResult(
+    val index: Int,
+    val keyframe: com.nomanr.animate.compose.core.Keyframe,
+    val hitType: KeyframeHitType
 )
 
-private enum class NodeHitType {
+private enum class KeyframeHitType {
     START_HANDLE,
     END_HANDLE,
     BODY
 }
 
-private fun findNodeAtPosition(
+private fun findKeyframeAtPosition(
     offset: Offset,
     timelineSize: IntSize,
     state: TimelineState
-): NodeHitResult? {
+): KeyframeHitResult? {
     val handleThreshold = 20f // pixels
 
-    for (node in state.nodes) {
-        when (val type = node.type) {
-            is TimelineNodeType.Static -> {
-                val nodeX = (node.time / state.duration) * timelineSize.width
-                if (kotlin.math.abs(offset.x - nodeX) < handleThreshold) {
-                    return NodeHitResult(node, NodeHitType.BODY)
+    state.keyframes.forEachIndexed { index, keyframe ->
+        when (keyframe) {
+            is com.nomanr.animate.compose.core.Keyframe.Static -> {
+                val keyframeX = (keyframe.percent / state.duration) * timelineSize.width
+                if (kotlin.math.abs(offset.x - keyframeX) < handleThreshold) {
+                    return KeyframeHitResult(index, keyframe, KeyframeHitType.BODY)
                 }
             }
 
-            is TimelineNodeType.Segment -> {
-                val startX = (node.time / state.duration) * timelineSize.width
-                val endX = (type.endTime / state.duration) * timelineSize.width
+            is com.nomanr.animate.compose.core.Keyframe.Segment -> {
+                val startX = (keyframe.start / state.duration) * timelineSize.width
+                val endX = (keyframe.end / state.duration) * timelineSize.width
 
                 when {
                     kotlin.math.abs(offset.x - startX) < handleThreshold ->
-                        return NodeHitResult(node, NodeHitType.START_HANDLE)
+                        return KeyframeHitResult(index, keyframe, KeyframeHitType.START_HANDLE)
 
                     kotlin.math.abs(offset.x - endX) < handleThreshold ->
-                        return NodeHitResult(node, NodeHitType.END_HANDLE)
+                        return KeyframeHitResult(index, keyframe, KeyframeHitType.END_HANDLE)
 
                     offset.x in startX..endX ->
-                        return NodeHitResult(node, NodeHitType.BODY)
+                        return KeyframeHitResult(index, keyframe, KeyframeHitType.BODY)
                 }
             }
         }
@@ -316,11 +314,11 @@ private fun findNodeAtPosition(
 }
 
 private fun determineDragType(
-    hitResult: NodeHitResult
+    hitResult: KeyframeHitResult
 ): DragType {
     return when (hitResult.hitType) {
-        NodeHitType.START_HANDLE -> DragType.RESIZE_START
-        NodeHitType.END_HANDLE -> DragType.RESIZE_END
-        NodeHitType.BODY -> DragType.MOVE
+        KeyframeHitType.START_HANDLE -> DragType.RESIZE_START
+        KeyframeHitType.END_HANDLE -> DragType.RESIZE_END
+        KeyframeHitType.BODY -> DragType.MOVE
     }
 }
