@@ -8,7 +8,7 @@ import androidx.compose.ui.window.singleWindowApplication
 fun main() {
     val windowState =
         WindowState(
-            size = DpSize(402.dp, 974.dp),
+            size = DpSize(1000.dp, 974.dp),
         )
 
     singleWindowApplication(windowState) {
