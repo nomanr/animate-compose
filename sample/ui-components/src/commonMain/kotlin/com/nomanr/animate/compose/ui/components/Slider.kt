@@ -100,6 +100,7 @@ fun RangeSlider(
     colors: SliderColors = SliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onlyThumbDraggable: Boolean = false,
 ) {
     val state =
         remember(steps, valueRange) {
@@ -124,6 +125,7 @@ fun RangeSlider(
         colors = colors,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
+        onlyThumbDraggable = onlyThumbDraggable,
     )
 }
 
@@ -135,6 +137,7 @@ fun RangeSlider(
     colors: SliderColors = SliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    onlyThumbDraggable: Boolean = false,
 ) {
     require(state.steps >= 0) { "steps should be >= 0" }
 
@@ -145,6 +148,7 @@ fun RangeSlider(
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
         colors = colors,
+        onlyThumbDraggable = onlyThumbDraggable,
     )
 }
 
