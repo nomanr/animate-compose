@@ -1,8 +1,6 @@
 package com.nomanr.animate.compose.playground.timeline
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -30,6 +26,7 @@ import com.nomanr.animate.compose.ui.components.Button
 import com.nomanr.animate.compose.ui.components.ButtonVariant
 import com.nomanr.animate.compose.ui.components.SegmentSlider
 import com.nomanr.animate.compose.ui.components.StaticSlider
+import com.nomanr.animate.compose.ui.components.Surface
 import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
@@ -72,11 +69,12 @@ fun Timeline(
 
         val scrollState = rememberScrollState()
 
-        Car(
-            modifier = Modifier.fillMaxWidth().clip(
-                RoundedCornerShape(8.dp))
-                    .border(1.dp, AppTheme.colors.outline, RoundedCornerShape(8.dp))
-                    .background(AppTheme.colors.background).padding(horizontal = 16.dp),
+        Surface(
+            hardShadow = true,
+            border = true,
+        ) {
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 TimelineRuler(
@@ -85,7 +83,7 @@ fun Timeline(
 
                 if (state.keyframes.isEmpty()) {
                     Text(
-                        text = "No keyframes. Use the buttons below to add keyframes.",
+                        text = "No keyframes. Add keyframes to get started!",
                         style = AppTheme.typography.body2,
                         color = AppTheme.colors.textSecondary,
                         modifier = Modifier.padding(vertical = 32.dp)
@@ -105,17 +103,14 @@ fun Timeline(
                     }
                 }
             }
-
+        }
 
     }
 }
 
 @Composable
 private fun KeyframeSlider(
-    keyframe: Keyframe,
-    keyframeIndex: Int,
-    state: TimelineState,
-    onSelected: () -> Unit
+    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState, onSelected: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
