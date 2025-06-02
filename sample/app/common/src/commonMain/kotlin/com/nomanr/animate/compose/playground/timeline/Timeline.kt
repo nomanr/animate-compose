@@ -46,18 +46,14 @@ fun Timeline(
             ) {
                 Button(
                     variant = ButtonVariant.Primary, onClick = {
-                        val time = (state.currentTime + 0.5f).coerceAtMost(state.duration)
-                        state.addStaticKeyframe(time)
+                        state.addStaticKeyframe()
                     }) {
                     Text("Add Static")
                 }
 
                 Button(
                     variant = ButtonVariant.Secondary, onClick = {
-                        val startTime =
-                            (state.currentTime + 0.5f).coerceAtMost(state.duration - 0.5f)
-                        val endTime = (startTime + 0.5f).coerceAtMost(state.duration)
-                        state.addSegmentKeyframe(startTime, endTime)
+                        state.addSegmentKeyframe()
                     }) {
                     Text("Add Segment")
                 }
@@ -123,7 +119,7 @@ private fun KeyframeSlider(
 
         when (keyframe) {
             is Keyframe.Static -> {
-                StatiWhenecSlider(
+                StaticSlider(
                     value = keyframe.percent / state.duration, onValueChange = { normalizedValue ->
                         val newTime = normalizedValue * state.duration
                         state.updateKeyframeTime(keyframeIndex, newTime)
@@ -162,7 +158,7 @@ private fun TimelineRuler(
     val lineColor = AppTheme.colors.outline
 
     Canvas(
-        modifier = modifier.height(36.dp)
+        modifier = modifier.height(36.dp).padding(horizontal = 20.dp)
     ) {
         drawRuler(textMeasurer, textColor, lineColor)
     }

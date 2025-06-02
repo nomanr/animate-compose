@@ -30,9 +30,10 @@ class TimelineState(
     var dragState by mutableStateOf<DragState?>(null)
         private set
 
-    fun addStaticKeyframe(time: Float): Keyframe.Static {
+    fun addStaticKeyframe(time: Float? = null): Keyframe.Static {
+        val actualTime = time ?: getNextKeyframeStartTime()
         val newKeyframe = Keyframe.Static(
-            percent = time,
+            percent = actualTime,
             transform = TransformProperties(),
             easing = null
         )
@@ -40,16 +41,31 @@ class TimelineState(
         return newKeyframe
     }
 
-    fun addSegmentKeyframe(startTime: Float, endTime: Float): Keyframe.Segment {
+    fun addSegmentKeyframe(startTime: Float? = null, endTime: Float? = null): Keyframe.Segment {
+        val actualStartTime = startTime ?: getNextKeyframeStartTime()
+        val actualEndTime = endTime ?: (actualStartTime + 0.2f).coerceAtMost(duration)
         val newKeyframe = Keyframe.Segment(
-            start = startTime,
-            end = endTime,
+            start = actualStartTime,
+            end = actualEndTime,
             from = TransformProperties(),
             to = TransformProperties(),
             easing = null
         )
         keyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
         return newKeyframe
+    }
+    
+    private fun getNextKeyframeStartTime(): Float {
+        if (keyframes.isEmpty()) return 0f
+        
+        val lastKeyframeEnd = keyframes.maxOf { keyframe ->
+            when (keyframe) {
+                is Keyframe.Static -> keyframe.percent
+                is Keyframe.Segment -> keyframe.end
+            }
+        }
+        
+        return lastKeyframeEnd
     }
 
     private fun getKeyframeTime(keyframe: Keyframe): Float {
