@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,38 +70,41 @@ fun Timeline(
         }
 
 
-        Column(
-            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp))
-                .border(1.dp, AppTheme.colors.outline, RoundedCornerShape(8.dp))
-                .background(AppTheme.colors.background).padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            TimelineRuler(
-                modifier = Modifier.fillMaxWidth()
-            )
+        val scrollState = rememberScrollState()
 
-            if (state.keyframes.isEmpty()) {
-                Text(
-                    text = "No keyframes. Use the buttons below to add keyframes.",
-                    style = AppTheme.typography.body2,
-                    color = AppTheme.colors.textSecondary,
-                    modifier = Modifier.padding(vertical = 32.dp)
+        Car(
+            modifier = Modifier.fillMaxWidth().clip(
+                RoundedCornerShape(8.dp))
+                    .border(1.dp, AppTheme.colors.outline, RoundedCornerShape(8.dp))
+                    .background(AppTheme.colors.background).padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                TimelineRuler(
+                    modifier = Modifier.fillMaxWidth()
                 )
-            } else {
-                state.keyframes.forEachIndexed { index, keyframe ->
-                    KeyframeSlider(
-                        keyframe = keyframe,
-                        keyframeIndex = index,
-                        state = state,
-                        isSelected = index == state.selectedKeyframeIndex,
-                        onSelected = {
-                            state.selectKeyframe(index)
-                            onNodeSelected?.invoke(index.toString())
-                        })
+
+                if (state.keyframes.isEmpty()) {
+                    Text(
+                        text = "No keyframes. Use the buttons below to add keyframes.",
+                        style = AppTheme.typography.body2,
+                        color = AppTheme.colors.textSecondary,
+                        modifier = Modifier.padding(vertical = 32.dp)
+                    )
+                } else {
+                    Column(Modifier.verticalScroll(scrollState).padding(bottom = 16.dp)) {
+                        state.keyframes.forEachIndexed { index, keyframe ->
+                            KeyframeSlider(
+                                keyframe = keyframe,
+                                keyframeIndex = index,
+                                state = state,
+                                onSelected = {
+                                    state.selectKeyframe(index)
+                                    onNodeSelected?.invoke(index.toString())
+                                })
+                        }
+                    }
                 }
             }
-        }
 
 
     }
@@ -110,7 +115,6 @@ private fun KeyframeSlider(
     keyframe: Keyframe,
     keyframeIndex: Int,
     state: TimelineState,
-    isSelected: Boolean,
     onSelected: () -> Unit
 ) {
     Column(
