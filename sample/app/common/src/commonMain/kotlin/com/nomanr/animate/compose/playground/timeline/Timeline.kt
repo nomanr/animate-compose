@@ -17,7 +17,7 @@ import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Button
 import com.nomanr.animate.compose.ui.components.ButtonVariant
 import com.nomanr.animate.compose.ui.components.SegmentSlider
-import com.nomanr.animate.compose.ui.components.Slider
+import com.nomanr.animate.compose.ui.components.StaticSlider
 import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
@@ -108,7 +108,7 @@ private fun KeyframeSlider(
 
         when (keyframe) {
             is Keyframe.Static -> {
-                Slider(
+                StaticSlider(
                     value = keyframe.percent / state.duration, onValueChange = { normalizedValue ->
                         val newTime = normalizedValue * state.duration
                         state.updateKeyframeTime(keyframeIndex, newTime)
