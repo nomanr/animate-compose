@@ -18,7 +18,8 @@ class TimelineState(
     var duration by mutableStateOf(initialDuration)
         private set
 
-    private var currentTime by mutableStateOf(0f)
+    var currentTime by mutableStateOf(0f)
+        private set
 
     var selectedKeyframeIndex by mutableStateOf<Int?>(null)
         private set
@@ -108,9 +109,31 @@ class TimelineState(
 
 
 
+    fun updateDuration(newDuration: Float) {
+        duration = newDuration.coerceAtLeast(0.1f)
+        currentTime = currentTime.coerceIn(0f, duration)
+    }
+
     fun play() {
         isPlaying = true
         currentTime = 0f
+    }
+    
+    fun pause() {
+        isPlaying = false
+    }
+    
+    fun stop() {
+        isPlaying = false
+        currentTime = 0f
+    }
+    
+    fun updateCurrentTime(time: Float) {
+        currentTime = time.coerceIn(0f, duration)
+        if (currentTime >= duration) {
+            isPlaying = false
+            currentTime = duration
+        }
     }
 
 

@@ -1,15 +1,20 @@
 package com.nomanr.animate.compose.playground.timeline
 
+import kotlinx.coroutines.delay
+import kotlin.time.TimeSource
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -33,6 +38,31 @@ import com.nomanr.animate.compose.ui.components.Text
 fun Timeline(
     state: TimelineState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
 ) {
+    // Handle animation playback
+    LaunchedEffect(state.isPlaying) {
+        if (state.isPlaying) {
+            val startTime = state.currentTime
+            val animationDuration = state.duration - startTime
+            val timeSource = TimeSource.Monotonic
+            val startMark = timeSource.markNow()
+            
+            while (state.isPlaying) {
+                val elapsed = startMark.elapsedNow().inWholeMilliseconds
+                val progress = (elapsed.toFloat() / (animationDuration * 1000)).coerceIn(0f, 1f)
+                val newTime = startTime + (animationDuration * progress)
+                
+                state.updateCurrentTime(newTime)
+                
+                if (progress >= 1f) {
+                    state.updateCurrentTime(0f)
+                    break
+                }
+                
+                delay(16) // ~60 FPS
+            }
+        }
+    }
+    
     Column(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -72,34 +102,57 @@ fun Timeline(
         Surface(
             hardShadow = true,
             border = true,
+            modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                TimelineRuler(
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                if (state.keyframes.isEmpty()) {
-                    Text(
-                        text = "No keyframes. Add keyframes to get started!",
-                        style = AppTheme.typography.body2,
-                        color = AppTheme.colors.textSecondary,
-                        modifier = Modifier.padding(vertical = 32.dp)
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    TimelineRuler(
+                        modifier = Modifier.fillMaxWidth()
                     )
-                } else {
-                    Column(Modifier.verticalScroll(scrollState).padding(bottom = 16.dp)) {
-                        state.keyframes.forEachIndexed { index, keyframe ->
-                            KeyframeSlider(
-                                keyframe = keyframe,
-                                keyframeIndex = index,
-                                state = state,
-                                onSelected = {
-                                    state.selectKeyframe(index)
-                                    onNodeSelected?.invoke(index.toString())
-                                })
+
+                    if (state.keyframes.isEmpty()) {
+                        Text(
+                            text = "No keyframes. Add keyframes to get started!",
+                            style = AppTheme.typography.body2,
+                            color = AppTheme.colors.textSecondary,
+                            modifier = Modifier.padding(vertical = 32.dp)
+                        )
+                    } else {
+                        Column(Modifier.verticalScroll(scrollState).padding(bottom = 16.dp)) {
+                            state.keyframes.forEachIndexed { index, keyframe ->
+                                KeyframeSlider(
+                                    keyframe = keyframe,
+                                    keyframeIndex = index,
+                                    state = state,
+                                    onSelected = {
+                                        state.selectKeyframe(index)
+                                        onNodeSelected?.invoke(index.toString())
+                                    })
+                            }
                         }
+                    }
+                }
+                
+                // Draw cursor overlay
+                if (state.isPlaying || state.currentTime > 0) {
+                    val progress = state.currentTime / state.duration
+                    val cursorColor = AppTheme.colors.primary
+                    Canvas(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                            .padding(horizontal = 36.dp) // 16dp surface padding + 20dp ruler padding
+                    ) {
+                        val cursorX = progress * size.width
+                        drawLine(
+                            color = cursorColor,
+                            start = Offset(cursorX, 0f),
+                            end = Offset(cursorX, size.height),
+                            strokeWidth = 2.dp.toPx()
+                        )
                     }
                 }
             }
@@ -110,7 +163,10 @@ fun Timeline(
 
 @Composable
 private fun KeyframeSlider(
-    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState, onSelected: () -> Unit
+    keyframe: Keyframe, 
+    keyframeIndex: Int, 
+    state: TimelineState, 
+    onSelected: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)

@@ -24,7 +24,7 @@ import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 
 @Composable
-fun SelectedKeyframeProperties(
+fun KeyframeProperties(
     state: TimelineState,
     modifier: Modifier = Modifier
 ) {
@@ -39,6 +39,9 @@ fun SelectedKeyframeProperties(
             text = "Properties",
             style = AppTheme.typography.h3
         )
+        
+        // Duration input field
+        DurationSection(state = state)
 
         val selectedKeyframe = state.selectedKeyframeIndex?.let { index ->
             state.keyframes.getOrNull(index)
@@ -363,4 +366,38 @@ private fun PropertyTextField(
         singleLine = true,
         modifier = modifier.fillMaxWidth()
     )
+}
+
+@Composable
+private fun DurationSection(
+    state: TimelineState
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = "Animation Duration",
+            style = AppTheme.typography.h5
+        )
+        
+        var durationText by remember(state.duration) { 
+            mutableStateOf((state.duration * 1000).toInt().toString()) 
+        }
+        
+        OutlinedTextField(
+            value = durationText,
+            onValueChange = { newValue ->
+                durationText = newValue
+                newValue.toIntOrNull()?.let { durationMs ->
+                    if (durationMs > 0) {
+                        state.updateDuration(durationMs / 1000f)
+                    }
+                }
+            },
+            label = { Text("Duration (ms)") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }

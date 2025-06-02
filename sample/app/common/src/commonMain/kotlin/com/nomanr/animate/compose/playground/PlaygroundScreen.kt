@@ -18,7 +18,7 @@ import com.nomanr.animate.compose.components.AppTopbar
 import com.nomanr.animate.compose.playground.timeline.Demo
 import com.nomanr.animate.compose.playground.timeline.Timeline
 import com.nomanr.animate.compose.playground.timeline.TimelineState
-import com.nomanr.animate.compose.playground.timeline.SelectedKeyframeProperties
+import com.nomanr.animate.compose.playground.timeline.KeyframeProperties
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider
 
@@ -35,7 +35,7 @@ fun PlaygroundScreen(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppTheme.colors.surface),
+                .background(AppTheme.colors.background),
             horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             Column(
@@ -58,7 +58,7 @@ fun PlaygroundScreen(
 
             VerticalDivider()
 
-            SelectedKeyframeProperties(
+            KeyframeProperties(
                 state = timelineState, 
                 modifier = Modifier
                     .width(300.dp)
