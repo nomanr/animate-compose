@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -143,7 +144,7 @@ internal object ButtonDefaults {
     internal val MinHeight = 44.dp
     private val ButtonHorizontalPadding = 16.dp
     private val ButtonVerticalPadding = 8.dp
-    private val ButtonShape = RoundedCornerShape(12)
+    private val ButtonShape = RectangleShape
 
     val contentPadding =
         PaddingValues(

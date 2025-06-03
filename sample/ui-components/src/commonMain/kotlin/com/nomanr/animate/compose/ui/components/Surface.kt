@@ -162,7 +162,7 @@ private fun BaseSurface(
         LocalContentColor provides contentColor,
     ) {
         HardShadowContainer(
-            modifier = modifier,
+            modifier = Modifier,
             shape = shape,
             interactionSource = interactionSource,
             color = hardShadowColorFor(color),

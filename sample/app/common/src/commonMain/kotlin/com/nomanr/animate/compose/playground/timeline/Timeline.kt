@@ -1,13 +1,12 @@
 package com.nomanr.animate.compose.playground.timeline
 
-import kotlinx.coroutines.delay
-import kotlin.time.TimeSource
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -33,6 +33,8 @@ import com.nomanr.animate.compose.ui.components.SegmentSlider
 import com.nomanr.animate.compose.ui.components.StaticSlider
 import com.nomanr.animate.compose.ui.components.Surface
 import com.nomanr.animate.compose.ui.components.Text
+import kotlinx.coroutines.delay
+import kotlin.time.TimeSource
 
 @Composable
 fun Timeline(
@@ -45,24 +47,24 @@ fun Timeline(
             val animationDuration = state.duration - startTime
             val timeSource = TimeSource.Monotonic
             val startMark = timeSource.markNow()
-            
+
             while (state.isPlaying) {
                 val elapsed = startMark.elapsedNow().inWholeMilliseconds
                 val progress = (elapsed.toFloat() / (animationDuration * 1000)).coerceIn(0f, 1f)
                 val newTime = startTime + (animationDuration * progress)
-                
+
                 state.updateCurrentTime(newTime)
-                
+
                 if (progress >= 1f) {
                     state.updateCurrentTime(0f)
                     break
                 }
-                
+
                 delay(16) // ~60 FPS
             }
         }
     }
-    
+
     Column(
         modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -100,13 +102,10 @@ fun Timeline(
         val scrollState = rememberScrollState()
 
         Surface(
-            hardShadow = true,
-            border = true,
-            modifier = Modifier.fillMaxWidth().fillMaxHeight()
+            hardShadow = true, border = true, modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(
-                    modifier = Modifier.padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     TimelineRuler(
@@ -114,12 +113,13 @@ fun Timeline(
                     )
 
                     if (state.keyframes.isEmpty()) {
-                        Text(
-                            text = "No keyframes. Add keyframes to get started!",
-                            style = AppTheme.typography.body2,
-                            color = AppTheme.colors.textSecondary,
-                            modifier = Modifier.padding(vertical = 32.dp)
-                        )
+                        Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text(
+                                text = "No keyframes. Add keyframes to get started!",
+                                style = AppTheme.typography.h5,
+                                color = AppTheme.colors.text,
+                            )
+                        }
                     } else {
                         Column(Modifier.verticalScroll(scrollState).padding(bottom = 16.dp)) {
                             state.keyframes.forEachIndexed { index, keyframe ->
@@ -135,23 +135,19 @@ fun Timeline(
                         }
                     }
                 }
-                
-                // Draw cursor overlay
+
                 if (state.isPlaying || state.currentTime > 0) {
                     val progress = state.currentTime / state.duration
-                    val cursorColor = AppTheme.colors.primary
+                    val cursorColor = AppTheme.colors.primary.copy(alpha = 0.7f)
                     Canvas(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .padding(horizontal = 36.dp) // 16dp surface padding + 20dp ruler padding
+                        modifier = Modifier.fillMaxHeight().fillMaxWidth()
                     ) {
                         val cursorX = progress * size.width
                         drawLine(
                             color = cursorColor,
                             start = Offset(cursorX, 0f),
                             end = Offset(cursorX, size.height),
-                            strokeWidth = 2.dp.toPx()
+                            strokeWidth = 1.dp.toPx()
                         )
                     }
                 }
@@ -163,10 +159,7 @@ fun Timeline(
 
 @Composable
 private fun KeyframeSlider(
-    keyframe: Keyframe, 
-    keyframeIndex: Int, 
-    state: TimelineState, 
-    onSelected: () -> Unit
+    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState, onSelected: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
