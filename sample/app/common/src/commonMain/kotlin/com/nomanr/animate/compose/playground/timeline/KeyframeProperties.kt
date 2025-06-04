@@ -267,10 +267,11 @@ private fun StaticTransformPropertiesSection(
     keyframe: Keyframe.Static, keyframeIndex: Int, state: TimelineState
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Transform", style = AppTheme.typography.body1, color = AppTheme.colors.text
+            text = "Transform",
+            style = AppTheme.typography.h5,
         )
 
         TransformPropertyFields(
@@ -287,10 +288,11 @@ private fun SegmentTransformPropertiesSection(
     keyframe: Keyframe.Segment, keyframeIndex: Int, state: TimelineState
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Transform", style = AppTheme.typography.body1, color = AppTheme.colors.text
+            text = "Transform",
+            style = AppTheme.typography.h5,
         )
 
         // From and To side by side
@@ -299,12 +301,11 @@ private fun SegmentTransformPropertiesSection(
         ) {
             // From Transform
             Column(
-                modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     text = "From",
-                    style = AppTheme.typography.body2,
-                    color = AppTheme.colors.textSecondary
+                    style = AppTheme.typography.h5,
                 )
 
                 CompactTransformFields(
@@ -317,12 +318,11 @@ private fun SegmentTransformPropertiesSection(
 
             // To Transform
             Column(
-                modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     text = "To",
-                    style = AppTheme.typography.body2,
-                    color = AppTheme.colors.textSecondary
+                    style = AppTheme.typography.h5,
                 )
 
                 CompactTransformFields(
@@ -341,176 +341,159 @@ private fun TransformPropertyFields(
     transform: TransformProperties, onTransformChange: (TransformProperties) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Translation X & Y
-        PropertySection(title = "Translation") {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                PropertyTextField(
-                    label = "X", value = transform.translationX ?: 0f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(translationX = newValue))
-                    }, suffix = "px", modifier = Modifier.weight(1f)
-                )
-                PropertyTextField(
-                    label = "Y", value = transform.translationY ?: 0f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(translationY = newValue))
-                    }, suffix = "px", modifier = Modifier.weight(1f)
-                )
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TransformTextField(
+                label = "Translation X",
+                value = transform.translationX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(translationX = it)) },
+                suffix = "px",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Translation Y",
+                value = transform.translationY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(translationY = it)) },
+                suffix = "px",
+                modifier = Modifier.weight(1f)
+            )
         }
 
         // Scale X & Y
-        PropertySection(title = "Scale") {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                PropertyTextField(
-                    label = "X", value = transform.scaleX ?: 1f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(scaleX = newValue))
-                    }, modifier = Modifier.weight(1f)
-                )
-                PropertyTextField(
-                    label = "Y", value = transform.scaleY ?: 1f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(scaleY = newValue))
-                    }, modifier = Modifier.weight(1f)
-                )
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TransformTextField(
+                label = "Scale X",
+                value = transform.scaleX ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(scaleX = it)) },
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Scale Y",
+                value = transform.scaleY ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(scaleY = it)) },
+                modifier = Modifier.weight(1f)
+            )
         }
 
         // Rotation X & Y
-        PropertySection(title = "Rotation") {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    PropertyTextField(
-                        label = "X",
-                        value = transform.rotationX ?: 0f,
-                        onValueChange = { newValue ->
-                            onTransformChange(transform.copy(rotationX = newValue))
-                        },
-                        suffix = "°",
-                        modifier = Modifier.weight(1f)
-                    )
-                    PropertyTextField(
-                        label = "Y",
-                        value = transform.rotationY ?: 0f,
-                        onValueChange = { newValue ->
-                            onTransformChange(transform.copy(rotationY = newValue))
-                        },
-                        suffix = "°",
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    PropertyTextField(
-                        label = "Z",
-                        value = transform.rotationZ ?: 0f,
-                        onValueChange = { newValue ->
-                            onTransformChange(transform.copy(rotationZ = newValue))
-                        },
-                        suffix = "°",
-                        modifier = Modifier.weight(1f)
-                    )
-                    // Empty space to maintain 2-column layout
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TransformTextField(
+                label = "Rotation X",
+                value = transform.rotationX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationX = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Rotation Y",
+                value = transform.rotationY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationY = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
         }
 
-        // Skew X & Y
-        PropertySection(title = "Skew") {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                PropertyTextField(
-                    label = "X", value = transform.skewX ?: 0f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(skewX = newValue))
-                    }, suffix = "°", modifier = Modifier.weight(1f)
-                )
-                PropertyTextField(
-                    label = "Y", value = transform.skewY ?: 0f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(skewY = newValue))
-                    }, suffix = "°", modifier = Modifier.weight(1f)
-                )
-            }
+        // Rotation Z & Skew X
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TransformTextField(
+                label = "Rotation Z",
+                value = transform.rotationZ ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationZ = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Skew X",
+                value = transform.skewX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(skewX = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
         }
 
-        // Alpha & Camera Distance
-        PropertySection(title = "Appearance") {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                PropertyTextField(
-                    label = "Alpha", value = transform.alpha ?: 1f, onValueChange = { newValue ->
-                        onTransformChange(transform.copy(alpha = newValue.coerceIn(0f, 1f)))
-                    }, modifier = Modifier.weight(1f)
-                )
-                PropertyTextField(
-                    label = "Camera Distance",
-                    value = transform.cameraDistance ?: 1250f,
-                    onValueChange = { newValue ->
-                        onTransformChange(transform.copy(cameraDistance = newValue))
-                    },
-                    modifier = Modifier.weight(1f)
-                )
-            }
+        // Skew Y & Alpha
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            TransformTextField(
+                label = "Skew Y",
+                value = transform.skewY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(skewY = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Alpha",
+                value = transform.alpha ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(alpha = it.coerceIn(0f, 1f))) },
+                modifier = Modifier.weight(1f)
+            )
         }
+
+        // Camera Distance (single field)
+        TransformTextField(
+            label = "Camera Distance",
+            value = transform.cameraDistance ?: 1250f,
+            onValueChange = { onTransformChange(transform.copy(cameraDistance = it)) },
+            modifier = Modifier.fillMaxWidth(0.5f)
+        )
     }
 }
 
 @Composable
-private fun PropertyTextField(
+private fun TransformTextField(
     label: String,
     value: Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
-    suffix: String? = null,
-    compact: Boolean = false
+    suffix: String? = null
 ) {
     var textValue by remember(value) { mutableStateOf(value.toString()) }
 
-    Row(
-        modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = label,
-            style = AppTheme.typography.body2,
-            color = AppTheme.colors.textSecondary,
-            modifier = Modifier.weight(1f)
-        )
-        Spacer(modifier = Modifier.width(if (compact) 8.dp else 16.dp))
-        UnderlinedTextField(
-            value = textValue,
-            onValueChange = { newValue ->
-                textValue = newValue
-                newValue.toFloatOrNull()?.let { floatValue ->
-                    onValueChange(floatValue)
-                }
-            },
-            suffix = suffix?.let {
-                {
-                    Text(
-                        it, style = AppTheme.typography.body2, color = AppTheme.colors.textSecondary
-                    )
-                }
-            },
-            textStyle = AppTheme.typography.body2,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true,
-            modifier = Modifier.width(if (compact) 60.dp else 80.dp)
-        )
-    }
+    OutlinedTextField(
+        value = textValue,
+        onValueChange = { newValue ->
+            textValue = newValue
+            newValue.toFloatOrNull()?.let { floatValue ->
+                onValueChange(floatValue)
+            }
+        },
+        suffix = suffix?.let {
+            {
+                Text(
+                    it,
+                    style = AppTheme.typography.body2,
+                    color = AppTheme.colors.text
+                )
+            }
+        },
+        textStyle = AppTheme.typography.body2,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        modifier = modifier,
+        label = {
+            Text(
+                text = label,
+                style = AppTheme.typography.label2,
+                color = AppTheme.colors.text
+            )
+        }
+    )
 }
 
 @Composable
@@ -518,119 +501,120 @@ private fun CompactTransformFields(
     transform: TransformProperties, onTransformChange: (TransformProperties) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Translation X & Y
-        CompactPropertyRow(
-            label1 = "Translation X",
-            value1 = transform.translationX ?: 0f,
-            onValue1Change = { onTransformChange(transform.copy(translationX = it)) },
-            suffix1 = "px",
-            label2 = "Translation Y",
-            value2 = transform.translationY ?: 0f,
-            onValue2Change = { onTransformChange(transform.copy(translationY = it)) },
-            suffix2 = "px"
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TransformTextField(
+                label = "Translation X",
+                value = transform.translationX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(translationX = it)) },
+                suffix = "px",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Translation Y",
+                value = transform.translationY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(translationY = it)) },
+                suffix = "px",
+                modifier = Modifier.weight(1f)
+            )
+        }
 
         // Scale X & Y
-        CompactPropertyRow(
-            label1 = "Scale X",
-            value1 = transform.scaleX ?: 1f,
-            onValue1Change = { onTransformChange(transform.copy(scaleX = it)) },
-            label2 = "Scale Y",
-            value2 = transform.scaleY ?: 1f,
-            onValue2Change = { onTransformChange(transform.copy(scaleY = it)) })
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TransformTextField(
+                label = "Scale X",
+                value = transform.scaleX ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(scaleX = it)) },
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Scale Y",
+                value = transform.scaleY ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(scaleY = it)) },
+                modifier = Modifier.weight(1f)
+            )
+        }
 
         // Rotation X & Y
-        CompactPropertyRow(
-            label1 = "Rotation X",
-            value1 = transform.rotationX ?: 0f,
-            onValue1Change = { onTransformChange(transform.copy(rotationX = it)) },
-            suffix1 = "°",
-            label2 = "Rotation Y",
-            value2 = transform.rotationY ?: 0f,
-            onValue2Change = { onTransformChange(transform.copy(rotationY = it)) },
-            suffix2 = "°"
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TransformTextField(
+                label = "Rotation X",
+                value = transform.rotationX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationX = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Rotation Y",
+                value = transform.rotationY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationY = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+        }
 
         // Rotation Z & Skew X
-        CompactPropertyRow(
-            label1 = "Rotation Z",
-            value1 = transform.rotationZ ?: 0f,
-            onValue1Change = { onTransformChange(transform.copy(rotationZ = it)) },
-            suffix1 = "°",
-            label2 = "Skew X",
-            value2 = transform.skewX ?: 0f,
-            onValue2Change = { onTransformChange(transform.copy(skewX = it)) },
-            suffix2 = "°"
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TransformTextField(
+                label = "Rotation Z",
+                value = transform.rotationZ ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(rotationZ = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Skew X",
+                value = transform.skewX ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(skewX = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+        }
 
         // Skew Y & Alpha
-        CompactPropertyRow(
-            label1 = "Skew Y",
-            value1 = transform.skewY ?: 0f,
-            onValue1Change = { onTransformChange(transform.copy(skewY = it)) },
-            suffix1 = "°",
-            label2 = "Alpha",
-            value2 = transform.alpha ?: 1f,
-            onValue2Change = { onTransformChange(transform.copy(alpha = it.coerceIn(0f, 1f))) })
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            TransformTextField(
+                label = "Skew Y",
+                value = transform.skewY ?: 0f,
+                onValueChange = { onTransformChange(transform.copy(skewY = it)) },
+                suffix = "°",
+                modifier = Modifier.weight(1f)
+            )
+            TransformTextField(
+                label = "Alpha",
+                value = transform.alpha ?: 1f,
+                onValueChange = { onTransformChange(transform.copy(alpha = it.coerceIn(0f, 1f))) },
+                modifier = Modifier.weight(1f)
+            )
+        }
 
         // Camera Distance (single field)
-        PropertyTextField(
+        TransformTextField(
             label = "Camera Distance",
             value = transform.cameraDistance ?: 1250f,
             onValueChange = { onTransformChange(transform.copy(cameraDistance = it)) },
-            compact = true
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
-@Composable
-private fun PropertySection(
-    title: String, content: @Composable () -> Unit
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(
-            text = title,
-            style = AppTheme.typography.body2,
-            color = AppTheme.colors.textSecondary.copy(alpha = 0.8f)
-        )
-        content()
-    }
-}
-
-@Composable
-private fun CompactPropertyRow(
-    label1: String,
-    value1: Float,
-    onValue1Change: (Float) -> Unit,
-    suffix1: String? = null,
-    label2: String,
-    value2: Float,
-    onValue2Change: (Float) -> Unit,
-    suffix2: String? = null
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        PropertyTextField(
-            label = label1,
-            value = value1,
-            onValueChange = onValue1Change,
-            suffix = suffix1,
-            compact = true,
-            modifier = Modifier.weight(1f)
-        )
-        PropertyTextField(
-            label = label2,
-            value = value2,
-            onValueChange = onValue2Change,
-            suffix = suffix2,
-            compact = true,
-            modifier = Modifier.weight(1f)
-        )
-    }
-}
 
 @Composable
 private fun EasingSelector(
