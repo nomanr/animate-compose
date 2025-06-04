@@ -317,7 +317,7 @@ object UnderlinedTextFieldDefaults {
             errorCursorColor = AppTheme.colors.error,
             textSelectionColors = LocalTextSelectionColors.current,
             focusedOutlineColor = AppTheme.colors.primary,
-            unfocusedOutlineColor = AppTheme.colors.secondary,
+            unfocusedOutlineColor = AppTheme.colors.black,
             disabledOutlineColor = AppTheme.colors.disabled,
             errorOutlineColor = AppTheme.colors.error,
             focusedLeadingIconColor = AppTheme.colors.primary,

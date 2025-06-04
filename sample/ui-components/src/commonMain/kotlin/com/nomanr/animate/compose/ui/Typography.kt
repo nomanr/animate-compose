@@ -76,7 +76,7 @@ private val defaultTypography = Typography(
     ),
     h5 = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
+        fontSize = 14.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.sp,
     ),

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.takeOrElse
@@ -201,11 +201,11 @@ fun OutlinedTextField(
 @Immutable
 object OutlinedTextFieldDefaults {
     val MinHeight = TextFieldMinHeight
-    val Shape: Shape = RoundedCornerShape(8.dp)
+    val Shape: Shape = RectangleShape
 
     private fun contentPadding(
-        start: Dp = TextFieldHorizontalPadding,
-        end: Dp = TextFieldHorizontalPadding,
+        start: Dp = TextFieldHorizontalPadding/2,
+        end: Dp = TextFieldHorizontalPadding/2,
         top: Dp = TextFieldVerticalPadding,
         bottom: Dp = TextFieldVerticalPadding,
     ): PaddingValues = PaddingValues(start, top, end, bottom)
@@ -332,7 +332,7 @@ object OutlinedTextFieldDefaults {
             errorCursorColor = AppTheme.colors.error,
             textSelectionColors = LocalTextSelectionColors.current,
             focusedOutlineColor = AppTheme.colors.primary,
-            unfocusedOutlineColor = AppTheme.colors.secondary,
+            unfocusedOutlineColor = AppTheme.colors.black,
             disabledOutlineColor = AppTheme.colors.disabled,
             errorOutlineColor = AppTheme.colors.error,
             focusedLeadingIconColor = AppTheme.colors.primary,
