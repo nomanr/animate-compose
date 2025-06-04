@@ -46,7 +46,7 @@ fun PlaygroundScreen(
             ) {
                 Demo(
                     timelineState = timelineState, 
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1.2f)
                 )
 
                 Timeline(
@@ -61,7 +61,7 @@ fun PlaygroundScreen(
             KeyframeProperties(
                 state = timelineState, 
                 modifier = Modifier
-                    .width(300.dp)
+                    .width(360.dp)
                     .padding(16.dp)
             )
         }
