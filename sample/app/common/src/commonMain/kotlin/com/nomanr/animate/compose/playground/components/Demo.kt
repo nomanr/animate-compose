@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.timeline
+package com.nomanr.animate.compose.playground.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
+import com.nomanr.animate.compose.playground.components.timeline.TimelineState
 import com.nomanr.animate.compose.playground.model.CustomAnimationPreset
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text

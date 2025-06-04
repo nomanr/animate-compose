@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.timeline
+package com.nomanr.animate.compose.playground.components.timeline
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -6,17 +6,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.TransformProperties
+import com.nomanr.animate.compose.playground.KeyframePresetState
 
 @Stable
 class TimelineState(
-    initialKeyframes: List<Keyframe> = emptyList(),
-    initialDuration: Float = 1.0f
+    private val presetState: KeyframePresetState? = null
 ) {
-    var keyframes by mutableStateOf(initialKeyframes)
-        private set
+    val keyframes: List<Keyframe>
+        get() = presetState?.keyframes ?: emptyList()
 
-    var duration by mutableStateOf(initialDuration)
-        private set
+    val duration: Float
+        get() = presetState?.duration ?: 1.0f
 
     var currentTime by mutableStateOf(0f)
         private set
@@ -35,7 +35,8 @@ class TimelineState(
             transform = TransformProperties(),
             easing = null
         )
-        keyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        val updatedKeyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        presetState?.updateKeyframes?.invoke(updatedKeyframes)
         return newKeyframe
     }
 
@@ -49,7 +50,8 @@ class TimelineState(
             to = TransformProperties(),
             easing = null
         )
-        keyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        val updatedKeyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
+        presetState?.updateKeyframes?.invoke(updatedKeyframes)
         return newKeyframe
     }
     
@@ -74,14 +76,16 @@ class TimelineState(
     }
 
     fun updateKeyframe(index: Int, update: (Keyframe) -> Keyframe) {
-        keyframes = keyframes.mapIndexed { i, keyframe ->
+        val updatedKeyframes = keyframes.mapIndexed { i, keyframe ->
             if (i == index) update(keyframe) else keyframe
         }
+        presetState?.updateKeyframes?.invoke(updatedKeyframes)
     }
 
 
     fun removeKeyframe(index: Int) {
-        keyframes = keyframes.filterIndexed { i, _ -> i != index }
+        val updatedKeyframes = keyframes.filterIndexed { i, _ -> i != index }
+        presetState?.updateKeyframes?.invoke(updatedKeyframes)
         if (selectedKeyframeIndex == index) {
             selectedKeyframeIndex = null
         }
@@ -110,7 +114,8 @@ class TimelineState(
 
 
     fun updateDuration(newDuration: Float) {
-        duration = newDuration.coerceAtLeast(0.1f)
+        val coercedDuration = newDuration.coerceAtLeast(0.1f)
+        presetState?.updateDuration?.invoke(coercedDuration)
         currentTime = currentTime.coerceIn(0f, duration)
     }
 

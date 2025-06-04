@@ -105,7 +105,7 @@ private val defaultTypography = Typography(
         letterSpacing = 0.1.sp,
     ),
     label2 = TextStyle(
-        fontWeight = FontWeight.W500,
+        fontWeight = FontWeight.W600,
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp,

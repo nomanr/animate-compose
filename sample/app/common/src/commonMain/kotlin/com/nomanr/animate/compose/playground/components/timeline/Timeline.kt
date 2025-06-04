@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.timeline
+package com.nomanr.animate.compose.playground.components.timeline
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
@@ -31,8 +31,8 @@ import com.nomanr.animate.compose.ui.components.Button
 import com.nomanr.animate.compose.ui.components.ButtonVariant
 import com.nomanr.animate.compose.ui.components.SegmentSlider
 import com.nomanr.animate.compose.ui.components.StaticSlider
-import com.nomanr.animate.compose.ui.components.Surface
 import com.nomanr.animate.compose.ui.components.Text
+import com.nomanr.animate.compose.ui.components.card.Card
 import kotlinx.coroutines.delay
 import kotlin.time.TimeSource
 
@@ -101,8 +101,8 @@ fun Timeline(
 
         val scrollState = rememberScrollState()
 
-        Surface(
-            hardShadow = true, border = true, modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        Card(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column(

@@ -15,10 +15,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.components.AppTopbar
-import com.nomanr.animate.compose.playground.timeline.Demo
-import com.nomanr.animate.compose.playground.timeline.Timeline
-import com.nomanr.animate.compose.playground.timeline.TimelineState
-import com.nomanr.animate.compose.playground.timeline.KeyframeProperties
+import com.nomanr.animate.compose.playground.components.Demo
+import com.nomanr.animate.compose.playground.components.keyframeproperties.KeyframeProperties
+import com.nomanr.animate.compose.playground.components.timeline.Timeline
+import com.nomanr.animate.compose.playground.components.timeline.TimelineState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider
 
@@ -26,44 +26,40 @@ import com.nomanr.animate.compose.ui.components.VerticalDivider
 fun PlaygroundScreen(
     onNavigateToSample: (() -> Unit)? = null
 ) {
-    val timelineState = remember { TimelineState() }
     var selectedNodeId by remember { mutableStateOf<String?>(null) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        AppTopbar()
+    KeyframeProvider {
+        val presetState = LocalKeyframePreset.current
+        val timelineState = remember { TimelineState(presetState) }
+        
+        Column(modifier = Modifier.fillMaxSize()) {
+            AppTopbar()
 
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(AppTheme.colors.background),
-            horizontalArrangement = Arrangement.spacedBy(0.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            Row(
+                modifier = Modifier.fillMaxSize().background(AppTheme.colors.background),
+                horizontalArrangement = Arrangement.spacedBy(0.dp)
             ) {
-                Demo(
-                    timelineState = timelineState, 
-                    modifier = Modifier.weight(1.2f)
-                )
+                Column(
+                    modifier = Modifier.weight(1f).padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Demo(
+                        timelineState = timelineState, modifier = Modifier.weight(1.2f)
+                    )
 
-                Timeline(
-                    state = timelineState, 
-                    onNodeSelected = { nodeId -> selectedNodeId = nodeId }, 
-                    modifier = Modifier.weight(1f)
+                    Timeline(
+                        state = timelineState,
+                        onNodeSelected = { nodeId -> selectedNodeId = nodeId },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                VerticalDivider()
+
+                KeyframeProperties(
+                    state = timelineState, modifier = Modifier.width(400.dp)
                 )
             }
-
-            VerticalDivider()
-
-            KeyframeProperties(
-                state = timelineState, 
-                modifier = Modifier
-                    .width(360.dp)
-                    .padding(16.dp)
-            )
         }
     }
 }
