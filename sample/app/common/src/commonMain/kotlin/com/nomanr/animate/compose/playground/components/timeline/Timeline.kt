@@ -110,6 +110,7 @@ fun Timeline(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     TimelineRuler(
+                        duration = state.duration,
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -200,6 +201,7 @@ private fun KeyframeSlider(
 
 @Composable
 private fun TimelineRuler(
+    duration: Float,
     modifier: Modifier = Modifier
 ) {
     val textMeasurer = rememberTextMeasurer()
@@ -209,11 +211,12 @@ private fun TimelineRuler(
     Canvas(
         modifier = modifier.height(36.dp).padding(horizontal = 20.dp)
     ) {
-        drawRuler(textMeasurer, textColor, lineColor)
+        drawRuler(duration, textMeasurer, textColor, lineColor)
     }
 }
 
 private fun DrawScope.drawRuler(
+    duration: Float,
     textMeasurer: TextMeasurer, textColor: Color, lineColor: Color
 ) {
     val width = size.width
@@ -231,14 +234,11 @@ private fun DrawScope.drawRuler(
         val isSecondaryDot = i % 5 == 0
 
         if (shouldShowText) {
-            val text = when (i) {
-                0 -> "0"
-                10 -> "0.2"
-                20 -> "0.4"
-                30 -> "0.6"
-                40 -> "0.8"
-                50 -> "1"
-                else -> ""
+            val timeInSeconds = fraction * duration
+            val text = if (timeInSeconds < 10) {
+                "${(timeInSeconds * 10).toInt() / 10.0}s"
+            } else {
+                "${timeInSeconds.toInt()}s"
             }
             val textLayoutResult = textMeasurer.measure(text, textStyle)
             drawText(

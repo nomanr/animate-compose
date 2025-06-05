@@ -30,7 +30,7 @@ fun PlaygroundScreen(
 
     KeyframeProvider {
         val presetState = LocalKeyframePreset.current
-        val timelineState = remember { PlaygroundState(presetState) }
+        val timelineState = remember(presetState) { PlaygroundState(presetState) }
         
         Column(modifier = Modifier.fillMaxSize()) {
             AppTopbar()
