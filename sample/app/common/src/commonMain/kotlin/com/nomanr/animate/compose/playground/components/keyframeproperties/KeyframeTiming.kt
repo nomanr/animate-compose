@@ -38,32 +38,26 @@ private fun StaticTiming(
     state: PlaygroundState
 ) {
     var textValue by remember(keyframe.percent) {
-        mutableStateOf((keyframe.percent * 100).toInt().toString())
+        mutableStateOf(keyframe.percent.toString())
     }
 
-    KeyframePropertiesSection(title = "Keyframe Time") {
+    KeyframePropertiesSection(title = "Keyframe Position") {
         OutlinedTextField(
             value = textValue,
             onValueChange = { newValue ->
                 textValue = newValue
-                newValue.toIntOrNull()?.let { percentage ->
-                    val normalizedValue = percentage / 100f
-                    if (normalizedValue in 0f..1f) {
-                        state.updateKeyframeTime(selectedIndex, normalizedValue)
+                newValue.toFloatOrNull()?.let { value ->
+                    if (value in 0f..1f) {
+                        state.updateKeyframeTime(selectedIndex, value)
                     }
                 }
-            },
-            suffix = {
-                Text(
-                    "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
-                )
             },
             textStyle = AppTheme.typography.body2,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             singleLine = true,
             label = {
                 Text(
-                    text = "Time",
+                    text = "Position",
                     style = AppTheme.typography.label2,
                     color = AppTheme.colors.text
                 )
@@ -78,14 +72,14 @@ private fun SegmentTiming(
     state: PlaygroundState
 ) {
     var startTextValue by remember(keyframe.start) {
-        mutableStateOf((keyframe.start * 100).toInt().toString())
+        mutableStateOf(keyframe.start.toString())
     }
     
     var endTextValue by remember(keyframe.end) {
-        mutableStateOf((keyframe.end * 100).toInt().toString())
+        mutableStateOf(keyframe.end.toString())
     }
 
-    KeyframePropertiesSection(title = "Keyframe Timing") {
+    KeyframePropertiesSection(title = "Keyframe Position") {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -94,19 +88,13 @@ private fun SegmentTiming(
                 value = startTextValue,
                 onValueChange = { newValue ->
                     startTextValue = newValue
-                    newValue.toIntOrNull()?.let { percentage ->
-                        val normalizedValue = percentage / 100f
-                        if (normalizedValue in 0f..keyframe.end && normalizedValue <= 1f) {
+                    newValue.toFloatOrNull()?.let { value ->
+                        if (value in 0f..keyframe.end && value <= 1f) {
                             state.updateKeyframe(selectedIndex) { old ->
-                                (old as Keyframe.Segment).copy(start = normalizedValue)
+                                (old as Keyframe.Segment).copy(start = value)
                             }
                         }
                     }
-                },
-                suffix = {
-                    Text(
-                        "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
-                    )
                 },
                 textStyle = AppTheme.typography.body2,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -125,19 +113,13 @@ private fun SegmentTiming(
                 value = endTextValue,
                 onValueChange = { newValue ->
                     endTextValue = newValue
-                    newValue.toIntOrNull()?.let { percentage ->
-                        val normalizedValue = percentage / 100f
-                        if (normalizedValue >= keyframe.start && normalizedValue <= 1f) {
+                    newValue.toFloatOrNull()?.let { value ->
+                        if (value >= keyframe.start && value <= 1f) {
                             state.updateKeyframe(selectedIndex) { old ->
-                                (old as Keyframe.Segment).copy(end = normalizedValue)
+                                (old as Keyframe.Segment).copy(end = value)
                             }
                         }
                     }
-                },
-                suffix = {
-                    Text(
-                        "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
-                    )
                 },
                 textStyle = AppTheme.typography.body2,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
