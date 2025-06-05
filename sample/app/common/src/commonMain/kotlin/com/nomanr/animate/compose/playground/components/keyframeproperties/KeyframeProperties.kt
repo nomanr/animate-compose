@@ -77,54 +77,10 @@ private fun KeyframePropertiesPanel(
             style = AppTheme.typography.h4,
         )
 
-        // Timing Section
-        TimingSection(keyframe = keyframe, keyframeIndex = keyframeIndex, state = state)
-
-    }
-}
-
-@Composable
-private fun TimingSection(
-    keyframe: Keyframe, keyframeIndex: Int, state: PlaygroundState
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        when (keyframe) {
-            is Keyframe.Static -> {
-                PropertyField(
-                    label = "Time", value = keyframe.percent * 1000, onValueChange = { ms ->
-                        val seconds = ms / 1000f
-                        if (seconds >= 0f && seconds <= state.duration) {
-                            state.updateKeyframeTime(keyframeIndex, seconds)
-                        }
-                    }, suffix = "ms"
-                )
-            }
-
-            is Keyframe.Segment -> {
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    PropertyField(
-                        label = "Start", value = keyframe.start * 1000, onValueChange = { ms ->
-                            val seconds = ms / 1000f
-                            if (seconds >= 0f && seconds <= state.duration) {
-                                state.updateKeyframeTime(keyframeIndex, seconds)
-                            }
-                        }, suffix = "ms", modifier = Modifier.weight(1f)
-                    )
-                    PropertyField(
-                        label = "End", value = keyframe.end * 1000, onValueChange = { ms ->
-                            val seconds = ms / 1000f
-                            if (seconds >= keyframe.start && seconds <= state.duration) {
-                                state.updateKeyframe(keyframeIndex) { oldKeyframe ->
-                                    (oldKeyframe as Keyframe.Segment).copy(end = seconds)
-                                }
-                            }
-                        }, suffix = "ms", modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-        }
+        KeyframeTiming(state = state)
 
         Spacer(modifier = Modifier.height(8.dp))
+        
         EasingSection(keyframe = keyframe, keyframeIndex = keyframeIndex, state = state)
     }
 }
