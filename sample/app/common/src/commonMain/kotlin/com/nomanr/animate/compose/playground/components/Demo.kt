@@ -22,7 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
-import com.nomanr.animate.compose.playground.state.PlaygroundState
+import com.nomanr.animate.compose.playground.PlaygroundState
+import com.nomanr.animate.compose.playground.toKeyframes
 import com.nomanr.animate.compose.playground.model.CustomAnimationPreset
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
@@ -30,7 +31,7 @@ import com.nomanr.animate.compose.ui.components.Text
 @Composable
 
 fun Demo(
-    timelineState: PlaygroundState,
+    state: PlaygroundState,
     modifier: Modifier = Modifier
 ) {
     val animationState = rememberAnimatedState()
@@ -38,7 +39,7 @@ fun Demo(
     
     val customAnimation by remember {
         derivedStateOf {
-            val keyframes = timelineState.toKeyframes()
+            val keyframes = state.toKeyframes()
             if (keyframes.isNotEmpty()) {
                 CustomAnimationPreset(keyframes)
             } else null

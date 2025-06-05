@@ -7,14 +7,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.KeyboardType
-import com.nomanr.animate.compose.playground.LocalKeyframePreset
+import com.nomanr.animate.compose.playground.LocalPlaygroundState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 
 @Composable
 fun AnimationDuration() {
-    val presetState = LocalKeyframePreset.current
+    val presetState = LocalPlaygroundState.current
     var textValue by remember(presetState.duration) {
         mutableStateOf((presetState.duration * 1000).toString())
     }

@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.playground.state.PlaygroundState
+import com.nomanr.animate.compose.playground.PlaygroundState
+import com.nomanr.animate.compose.playground.updateKeyframeTime
+import com.nomanr.animate.compose.playground.updateKeyframe
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField

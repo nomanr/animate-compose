@@ -15,7 +15,6 @@ import com.nomanr.animate.compose.components.AppTopbar
 import com.nomanr.animate.compose.playground.components.Demo
 import com.nomanr.animate.compose.playground.components.keyframeproperties.KeyframeProperties
 import com.nomanr.animate.compose.playground.components.timeline.Timeline
-import com.nomanr.animate.compose.playground.state.PlaygroundState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider
 
@@ -24,9 +23,8 @@ fun PlaygroundScreen(
     onNavigateToSample: (() -> Unit)? = null
 ) {
 
-    KeyframeProvider {
-        val presetState = LocalKeyframePreset.current
-        val timelineState = remember(presetState) { PlaygroundState(presetState) }
+    PlaygroundStateProvider {
+        val state = LocalPlaygroundState.current
 
         Column(modifier = Modifier.fillMaxSize()) {
             AppTopbar()
@@ -40,11 +38,11 @@ fun PlaygroundScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Demo(
-                        timelineState = timelineState, modifier = Modifier.weight(1.2f)
+                        state = state, modifier = Modifier.weight(1.2f)
                     )
 
                     Timeline(
-                        state = timelineState,
+                        state = state,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -52,7 +50,7 @@ fun PlaygroundScreen(
                 VerticalDivider()
 
                 KeyframeProperties(
-                    state = timelineState, modifier = Modifier.width(400.dp)
+                    state = state, modifier = Modifier.width(400.dp)
                 )
             }
         }

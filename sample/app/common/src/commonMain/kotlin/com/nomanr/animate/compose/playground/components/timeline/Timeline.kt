@@ -26,7 +26,13 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.playground.state.PlaygroundState
+import com.nomanr.animate.compose.playground.PlaygroundState
+import com.nomanr.animate.compose.playground.addStaticKeyframe
+import com.nomanr.animate.compose.playground.addSegmentKeyframe
+import com.nomanr.animate.compose.playground.updateKeyframeTime
+import com.nomanr.animate.compose.playground.updateKeyframe
+import com.nomanr.animate.compose.playground.updateCurrentTimeWithBounds
+import com.nomanr.animate.compose.playground.play
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Button
 import com.nomanr.animate.compose.ui.components.ButtonVariant
@@ -54,7 +60,7 @@ fun Timeline(
                 val progress = (elapsed.toFloat() / (animationDuration * 1000)).coerceIn(0f, 1f)
                 val newTime = startTime + (animationDuration * progress)
 
-                state.updateCurrentTime(newTime)
+                state.updateCurrentTimeWithBounds(newTime)
 
                 if (progress >= 1f) {
                     state.updateCurrentTime(0f)
