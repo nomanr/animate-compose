@@ -9,12 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.playground.components.Demo
+import com.nomanr.animate.compose.playground.state.PlaygroundState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider
 
 @Composable
 fun TimelineView(
-    state: TimelineState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
+    state: PlaygroundState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
 ) {
     Column(
         modifier = modifier.background(AppTheme.colors.surface),

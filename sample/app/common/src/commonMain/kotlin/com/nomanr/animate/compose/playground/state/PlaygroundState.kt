@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.components.timeline
+package com.nomanr.animate.compose.playground.state
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -9,7 +9,7 @@ import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.playground.KeyframePresetState
 
 @Stable
-class TimelineState(
+class PlaygroundState(
     private val presetState: KeyframePresetState? = null
 ) {
     val keyframes: List<Keyframe>

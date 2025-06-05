@@ -26,6 +26,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.playground.state.PlaygroundState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Button
 import com.nomanr.animate.compose.ui.components.ButtonVariant
@@ -38,7 +39,7 @@ import kotlin.time.TimeSource
 
 @Composable
 fun Timeline(
-    state: TimelineState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
+    state: PlaygroundState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
 ) {
     // Handle animation playback
     LaunchedEffect(state.isPlaying) {
@@ -159,7 +160,7 @@ fun Timeline(
 
 @Composable
 private fun KeyframeSlider(
-    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState, onSelected: () -> Unit
+    keyframe: Keyframe, keyframeIndex: Int, state: PlaygroundState, onSelected: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)

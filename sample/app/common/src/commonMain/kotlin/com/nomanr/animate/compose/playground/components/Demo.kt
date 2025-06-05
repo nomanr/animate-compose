@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
-import com.nomanr.animate.compose.playground.components.timeline.TimelineState
+import com.nomanr.animate.compose.playground.state.PlaygroundState
 import com.nomanr.animate.compose.playground.model.CustomAnimationPreset
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
@@ -30,7 +30,7 @@ import com.nomanr.animate.compose.ui.components.Text
 @Composable
 
 fun Demo(
-    timelineState: TimelineState,
+    timelineState: PlaygroundState,
     modifier: Modifier = Modifier
 ) {
     val animationState = rememberAnimatedState()

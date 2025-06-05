@@ -20,14 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.core.Keyframe
-import com.nomanr.animate.compose.playground.components.timeline.TimelineState
+import com.nomanr.animate.compose.playground.state.PlaygroundState
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 
 @Composable
 fun KeyframeProperties(
-    state: TimelineState, modifier: Modifier = Modifier
+    state: PlaygroundState, modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.fillMaxHeight().padding(16.dp),
@@ -64,7 +64,7 @@ fun KeyframeProperties(
 
 @Composable
 private fun KeyframePropertiesPanel(
-    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState
+    keyframe: Keyframe, keyframeIndex: Int, state: PlaygroundState
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -85,7 +85,7 @@ private fun KeyframePropertiesPanel(
 
 @Composable
 private fun TimingSection(
-    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState
+    keyframe: Keyframe, keyframeIndex: Int, state: PlaygroundState
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         when (keyframe) {
@@ -132,7 +132,7 @@ private fun TimingSection(
 
 @Composable
 private fun EasingSection(
-    keyframe: Keyframe, keyframeIndex: Int, state: TimelineState
+    keyframe: Keyframe, keyframeIndex: Int, state: PlaygroundState
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Text(text = "Easing", style = AppTheme.typography.h5)
