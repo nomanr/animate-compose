@@ -26,7 +26,7 @@ import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 
 @Composable
-fun KeyframeProperties(
+fun Configurations(
     state: PlaygroundState, modifier: Modifier = Modifier
 ) {
     Column(
@@ -55,7 +55,7 @@ fun KeyframeProperties(
             ) {
                 KeyframePropertiesPanel(
                     keyframe = selectedKeyframe,
-                    keyframeIndex = state.selectedKeyframeIndex!!,
+                    keyframeIndex = state.selectedKeyframeIndex,
                     state = state
                 )
             }

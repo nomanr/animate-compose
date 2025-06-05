@@ -41,7 +41,7 @@ private fun StaticTiming(
         mutableStateOf(((keyframe.percent * 1000).toInt() / 1000.0).toString())
     }
 
-    KeyframePropertiesSection(title = "Keyframe Position") {
+    ConfigurationSection(title = "Keyframe Position") {
         OutlinedTextField(
             value = textValue,
             onValueChange = { newValue ->
@@ -79,7 +79,7 @@ private fun SegmentTiming(
         mutableStateOf(((keyframe.end * 1000).toInt() / 1000.0).toString())
     }
 
-    KeyframePropertiesSection(title = "Keyframe Position") {
+    ConfigurationSection(title = "Keyframe Position") {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)

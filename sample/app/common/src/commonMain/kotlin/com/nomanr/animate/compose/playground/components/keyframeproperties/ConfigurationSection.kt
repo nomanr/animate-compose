@@ -14,7 +14,7 @@ import com.nomanr.animate.compose.ui.components.card.Card
 
 
 @Composable
-fun KeyframePropertiesSection(title: String, content: @Composable ColumnScope.() -> Unit) {
+fun ConfigurationSection(title: String, content: @Composable ColumnScope.() -> Unit) {
     Column{
         Text(title, style = AppTheme.typography.h3)
 

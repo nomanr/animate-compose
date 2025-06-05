@@ -8,12 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.components.AppTopbar
 import com.nomanr.animate.compose.playground.components.Demo
-import com.nomanr.animate.compose.playground.components.keyframeproperties.KeyframeProperties
+import com.nomanr.animate.compose.playground.components.keyframeproperties.Configurations
 import com.nomanr.animate.compose.playground.components.timeline.Timeline
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider
@@ -49,7 +48,7 @@ fun PlaygroundScreen(
 
                 VerticalDivider()
 
-                KeyframeProperties(
+                Configurations(
                     state = state, modifier = Modifier.width(400.dp)
                 )
             }

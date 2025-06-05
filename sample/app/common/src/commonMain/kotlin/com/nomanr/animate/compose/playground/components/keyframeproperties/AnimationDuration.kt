@@ -19,7 +19,7 @@ fun AnimationDuration() {
         mutableStateOf(presetState.duration.toString())
     }
 
-    KeyframePropertiesSection(title = "Animation Duration") {
+    ConfigurationSection(title = "Animation Duration") {
         OutlinedTextField(
             value = textValue,
             onValueChange = { newValue ->
