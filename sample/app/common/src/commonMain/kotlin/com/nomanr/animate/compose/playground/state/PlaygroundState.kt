@@ -31,9 +31,7 @@ class PlaygroundState(
     fun addStaticKeyframe(time: Float? = null): Keyframe.Static {
         val actualTime = time ?: getNextKeyframeStartTime()
         val newKeyframe = Keyframe.Static(
-            percent = actualTime,
-            transform = TransformProperties(),
-            easing = null
+            percent = actualTime, transform = TransformProperties(), easing = null
         )
         val updatedKeyframes = (keyframes + newKeyframe).sortedBy { getKeyframeTime(it) }
         presetState?.updateKeyframes?.invoke(updatedKeyframes)
@@ -54,17 +52,17 @@ class PlaygroundState(
         presetState?.updateKeyframes?.invoke(updatedKeyframes)
         return newKeyframe
     }
-    
+
     private fun getNextKeyframeStartTime(): Float {
         if (keyframes.isEmpty()) return 0f
-        
+
         val lastKeyframeEnd = keyframes.maxOf { keyframe ->
             when (keyframe) {
                 is Keyframe.Static -> keyframe.percent
                 is Keyframe.Segment -> keyframe.end
             }
         }
-        
+
         return lastKeyframeEnd
     }
 
@@ -92,6 +90,7 @@ class PlaygroundState(
     }
 
     fun selectKeyframe(index: Int?) {
+        if (selectedKeyframeIndex == index) return
         selectedKeyframeIndex = index
     }
 
@@ -102,15 +101,12 @@ class PlaygroundState(
                 is Keyframe.Segment -> {
                     val segmentDuration = keyframe.end - keyframe.start
                     keyframe.copy(
-                        start = newTime,
-                        end = newTime + segmentDuration
+                        start = newTime, end = newTime + segmentDuration
                     )
                 }
             }
         }
     }
-
-
 
 
     fun updateDuration(newDuration: Float) {
@@ -123,16 +119,16 @@ class PlaygroundState(
         isPlaying = true
         currentTime = 0f
     }
-    
+
     fun pause() {
         isPlaying = false
     }
-    
+
     fun stop() {
         isPlaying = false
         currentTime = 0f
     }
-    
+
     fun updateCurrentTime(time: Float) {
         currentTime = time.coerceIn(0f, duration)
         if (currentTime >= duration) {

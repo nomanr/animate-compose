@@ -39,7 +39,7 @@ import kotlin.time.TimeSource
 
 @Composable
 fun Timeline(
-    state: PlaygroundState, modifier: Modifier = Modifier, onNodeSelected: ((String?) -> Unit)? = null
+    state: PlaygroundState, modifier: Modifier = Modifier
 ) {
     // Handle animation playback
     LaunchedEffect(state.isPlaying) {
@@ -131,7 +131,6 @@ fun Timeline(
                                     state = state,
                                     onSelected = {
                                         state.selectKeyframe(index)
-                                        onNodeSelected?.invoke(index.toString())
                                     })
                             }
                         }

@@ -37,6 +37,7 @@ fun KeyframeProperties(
         AnimationDuration()
 
 
+        println(state.selectedKeyframeIndex)
         val selectedKeyframe = state.selectedKeyframeIndex?.let { index ->
             state.keyframes.getOrNull(index)
         }
