@@ -3,6 +3,7 @@ package com.nomanr.animate.compose.ui.components
 import androidx.annotation.IntRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ fun SegmentSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     @IntRange(from = 0) steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
     colors: SliderColors = SegmentSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -60,6 +62,7 @@ fun SegmentSlider(
         state = state,
         modifier = modifier,
         enabled = enabled,
+        onClick = onClick,
         colors = colors,
         startInteractionSource = startInteractionSource,
         endInteractionSource = endInteractionSource,
@@ -71,6 +74,7 @@ fun SegmentSlider(
     state: RangeSliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
     colors: SliderColors = SegmentSliderDefaults.colors(),
     startInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     endInteractionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -79,7 +83,19 @@ fun SegmentSlider(
 
     BasicRangeSlider(
         state = state,
-        modifier = modifier.height(32.dp),
+        modifier = modifier
+            .height(32.dp)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            ),
         enabled = enabled,
         colors = colors,
         trackHeight = 32.dp,

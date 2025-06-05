@@ -3,6 +3,7 @@ package com.nomanr.animate.compose.ui.components
 import androidx.annotation.IntRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +38,7 @@ fun StaticSlider(
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     @IntRange(from = 0) steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
     colors: SliderColors = StaticSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onlyThumbDraggable: Boolean = true,
@@ -58,6 +60,7 @@ fun StaticSlider(
         state = state,
         modifier = modifier,
         enabled = enabled,
+        onClick = onClick,
         colors = colors,
         interactionSource = interactionSource,
         onlyThumbDraggable = onlyThumbDraggable,
@@ -69,6 +72,7 @@ fun StaticSlider(
     state: SliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    onClick: (() -> Unit)? = null,
     colors: SliderColors = StaticSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onlyThumbDraggable: Boolean = true,
@@ -77,7 +81,19 @@ fun StaticSlider(
 
     BasicSlider(
         state = state,
-        modifier = modifier.height(32.dp),
+        modifier = modifier
+            .height(32.dp)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            ),
         enabled = enabled,
         colors = colors,
         trackHeight = 32.dp,

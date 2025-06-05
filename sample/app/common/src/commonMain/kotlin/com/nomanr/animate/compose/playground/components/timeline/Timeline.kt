@@ -170,11 +170,15 @@ private fun KeyframeSlider(
         when (keyframe) {
             is Keyframe.Static -> {
                 StaticSlider(
-                    value = keyframe.percent / state.duration, onValueChange = { normalizedValue ->
+                    value = keyframe.percent / state.duration, 
+                    onValueChange = { normalizedValue ->
                         val newTime = normalizedValue * state.duration
                         state.updateKeyframeTime(keyframeIndex, newTime)
                         onSelected()
-                    }, valueRange = 0f..1f, modifier = Modifier.fillMaxWidth()
+                    }, 
+                    onClick = onSelected,
+                    valueRange = 0f..1f, 
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
@@ -191,6 +195,7 @@ private fun KeyframeSlider(
                         }
                         onSelected()
                     },
+                    onClick = onSelected,
                     valueRange = 0f..1f,
                     modifier = Modifier.fillMaxWidth()
                 )
