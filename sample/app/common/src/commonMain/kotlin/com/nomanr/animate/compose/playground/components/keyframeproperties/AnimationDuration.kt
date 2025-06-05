@@ -16,7 +16,7 @@ import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 fun AnimationDuration() {
     val presetState = LocalPlaygroundState.current
     var textValue by remember(presetState.duration) {
-        mutableStateOf((presetState.duration * 1000).toString())
+        mutableStateOf(presetState.duration.toString())
     }
 
     KeyframePropertiesSection(title = "Animation Duration") {
@@ -24,10 +24,9 @@ fun AnimationDuration() {
             value = textValue,
             onValueChange = { newValue ->
                 textValue = newValue
-                newValue.toFloatOrNull()?.let { floatValue ->
-                    val seconds = floatValue / 1000f
-                    if (seconds > 0) {
-                        presetState.updateDuration(seconds)
+                newValue.toIntOrNull()?.let { milliseconds ->
+                    if (milliseconds > 0) {
+                        presetState.updateDuration(milliseconds)
                     }
                 }
             },

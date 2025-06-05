@@ -38,7 +38,7 @@ private fun StaticTiming(
     state: PlaygroundState
 ) {
     var textValue by remember(keyframe.percent) {
-        mutableStateOf((keyframe.percent * 1000).toInt().toString())
+        mutableStateOf((keyframe.percent * 100).toInt().toString())
     }
 
     KeyframePropertiesSection(title = "Keyframe Time") {
@@ -46,16 +46,16 @@ private fun StaticTiming(
             value = textValue,
             onValueChange = { newValue ->
                 textValue = newValue
-                newValue.toIntOrNull()?.let { milliseconds ->
-                    val seconds = milliseconds / 1000f
-                    if (seconds in 0f..state.duration) {
-                        state.updateKeyframeTime(selectedIndex, seconds)
+                newValue.toIntOrNull()?.let { percentage ->
+                    val normalizedValue = percentage / 100f
+                    if (normalizedValue in 0f..1f) {
+                        state.updateKeyframeTime(selectedIndex, normalizedValue)
                     }
                 }
             },
             suffix = {
                 Text(
-                    "ms", style = AppTheme.typography.label2, color = AppTheme.colors.text
+                    "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
                 )
             },
             textStyle = AppTheme.typography.body2,
@@ -78,11 +78,11 @@ private fun SegmentTiming(
     state: PlaygroundState
 ) {
     var startTextValue by remember(keyframe.start) {
-        mutableStateOf((keyframe.start * 1000).toInt().toString())
+        mutableStateOf((keyframe.start * 100).toInt().toString())
     }
     
     var endTextValue by remember(keyframe.end) {
-        mutableStateOf((keyframe.end * 1000).toInt().toString())
+        mutableStateOf((keyframe.end * 100).toInt().toString())
     }
 
     KeyframePropertiesSection(title = "Keyframe Timing") {
@@ -94,18 +94,18 @@ private fun SegmentTiming(
                 value = startTextValue,
                 onValueChange = { newValue ->
                     startTextValue = newValue
-                    newValue.toIntOrNull()?.let { milliseconds ->
-                        val seconds = milliseconds / 1000f
-                        if (seconds in 0f..keyframe.end && seconds <= state.duration) {
+                    newValue.toIntOrNull()?.let { percentage ->
+                        val normalizedValue = percentage / 100f
+                        if (normalizedValue in 0f..keyframe.end && normalizedValue <= 1f) {
                             state.updateKeyframe(selectedIndex) { old ->
-                                (old as Keyframe.Segment).copy(start = seconds)
+                                (old as Keyframe.Segment).copy(start = normalizedValue)
                             }
                         }
                     }
                 },
                 suffix = {
                     Text(
-                        "ms", style = AppTheme.typography.label2, color = AppTheme.colors.text
+                        "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
                     )
                 },
                 textStyle = AppTheme.typography.body2,
@@ -125,18 +125,18 @@ private fun SegmentTiming(
                 value = endTextValue,
                 onValueChange = { newValue ->
                     endTextValue = newValue
-                    newValue.toIntOrNull()?.let { milliseconds ->
-                        val seconds = milliseconds / 1000f
-                        if (seconds >= keyframe.start && seconds <= state.duration) {
+                    newValue.toIntOrNull()?.let { percentage ->
+                        val normalizedValue = percentage / 100f
+                        if (normalizedValue >= keyframe.start && normalizedValue <= 1f) {
                             state.updateKeyframe(selectedIndex) { old ->
-                                (old as Keyframe.Segment).copy(end = seconds)
+                                (old as Keyframe.Segment).copy(end = normalizedValue)
                             }
                         }
                     }
                 },
                 suffix = {
                     Text(
-                        "ms", style = AppTheme.typography.label2, color = AppTheme.colors.text
+                        "%", style = AppTheme.typography.label2, color = AppTheme.colors.text
                     )
                 },
                 textStyle = AppTheme.typography.body2,

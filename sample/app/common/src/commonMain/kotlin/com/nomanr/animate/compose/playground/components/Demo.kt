@@ -74,7 +74,8 @@ fun Demo(
             if (trigger.second && customAnimation != null) {
                 Animated(
                     preset = customAnimation!!,
-                    state = animationState
+                    state = animationState,
+                    durationMillis = state.duration
                 ) {
                     DemoContent()
                 }

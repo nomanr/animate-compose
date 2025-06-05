@@ -51,14 +51,15 @@ fun Timeline(
     LaunchedEffect(state.isPlaying) {
         if (state.isPlaying) {
             val startTime = state.currentTime
-            val animationDuration = state.duration - startTime
+            val remainingProgress = 1.0f - startTime
+            val remainingDurationMs = (remainingProgress * state.duration).toLong()
             val timeSource = TimeSource.Monotonic
             val startMark = timeSource.markNow()
 
             while (state.isPlaying) {
                 val elapsed = startMark.elapsedNow().inWholeMilliseconds
-                val progress = (elapsed.toFloat() / (animationDuration * 1000)).coerceIn(0f, 1f)
-                val newTime = startTime + (animationDuration * progress)
+                val progress = (elapsed.toFloat() / remainingDurationMs).coerceIn(0f, 1f)
+                val newTime = startTime + (remainingProgress * progress)
 
                 state.updateCurrentTimeWithBounds(newTime)
 
@@ -116,7 +117,6 @@ fun Timeline(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     TimelineRuler(
-                        duration = state.duration,
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -144,7 +144,7 @@ fun Timeline(
                 }
 
                 if (state.isPlaying || state.currentTime > 0) {
-                    val progress = state.currentTime / state.duration
+                    val progress = state.currentTime
                     val cursorColor = AppTheme.colors.primary.copy(alpha = 0.7f)
                     Canvas(
                         modifier = Modifier.fillMaxHeight().fillMaxWidth()
@@ -175,10 +175,9 @@ private fun KeyframeSlider(
         when (keyframe) {
             is Keyframe.Static -> {
                 StaticSlider(
-                    value = keyframe.percent / state.duration, 
+                    value = keyframe.percent, 
                     onValueChange = { normalizedValue ->
-                        val newTime = normalizedValue * state.duration
-                        state.updateKeyframeTime(keyframeIndex, newTime)
+                        state.updateKeyframeTime(keyframeIndex, normalizedValue)
                         onSelected()
                     }, 
                     onClick = onSelected,
@@ -189,13 +188,11 @@ private fun KeyframeSlider(
 
             is Keyframe.Segment -> {
                 SegmentSlider(
-                    value = (keyframe.start / state.duration)..(keyframe.end / state.duration),
+                    value = keyframe.start..keyframe.end,
                     onValueChange = { normalizedRange ->
-                        val newStart = normalizedRange.start * state.duration
-                        val newEnd = normalizedRange.endInclusive * state.duration
                         state.updateKeyframe(keyframeIndex) { oldKeyframe ->
                             (oldKeyframe as Keyframe.Segment).copy(
-                                start = newStart, end = newEnd
+                                start = normalizedRange.start, end = normalizedRange.endInclusive
                             )
                         }
                         onSelected()
@@ -211,7 +208,6 @@ private fun KeyframeSlider(
 
 @Composable
 private fun TimelineRuler(
-    duration: Float,
     modifier: Modifier = Modifier
 ) {
     val textMeasurer = rememberTextMeasurer()
@@ -221,12 +217,11 @@ private fun TimelineRuler(
     Canvas(
         modifier = modifier.height(36.dp).padding(horizontal = 20.dp)
     ) {
-        drawRuler(duration, textMeasurer, textColor, lineColor)
+        drawRuler(textMeasurer, textColor, lineColor)
     }
 }
 
 private fun DrawScope.drawRuler(
-    duration: Float,
     textMeasurer: TextMeasurer, textColor: Color, lineColor: Color
 ) {
     val width = size.width
@@ -244,11 +239,12 @@ private fun DrawScope.drawRuler(
         val isSecondaryDot = i % 5 == 0
 
         if (shouldShowText) {
-            val timeInSeconds = fraction * duration
-            val text = if (timeInSeconds < 10) {
-                "${(timeInSeconds * 10).toInt() / 10.0}s"
+            val text = if (fraction == 0f) {
+                "0.0"
+            } else if (fraction == 1f) {
+                "1.0"
             } else {
-                "${timeInSeconds.toInt()}s"
+                "${(fraction * 10).toInt() / 10.0}"
             }
             val textLayoutResult = textMeasurer.measure(text, textStyle)
             drawText(

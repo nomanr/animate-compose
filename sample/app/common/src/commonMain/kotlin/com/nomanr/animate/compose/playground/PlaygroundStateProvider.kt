@@ -12,14 +12,14 @@ import com.nomanr.animate.compose.core.TransformProperties
 
 data class PlaygroundState(
     val keyframes: List<Keyframe>,
-    val duration: Float,
+    val duration: Int,
     val originX: Float,
     val originY: Float,
     val currentTime: Float,
     val selectedKeyframeIndex: Int?,
     val isPlaying: Boolean,
     val updateKeyframes: (List<Keyframe>) -> Unit,
-    val updateDuration: (Float) -> Unit,
+    val updateDuration: (Int) -> Unit,
     val updateOrigin: (Float, Float) -> Unit,
     val updateCurrentTime: (Float) -> Unit,
     val selectKeyframe: (Int?) -> Unit,
@@ -36,7 +36,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
         mutableStateOf(listOf<Keyframe>())
     }
 
-    var duration by remember { mutableStateOf(2f) }
+    var duration by remember { mutableStateOf(2000) }
     var originX by remember { mutableStateOf(0.5f) }
     var originY by remember { mutableStateOf(0.5f) }
     var currentTime by remember { mutableStateOf(0f) }
@@ -80,7 +80,7 @@ fun PlaygroundState.addStaticKeyframe(time: Float? = null): Keyframe.Static {
 
 fun PlaygroundState.addSegmentKeyframe(startTime: Float? = null, endTime: Float? = null): Keyframe.Segment {
     val actualStartTime = startTime ?: getNextKeyframeStartTime()
-    val actualEndTime = endTime ?: (actualStartTime + 0.2f).coerceAtMost(duration)
+    val actualEndTime = endTime ?: (actualStartTime + 0.2f).coerceAtMost(1.0f)
     val newKeyframe = Keyframe.Segment(
         start = actualStartTime,
         end = actualEndTime,
@@ -157,11 +157,11 @@ fun PlaygroundState.stop() {
 }
 
 fun PlaygroundState.updateCurrentTimeWithBounds(time: Float) {
-    val coercedTime = time.coerceIn(0f, duration)
+    val coercedTime = time.coerceIn(0f, 1.0f)
     updateCurrentTime(coercedTime)
-    if (coercedTime >= duration) {
+    if (coercedTime >= 1.0f) {
         setPlaying(false)
-        updateCurrentTime(duration)
+        updateCurrentTime(1.0f)
     }
 }
 
