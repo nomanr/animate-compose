@@ -38,7 +38,7 @@ private fun StaticTiming(
     state: PlaygroundState
 ) {
     var textValue by remember(keyframe.percent) {
-        mutableStateOf(keyframe.percent.toString())
+        mutableStateOf(((keyframe.percent * 1000).toInt() / 1000.0).toString())
     }
 
     KeyframePropertiesSection(title = "Keyframe Position") {
@@ -72,11 +72,11 @@ private fun SegmentTiming(
     state: PlaygroundState
 ) {
     var startTextValue by remember(keyframe.start) {
-        mutableStateOf(keyframe.start.toString())
+        mutableStateOf(((keyframe.start * 1000).toInt() / 1000.0).toString())
     }
     
     var endTextValue by remember(keyframe.end) {
-        mutableStateOf(keyframe.end.toString())
+        mutableStateOf(((keyframe.end * 1000).toInt() / 1000.0).toString())
     }
 
     KeyframePropertiesSection(title = "Keyframe Position") {
