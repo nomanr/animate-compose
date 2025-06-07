@@ -181,6 +181,7 @@ private fun KeyframeSlider(
                         onSelected()
                     }, 
                     onClick = onSelected,
+                    isSelected = state.selectedKeyframeIndex == keyframeIndex,
                     valueRange = 0f..1f, 
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -198,6 +199,7 @@ private fun KeyframeSlider(
                         onSelected()
                     },
                     onClick = onSelected,
+                    isSelected = state.selectedKeyframeIndex == keyframeIndex,
                     valueRange = 0f..1f,
                     modifier = Modifier.fillMaxWidth()
                 )

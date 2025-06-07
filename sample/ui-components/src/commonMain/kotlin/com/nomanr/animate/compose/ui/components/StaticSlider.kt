@@ -35,6 +35,7 @@ fun StaticSlider(
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isSelected: Boolean = false,
     valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
     @IntRange(from = 0) steps: Int = 0,
     onValueChangeFinished: (() -> Unit)? = null,
@@ -60,6 +61,7 @@ fun StaticSlider(
         state = state,
         modifier = modifier,
         enabled = enabled,
+        isSelected = isSelected,
         onClick = onClick,
         colors = colors,
         interactionSource = interactionSource,
@@ -72,6 +74,7 @@ fun StaticSlider(
     state: SliderState,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isSelected: Boolean = false,
     onClick: (() -> Unit)? = null,
     colors: SliderColors = StaticSliderDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -103,7 +106,7 @@ fun StaticSlider(
         interactionSource = interactionSource,
         thumb = { _ ->
             StaticThumb(
-                colors = colors, enabled = enabled
+                colors = colors, enabled = enabled, isSelected = isSelected
             )
         },
         track = { sliderState ->
@@ -116,9 +119,13 @@ fun StaticSlider(
 
 @Composable
 private fun StaticThumb(
-    colors: SliderColors, enabled: Boolean, modifier: Modifier = Modifier
+    colors: SliderColors, enabled: Boolean, isSelected: Boolean, modifier: Modifier = Modifier
 ) {
-    val thumbColor = if (enabled) colors.thumbColor else colors.disabledThumbColor
+    val thumbColor = when {
+        isSelected && enabled -> AppTheme.colors.primary
+        enabled -> colors.thumbColor
+        else -> colors.disabledThumbColor
+    }
 
     Box(
         modifier = modifier
