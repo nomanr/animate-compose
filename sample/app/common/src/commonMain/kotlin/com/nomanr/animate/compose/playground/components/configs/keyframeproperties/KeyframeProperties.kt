@@ -53,6 +53,7 @@ private fun SegmentProperties(
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             TranslationProperty(keyframe, selectedIndex, state)
+            ScaleProperty(keyframe, selectedIndex, state)
         }
 
     }
@@ -62,28 +63,78 @@ private fun SegmentProperties(
 private fun TranslationProperty(
     keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
 ) {
-    PropertiesSection(title = "Translation") {
+    TransformPropertySection(
+        title = "Translation",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.translationX },
+                updateValue = { transform, value -> transform.copy(translationX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.translationY },
+                updateValue = { transform, value -> transform.copy(translationY = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun ScaleProperty(
+    keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
+) {
+    TransformPropertySection(
+        title = "Scale",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.scaleX },
+                updateValue = { transform, value -> transform.copy(scaleX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.scaleY },
+                updateValue = { transform, value -> transform.copy(scaleY = value) }
+            )
+        )
+    )
+}
+
+data class TransformPropertyConfig(
+    val name: String,
+    val getValue: (TransformProperties) -> Float?,
+    val updateValue: (TransformProperties, Float?) -> TransformProperties
+)
+
+@Composable
+private fun TransformPropertySection(
+    title: String,
+    keyframe: Keyframe.Segment,
+    selectedIndex: Int,
+    state: PlaygroundState,
+    properties: List<TransformPropertyConfig>
+) {
+    PropertiesSection(title = title) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            TransformPropertyRow(
-                keyframe = keyframe,
-                selectedIndex = selectedIndex,
-                state = state,
-                propertyName = "X",
-                getFromValue = { it.translationX },
-                getToValue = { it.translationX },
-                updateFromValue = { transform, value -> transform.copy(translationX = value) },
-                updateToValue = { transform, value -> transform.copy(translationX = value) }
-            )
-            TransformPropertyRow(
-                keyframe = keyframe,
-                selectedIndex = selectedIndex,
-                state = state,
-                propertyName = "Y",
-                getFromValue = { it.translationY },
-                getToValue = { it.translationY },
-                updateFromValue = { transform, value -> transform.copy(translationY = value) },
-                updateToValue = { transform, value -> transform.copy(translationY = value) }
-            )
+            properties.forEach { property ->
+                TransformPropertyRow(
+                    keyframe = keyframe,
+                    selectedIndex = selectedIndex,
+                    state = state,
+                    propertyName = property.name,
+                    getFromValue = property.getValue,
+                    getToValue = property.getValue,
+                    updateFromValue = property.updateValue,
+                    updateToValue = property.updateValue
+                )
+            }
         }
     }
 }
