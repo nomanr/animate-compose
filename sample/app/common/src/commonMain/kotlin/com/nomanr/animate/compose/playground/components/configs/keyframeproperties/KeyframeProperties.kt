@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.core.Keyframe
+import com.nomanr.animate.compose.core.TransformProperties
 import com.nomanr.animate.compose.playground.PlaygroundState
 import com.nomanr.animate.compose.playground.components.configs.ConfigurationSection
 import com.nomanr.animate.compose.playground.updateKeyframe
@@ -51,82 +52,118 @@ private fun SegmentProperties(
     ConfigurationSection(title = "Transformation Properties") {
 
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            TranslationXProperty(keyframe, selectedIndex, state)
+            TranslationProperty(keyframe, selectedIndex, state)
         }
 
     }
 }
 
 @Composable
-private fun TranslationXProperty(
+private fun TranslationProperty(
     keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
 ) {
-    var fromTextValue by remember(keyframe.from.translationX) {
-        mutableStateOf(keyframe.from.translationX?.let {
-            ((it * 1000).toInt() / 1000.0).toString()
-        } ?: "")
-    }
-
-    var toTextValue by remember(keyframe.to.translationX) {
-        mutableStateOf(keyframe.to.translationX?.let {
-            ((it * 1000).toInt() / 1000.0).toString()
-        } ?: "")
-    }
     PropertiesSection(title = "Translation") {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            OutlinedTextField(
-                value = fromTextValue,
-                onValueChange = { newValue ->
-                    fromTextValue = newValue
-                    val floatValue = if (newValue.isEmpty()) null else newValue.toFloatOrNull()
-                    state.updateKeyframe(selectedIndex) { old ->
-                        (old as Keyframe.Segment).copy(
-                            from = old.from.copy(translationX = floatValue)
-                        )
-                    }
-                },
-                textStyle = AppTheme.typography.body2,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                label = {
-                    Text(
-                        text = "X", style = AppTheme.typography.label2, color = AppTheme.colors.text
-                    )
-                },
-                modifier = Modifier.weight(1f)
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            TransformPropertyRow(
+                keyframe = keyframe,
+                selectedIndex = selectedIndex,
+                state = state,
+                propertyName = "X",
+                getFromValue = { it.translationX },
+                getToValue = { it.translationX },
+                updateFromValue = { transform, value -> transform.copy(translationX = value) },
+                updateToValue = { transform, value -> transform.copy(translationX = value) }
             )
-
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                modifier = Modifier.padding(horizontal = 12.dp).padding(top = 20.dp),
-            )
-
-            OutlinedTextField(
-                value = toTextValue,
-                onValueChange = { newValue ->
-                    toTextValue = newValue
-                    val floatValue = if (newValue.isEmpty()) null else newValue.toFloatOrNull()
-                    state.updateKeyframe(selectedIndex) { old ->
-                        (old as Keyframe.Segment).copy(
-                            to = old.to.copy(translationX = floatValue)
-                        )
-                    }
-                },
-                textStyle = AppTheme.typography.body2,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                label = {
-                    Text(
-                        text = "X", style = AppTheme.typography.label2, color = AppTheme.colors.text
-                    )
-                },
-                modifier = Modifier.weight(1f)
+            TransformPropertyRow(
+                keyframe = keyframe,
+                selectedIndex = selectedIndex,
+                state = state,
+                propertyName = "Y",
+                getFromValue = { it.translationY },
+                getToValue = { it.translationY },
+                updateFromValue = { transform, value -> transform.copy(translationY = value) },
+                updateToValue = { transform, value -> transform.copy(translationY = value) }
             )
         }
+    }
+}
+
+@Composable
+private fun TransformPropertyRow(
+    keyframe: Keyframe.Segment,
+    selectedIndex: Int,
+    state: PlaygroundState,
+    propertyName: String,
+    getFromValue: (TransformProperties) -> Float?,
+    getToValue: (TransformProperties) -> Float?,
+    updateFromValue: (TransformProperties, Float?) -> TransformProperties,
+    updateToValue: (TransformProperties, Float?) -> TransformProperties
+) {
+    var fromTextValue by remember(getFromValue(keyframe.from)) {
+        mutableStateOf(getFromValue(keyframe.from)?.let {
+            ((it * 1000).toInt() / 1000.0).toString()
+        } ?: "")
+    }
+
+    var toTextValue by remember(getToValue(keyframe.to)) {
+        mutableStateOf(getToValue(keyframe.to)?.let {
+            ((it * 1000).toInt() / 1000.0).toString()
+        } ?: "")
+    }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        OutlinedTextField(
+            value = fromTextValue,
+            onValueChange = { newValue ->
+                fromTextValue = newValue
+                val floatValue = if (newValue.isEmpty()) null else newValue.toFloatOrNull()
+                state.updateKeyframe(selectedIndex) { old ->
+                    (old as Keyframe.Segment).copy(
+                        from = updateFromValue(old.from, floatValue)
+                    )
+                }
+            },
+            textStyle = AppTheme.typography.body2,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            label = {
+                Text(
+                    text = propertyName, style = AppTheme.typography.label2, color = AppTheme.colors.text
+                )
+            },
+            modifier = Modifier.weight(1f)
+        )
+
+        Icon(
+            imageVector = Icons.AutoMirrored.Default.ArrowForward,
+            modifier = Modifier.padding(horizontal = 12.dp).padding(top = 20.dp),
+        )
+
+        OutlinedTextField(
+            value = toTextValue,
+            onValueChange = { newValue ->
+                toTextValue = newValue
+                val floatValue = if (newValue.isEmpty()) null else newValue.toFloatOrNull()
+                state.updateKeyframe(selectedIndex) { old ->
+                    (old as Keyframe.Segment).copy(
+                        to = updateToValue(old.to, floatValue)
+                    )
+                }
+            },
+            textStyle = AppTheme.typography.body2,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true,
+            label = {
+                Text(
+                    text = propertyName, style = AppTheme.typography.label2, color = AppTheme.colors.text
+                )
+            },
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 

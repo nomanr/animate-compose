@@ -33,7 +33,24 @@ val LocalPlaygroundState = compositionLocalOf<PlaygroundState> {
 @Composable
 fun PlaygroundStateProvider(content: @Composable () -> Unit) {
     var keyframes by remember {
-        mutableStateOf(listOf<Keyframe>())
+        mutableStateOf<List<Keyframe>>(
+            listOf(
+                Keyframe.Segment(
+                    start = 0f,
+                    end = 0.6f,
+                    from = TransformProperties(translationX = 0f),
+                    to = TransformProperties(translationX = 200f),
+                    easing = null
+                ),
+                Keyframe.Segment(
+                    start = 0.4f,
+                    end = 1.0f,
+                    from = TransformProperties(translationY = 0f),
+                    to = TransformProperties(translationY = 100f),
+                    easing = null
+                )
+            )
+        )
     }
 
     var duration by remember { mutableStateOf(2000) }
