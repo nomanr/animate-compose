@@ -54,6 +54,7 @@ private fun SegmentProperties(
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             TranslationProperty(keyframe, selectedIndex, state)
             ScaleProperty(keyframe, selectedIndex, state)
+            RotationProperty(keyframe, selectedIndex, state)
         }
 
     }
@@ -102,6 +103,35 @@ private fun ScaleProperty(
                 name = "Y",
                 getValue = { it.scaleY },
                 updateValue = { transform, value -> transform.copy(scaleY = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun RotationProperty(
+    keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
+) {
+    TransformPropertySection(
+        title = "Rotation",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.rotationX },
+                updateValue = { transform, value -> transform.copy(rotationX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.rotationY },
+                updateValue = { transform, value -> transform.copy(rotationY = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Z",
+                getValue = { it.rotationZ },
+                updateValue = { transform, value -> transform.copy(rotationZ = value) }
             )
         )
     )
