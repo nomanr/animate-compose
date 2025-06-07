@@ -16,7 +16,7 @@ import com.nomanr.animate.compose.ui.components.card.Card
 @Composable
 fun ConfigurationSection(title: String, content: @Composable ColumnScope.() -> Unit) {
     Column{
-        Text(title, style = AppTheme.typography.h3)
+        Text(title, style = AppTheme.typography.h4)
 
         Spacer(modifier = Modifier.height(12.dp))
 
