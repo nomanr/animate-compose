@@ -77,6 +77,20 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     to = TransformProperties(rotationZ = 360f),
                     easing = null
                 ),
+                Keyframe.Segment(
+                    start = 0.2f,
+                    end = 0.8f,
+                    from = TransformProperties(alpha = 1f),
+                    to = TransformProperties(alpha = 0.3f),
+                    easing = null
+                ),
+                Keyframe.Segment(
+                    start = 0.8f,
+                    end = 1.0f,
+                    from = TransformProperties(alpha = 0.3f),
+                    to = TransformProperties(alpha = 1f),
+                    easing = null
+                ),
             )
         )
     }

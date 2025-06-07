@@ -54,7 +54,9 @@ private fun SegmentProperties(
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             TranslationProperty(keyframe, selectedIndex, state)
             ScaleProperty(keyframe, selectedIndex, state)
+            AlphaProperty(keyframe, selectedIndex, state)
             RotationProperty(keyframe, selectedIndex, state)
+            SkewProperty(keyframe, selectedIndex, state)
         }
 
     }
@@ -109,6 +111,25 @@ private fun ScaleProperty(
 }
 
 @Composable
+private fun AlphaProperty(
+    keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
+) {
+    TransformPropertySection(
+        title = "Alpha",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "Alpha",
+                getValue = { it.alpha },
+                updateValue = { transform, value -> transform.copy(alpha = value) }
+            )
+        )
+    )
+}
+
+@Composable
 private fun RotationProperty(
     keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
 ) {
@@ -132,6 +153,30 @@ private fun RotationProperty(
                 name = "Z",
                 getValue = { it.rotationZ },
                 updateValue = { transform, value -> transform.copy(rotationZ = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun SkewProperty(
+    keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
+) {
+    TransformPropertySection(
+        title = "Skew",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.skewX },
+                updateValue = { transform, value -> transform.copy(skewX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.skewY },
+                updateValue = { transform, value -> transform.copy(skewY = value) }
             )
         )
     )
