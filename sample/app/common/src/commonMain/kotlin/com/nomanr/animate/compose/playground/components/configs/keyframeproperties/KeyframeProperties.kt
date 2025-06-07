@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -279,7 +280,9 @@ private fun TransformPropertyRow(
             singleLine = true,
             label = {
                 Text(
-                    text = propertyName, style = AppTheme.typography.label2, color = AppTheme.colors.text
+                    text = propertyName,
+                    style = AppTheme.typography.label2,
+                    color = AppTheme.colors.text
                 )
             },
             modifier = Modifier.weight(1f)
@@ -306,7 +309,9 @@ private fun TransformPropertyRow(
             singleLine = true,
             label = {
                 Text(
-                    text = propertyName, style = AppTheme.typography.label2, color = AppTheme.colors.text
+                    text = propertyName,
+                    style = AppTheme.typography.label2,
+                    color = AppTheme.colors.text
                 )
             },
             modifier = Modifier.weight(1f)
@@ -325,7 +330,7 @@ private fun EasingSection(
         var d by remember { mutableStateOf(1.0f) }
 
         Row(
-            modifier = Modifier.fillMaxWidth(), 
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             PropertyField(
@@ -415,7 +420,7 @@ private fun PropertiesSection(title: String, content: @Composable () -> Unit) {
                     variant = IconButtonVariant.Ghost, onClick = {
                         state.toggle()
                     }) {
-                    Icon(Icons.Default.Add)
+                    Icon(if (state.expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown)
                 }
             }
         }, bodyContent = content)
