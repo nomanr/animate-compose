@@ -43,12 +43,19 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     easing = null
                 ),
                 Keyframe.Segment(
+                    start = 0.6f,
+                    end = 1.0f,
+                    from = TransformProperties(translationX = 200f),
+                    to = TransformProperties(translationX = 200f),
+                    easing = null
+                ),
+                Keyframe.Segment(
                     start = 0.4f,
                     end = 1.0f,
                     from = TransformProperties(translationY = 0f),
                     to = TransformProperties(translationY = 100f),
                     easing = null
-                )
+                ),
             )
         )
     }
@@ -76,8 +83,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
         },
         updateCurrentTime = { currentTime = it },
         selectKeyframe = { selectedKeyframeIndex = it },
-        setPlaying = { isPlaying = it }
-    )
+        setPlaying = { isPlaying = it })
 
     CompositionLocalProvider(LocalPlaygroundState provides state) {
         content()
@@ -95,7 +101,9 @@ fun PlaygroundState.addStaticKeyframe(time: Float? = null): Keyframe.Static {
     return newKeyframe
 }
 
-fun PlaygroundState.addSegmentKeyframe(startTime: Float? = null, endTime: Float? = null): Keyframe.Segment {
+fun PlaygroundState.addSegmentKeyframe(
+    startTime: Float? = null, endTime: Float? = null
+): Keyframe.Segment {
     val actualStartTime = startTime ?: getNextKeyframeStartTime()
     val actualEndTime = endTime ?: (actualStartTime + 0.2f).coerceAtMost(1.0f)
     val newKeyframe = Keyframe.Segment(
@@ -112,14 +120,14 @@ fun PlaygroundState.addSegmentKeyframe(startTime: Float? = null, endTime: Float?
 
 private fun PlaygroundState.getNextKeyframeStartTime(): Float {
     if (keyframes.isEmpty()) return 0f
-    
+
     val lastKeyframeEnd = keyframes.maxOf { keyframe ->
         when (keyframe) {
             is Keyframe.Static -> keyframe.percent
             is Keyframe.Segment -> keyframe.end
         }
     }
-    
+
     return lastKeyframeEnd
 }
 
