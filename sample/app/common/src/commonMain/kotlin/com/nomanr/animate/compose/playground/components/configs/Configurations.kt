@@ -21,12 +21,14 @@ fun Configurations(
     state: PlaygroundState, modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxHeight().padding(16.dp),
+        modifier = modifier
+            .fillMaxHeight()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
 
         AnimationDuration()
-
 
         val selectedKeyframe = state.selectedKeyframeIndex?.let { index ->
             state.keyframes.getOrNull(index)
@@ -39,16 +41,11 @@ fun Configurations(
                 color = AppTheme.colors.textSecondary.copy(alpha = 0.6f)
             )
         } else {
-            Column(
-                modifier = Modifier.weight(1f).verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
-            ) {
-                KeyframePropertiesPanel(
-                    keyframe = selectedKeyframe,
-                    keyframeIndex = state.selectedKeyframeIndex,
-                    state = state
-                )
-            }
+            KeyframePropertiesPanel(
+                keyframe = selectedKeyframe,
+                keyframeIndex = state.selectedKeyframeIndex,
+                state = state
+            )
         }
     }
 }
