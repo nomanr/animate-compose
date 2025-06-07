@@ -1,29 +1,25 @@
 package com.nomanr.animate.compose.playground.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
 import com.nomanr.animate.compose.animated.rememberAnimatedState
 import com.nomanr.animate.compose.playground.PlaygroundState
-import com.nomanr.animate.compose.playground.toKeyframes
 import com.nomanr.animate.compose.playground.model.CustomAnimationPreset
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
@@ -31,23 +27,21 @@ import com.nomanr.animate.compose.ui.components.Text
 @Composable
 
 fun Demo(
-    state: PlaygroundState,
-    modifier: Modifier = Modifier
+    state: PlaygroundState, modifier: Modifier = Modifier
 ) {
     val animationState = rememberAnimatedState()
     var trigger by remember { mutableStateOf(Pair(0, true)) }
-    
-    val customAnimation by remember {
-        derivedStateOf {
-            val keyframes = state.toKeyframes()
-            if (keyframes.isNotEmpty()) {
-                CustomAnimationPreset(keyframes)
-            } else null
-        }
+    var customAnimation by remember { mutableStateOf(CustomAnimationPreset(emptyList())) }
+
+
+    LaunchedEffect(state.keyframes, state.originX, state.originY) {
+        customAnimation =
+            CustomAnimationPreset(state.keyframes, TransformOrigin(state.originX, state.originY))
     }
 
-    LaunchedEffect(customAnimation) {
-        if (customAnimation != null) {
+    LaunchedEffect(state.isPlaying) {
+        if (state.isPlaying) {
+
             trigger = Pair(trigger.first + 1, true)
             animationState.animate()
         }
@@ -59,21 +53,14 @@ fun Demo(
         }
     }
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+
+    Column(modifier = modifier) {
         Box(
-            modifier = Modifier
-                .weight(1f)
-                .clip(RoundedCornerShape(12.dp))
-                .background(AppTheme.colors.surface.copy(alpha = 0.3f))
-                .clipToBounds(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            if (trigger.second && customAnimation != null) {
+            if (trigger.second) {
                 Animated(
-                    preset = customAnimation!!,
+                    preset = customAnimation,
                     state = animationState,
                     durationMillis = state.duration
                 ) {
@@ -89,17 +76,12 @@ fun Demo(
 @Composable
 private fun DemoContent() {
     Box(
-        modifier = Modifier
-            .size(120.dp)
-            .background(AppTheme.colors.primary),
+        modifier = Modifier.size(120.dp).background(AppTheme.colors.primary),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "DEMO",
-            color = AppTheme.colors.onPrimary,
-            style = AppTheme.typography.h4.copy(
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+            text = "DEMO", color = AppTheme.colors.onPrimary, style = AppTheme.typography.h4.copy(
+                fontWeight = FontWeight.Bold, fontSize = 18.sp
             )
         )
     }

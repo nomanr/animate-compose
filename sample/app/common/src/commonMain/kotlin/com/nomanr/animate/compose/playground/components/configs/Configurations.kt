@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.components.keyframeproperties
+package com.nomanr.animate.compose.playground.components.configs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +21,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.playground.PlaygroundState
+import com.nomanr.animate.compose.playground.components.configs.keyframeproperties.KeyframeTiming
+import com.nomanr.animate.compose.playground.components.configs.keyframeproperties.KeyframeProperties
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Text
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
@@ -37,7 +39,6 @@ fun Configurations(
         AnimationDuration()
 
 
-        println(state.selectedKeyframeIndex)
         val selectedKeyframe = state.selectedKeyframeIndex?.let { index ->
             state.keyframes.getOrNull(index)
         }
@@ -79,6 +80,8 @@ private fun KeyframePropertiesPanel(
         )
 
         KeyframeTiming(state = state)
+
+        KeyframeProperties(state = state)
 
         Spacer(modifier = Modifier.height(8.dp))
         

@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.components.keyframeproperties
+package com.nomanr.animate.compose.playground.components.configs
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable

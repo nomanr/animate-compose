@@ -59,7 +59,7 @@ fun AppTopbar(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Logo()
+//                        Logo()
                         Spacer(Modifier.width(8.dp))
 //                        Docs()
                         if (!adaptiveInfo.isCompact) {
@@ -91,14 +91,14 @@ fun Docs() {
 
 @Composable
 fun Playground(onNavigateToPlayground: (() -> Unit)? = null) {
-    Animated(preset = HeartBeat(heartScale = 1.1f), repeat = true, durationMillis = 2000) {
+//    Animated(preset = HeartBeat(heartScale = 1.1f), repeat = true, durationMillis = 2000) {
         Button(
             variant = ButtonVariant.Ghost,
             onClick = { onNavigateToPlayground?.invoke() }
         ) {
             Text(text = "Playground", style = AppTheme.typography.h5)
         }
-    }
+//    }
 }
 
 @Composable

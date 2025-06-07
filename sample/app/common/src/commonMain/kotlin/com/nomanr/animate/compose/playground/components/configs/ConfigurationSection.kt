@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.components.keyframeproperties
+package com.nomanr.animate.compose.playground.components.configs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.components.AppTopbar
 import com.nomanr.animate.compose.playground.components.Demo
-import com.nomanr.animate.compose.playground.components.keyframeproperties.Configurations
+import com.nomanr.animate.compose.playground.components.configs.Configurations
 import com.nomanr.animate.compose.playground.components.timeline.Timeline
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.VerticalDivider

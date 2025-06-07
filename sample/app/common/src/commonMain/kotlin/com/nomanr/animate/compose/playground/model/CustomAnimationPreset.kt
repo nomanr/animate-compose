@@ -11,8 +11,9 @@ import com.nomanr.animate.compose.core.animateKeyframe
 class CustomAnimationPreset(
     private val keyframes: List<Keyframe>,
     private val transformOrigin: TransformOrigin = TransformOrigin.Center,
-    private val clip: Boolean = false
 ) : AnimationPreset {
+
+
 
     @Composable
     override fun animate(progress: State<Float>): Modifier {
@@ -20,7 +21,6 @@ class CustomAnimationPreset(
             progress = progress,
             keyframes = keyframes,
             transformOrigin = transformOrigin,
-            clip = clip
         )
     }
 }

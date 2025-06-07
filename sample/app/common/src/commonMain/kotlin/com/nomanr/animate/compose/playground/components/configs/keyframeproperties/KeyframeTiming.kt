@@ -1,4 +1,4 @@
-package com.nomanr.animate.compose.playground.components.keyframeproperties
+package com.nomanr.animate.compose.playground.components.configs.keyframeproperties
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.playground.PlaygroundState
+import com.nomanr.animate.compose.playground.components.configs.ConfigurationSection
 import com.nomanr.animate.compose.playground.updateKeyframeTime
 import com.nomanr.animate.compose.playground.updateKeyframe
 import com.nomanr.animate.compose.ui.AppTheme

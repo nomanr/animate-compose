@@ -40,6 +40,7 @@ kotlin {
             api(compose.runtime)
             api(compose.foundation)
             api(compose.material3)
+            api(compose.materialIconsExtended)
             api(compose.ui)
             api(libs.nomanr.composables)
             api(compose.components.resources)
