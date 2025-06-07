@@ -35,6 +35,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
     var keyframes by remember {
         mutableStateOf<List<Keyframe>>(
             listOf(
+                // Translation X
                 Keyframe.Segment(
                     start = 0f,
                     end = 0.6f,
@@ -49,6 +50,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     to = TransformProperties(translationX = 200f),
                     easing = null
                 ),
+                // Translation Y
                 Keyframe.Segment(
                     start = 0.4f,
                     end = 1.0f,
@@ -56,6 +58,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     to = TransformProperties(translationY = 100f),
                     easing = null
                 ),
+                // Scale
                 Keyframe.Segment(
                     start = 0f,
                     end = 0.5f,
@@ -70,13 +73,7 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     to = TransformProperties(scaleX = 1f, scaleY = 1f),
                     easing = null
                 ),
-                Keyframe.Segment(
-                    start = 0f,
-                    end = 1.0f,
-                    from = TransformProperties(rotationZ = 0f),
-                    to = TransformProperties(rotationZ = 360f),
-                    easing = null
-                ),
+                // Alpha
                 Keyframe.Segment(
                     start = 0.2f,
                     end = 0.8f,
@@ -89,6 +86,51 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
                     end = 1.0f,
                     from = TransformProperties(alpha = 0.3f),
                     to = TransformProperties(alpha = 1f),
+                    easing = null
+                ),
+                // Rotation Z
+                Keyframe.Segment(
+                    start = 0f,
+                    end = 1.0f,
+                    from = TransformProperties(rotationZ = 0f),
+                    to = TransformProperties(rotationZ = 360f),
+                    easing = null
+                ),
+                // Rotation Y with camera distance (3D flip)
+                Keyframe.Segment(
+                    start = 0.3f,
+                    end = 0.7f,
+                    from = TransformProperties(rotationY = 0f, cameraDistance = 10f),
+                    to = TransformProperties(rotationY = 180f, cameraDistance = 10f),
+                    easing = null
+                ),
+                // Rotation X
+                Keyframe.Segment(
+                    start = 0.1f,
+                    end = 0.4f,
+                    from = TransformProperties(rotationX = 0f),
+                    to = TransformProperties(rotationX = 45f),
+                    easing = null
+                ),
+                Keyframe.Segment(
+                    start = 0.4f,
+                    end = 0.6f,
+                    from = TransformProperties(rotationX = 45f),
+                    to = TransformProperties(rotationX = 0f),
+                    easing = null
+                ),
+                Keyframe.Segment(
+                    start = 0f,
+                    end = 0.3f,
+                    from = TransformProperties(cameraDistance = 8f),
+                    to = TransformProperties(cameraDistance = 5f),
+                    easing = null
+                ),
+                Keyframe.Segment(
+                    start = 0.7f,
+                    end = 1.0f,
+                    from = TransformProperties(cameraDistance = 5f),
+                    to = TransformProperties(cameraDistance = 8f),
                     easing = null
                 ),
             )
