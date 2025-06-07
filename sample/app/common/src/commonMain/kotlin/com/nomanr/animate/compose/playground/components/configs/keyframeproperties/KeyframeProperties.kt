@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,8 +23,12 @@ import com.nomanr.animate.compose.playground.PlaygroundState
 import com.nomanr.animate.compose.playground.components.configs.ConfigurationSection
 import com.nomanr.animate.compose.playground.updateKeyframe
 import com.nomanr.animate.compose.ui.AppTheme
+import com.nomanr.animate.compose.ui.components.Accordion
 import com.nomanr.animate.compose.ui.components.Icon
+import com.nomanr.animate.compose.ui.components.IconButton
+import com.nomanr.animate.compose.ui.components.IconButtonVariant
 import com.nomanr.animate.compose.ui.components.Text
+import com.nomanr.animate.compose.ui.components.rememberAccordionState
 import com.nomanr.animate.compose.ui.components.textfield.OutlinedTextField
 
 @Composable
@@ -45,7 +50,9 @@ private fun SegmentProperties(
 ) {
     ConfigurationSection(title = "Transformation Properties") {
 
-        TranslationXProperty(keyframe, selectedIndex, state)
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            TranslationXProperty(keyframe, selectedIndex, state)
+        }
 
     }
 }
@@ -125,10 +132,26 @@ private fun TranslationXProperty(
 
 @Composable
 private fun PropertiesSection(title: String, content: @Composable () -> Unit) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = AppTheme.typography.h4)
+    val state = rememberAccordionState()
+    Column(
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Accordion(state = state, headerContent = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(title, style = AppTheme.typography.h4)
+                IconButton(
+                    variant = IconButtonVariant.Ghost, onClick = {
+                        state.toggle()
+                    }) {
+                    Icon(Icons.Default.Add)
+                }
+            }
+        }, bodyContent = content)
 
-        content()
     }
 
 }

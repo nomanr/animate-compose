@@ -56,6 +56,8 @@ fun IconButton(
         onClick = onClick,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
+        hardShadow = style.hardShadow,
+        border = style.border,
         content = content,
     )
 }
@@ -68,6 +70,8 @@ private fun IconButtonComponent(
     onClick: () -> Unit,
     contentPadding: PaddingValues,
     interactionSource: MutableInteractionSource,
+    hardShadow: Boolean,
+    border: Boolean,
     content: @Composable () -> Unit,
 ) {
     val containerColor = style.colors.containerColor(enabled).value
@@ -87,8 +91,8 @@ private fun IconButtonComponent(
         color = containerColor,
         contentColor = contentColor,
         interactionSource = interactionSource,
-        hardShadow = true,
-        border = true
+        hardShadow = hardShadow,
+        border = border
     ) {
         Box(
             modifier = Modifier.padding(contentPadding),
@@ -135,6 +139,8 @@ internal object IconButtonDefaults {
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
             shape = shape,
+            hardShadow = true,
+            border = true
         )
 
 
@@ -149,6 +155,8 @@ internal object IconButtonDefaults {
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
             shape = shape,
+            hardShadow = true,
+            border = true
         )
 
 
@@ -163,6 +171,8 @@ internal object IconButtonDefaults {
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
             shape = shape,
+            hardShadow = true,
+            border = true
         )
 
     @Composable
@@ -176,6 +186,8 @@ internal object IconButtonDefaults {
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
             shape = shape,
+            hardShadow = true,
+            border = true
         )
 
 
@@ -190,6 +202,8 @@ internal object IconButtonDefaults {
                     disabledContentColor = AppTheme.colors.onDisabled,
                 ),
             shape = shape,
+            hardShadow = false,
+            border = false
         )
 }
 
@@ -216,6 +230,8 @@ data class IconButtonColors(
 data class IconButtonStyle(
     val colors: IconButtonColors,
     val shape: Shape,
+    val hardShadow: Boolean,
+    val border: Boolean,
 )
 
 @Composable
