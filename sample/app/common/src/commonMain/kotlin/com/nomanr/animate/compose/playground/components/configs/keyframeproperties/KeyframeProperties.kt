@@ -40,9 +40,7 @@ fun KeyframeProperties(state: PlaygroundState) {
 
     when (keyframe) {
         is Keyframe.Segment -> SegmentProperties(keyframe, selectedIndex, state)
-        is Keyframe.Static -> {
-            // Not implemented yet
-        }
+        is Keyframe.Static -> StaticProperties(keyframe, selectedIndex, state)
     }
 }
 
@@ -60,6 +58,25 @@ private fun SegmentProperties(
             SkewProperty(keyframe, selectedIndex, state)
             CameraDistanceProperty(keyframe, selectedIndex, state)
             EasingSection(keyframe, selectedIndex, state)
+        }
+
+    }
+}
+
+@Composable
+private fun StaticProperties(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    ConfigurationSection(title = "Transformation Properties") {
+
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            StaticTranslationProperty(keyframe, selectedIndex, state)
+            StaticScaleProperty(keyframe, selectedIndex, state)
+            StaticAlphaProperty(keyframe, selectedIndex, state)
+            StaticRotationProperty(keyframe, selectedIndex, state)
+            StaticSkewProperty(keyframe, selectedIndex, state)
+            StaticCameraDistanceProperty(keyframe, selectedIndex, state)
+            StaticEasingSection(keyframe, selectedIndex, state)
         }
 
     }
@@ -190,6 +207,147 @@ private fun CameraDistanceProperty(
     keyframe: Keyframe.Segment, selectedIndex: Int, state: PlaygroundState
 ) {
     TransformPropertySection(
+        title = "Camera Distance",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "Distance",
+                getValue = { it.cameraDistance },
+                updateValue = { transform, value -> transform.copy(cameraDistance = value) }
+            )
+        )
+    )
+}
+
+// Static keyframe property composables
+
+@Composable
+private fun StaticTranslationProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
+        title = "Translation",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.translationX },
+                updateValue = { transform, value -> transform.copy(translationX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.translationY },
+                updateValue = { transform, value -> transform.copy(translationY = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun StaticScaleProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
+        title = "Scale",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.scaleX },
+                updateValue = { transform, value -> transform.copy(scaleX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.scaleY },
+                updateValue = { transform, value -> transform.copy(scaleY = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun StaticAlphaProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
+        title = "Alpha",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "Alpha",
+                getValue = { it.alpha },
+                updateValue = { transform, value -> transform.copy(alpha = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun StaticRotationProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
+        title = "Rotation",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.rotationX },
+                updateValue = { transform, value -> transform.copy(rotationX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.rotationY },
+                updateValue = { transform, value -> transform.copy(rotationY = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Z",
+                getValue = { it.rotationZ },
+                updateValue = { transform, value -> transform.copy(rotationZ = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun StaticSkewProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
+        title = "Skew",
+        keyframe = keyframe,
+        selectedIndex = selectedIndex,
+        state = state,
+        properties = listOf(
+            TransformPropertyConfig(
+                name = "X",
+                getValue = { it.skewX },
+                updateValue = { transform, value -> transform.copy(skewX = value) }
+            ),
+            TransformPropertyConfig(
+                name = "Y",
+                getValue = { it.skewY },
+                updateValue = { transform, value -> transform.copy(skewY = value) }
+            )
+        )
+    )
+}
+
+@Composable
+private fun StaticCameraDistanceProperty(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    StaticTransformPropertySection(
         title = "Camera Distance",
         keyframe = keyframe,
         selectedIndex = selectedIndex,
@@ -366,6 +524,52 @@ private fun EasingSection(
 }
 
 @Composable
+private fun StaticEasingSection(
+    keyframe: Keyframe.Static, selectedIndex: Int, state: PlaygroundState
+) {
+    PropertiesSection(title = "Easing") {
+        var a by remember { mutableStateOf(0.25f) }
+        var b by remember { mutableStateOf(0.1f) }
+        var c by remember { mutableStateOf(0.25f) }
+        var d by remember { mutableStateOf(1.0f) }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            PropertyField(
+                label = "A",
+                value = a,
+                onValueChange = { a = it },
+                range = 0f..1f,
+                modifier = Modifier.weight(1f)
+            )
+            PropertyField(
+                label = "B",
+                value = b,
+                onValueChange = { b = it },
+                range = 0f..1f,
+                modifier = Modifier.weight(1f)
+            )
+            PropertyField(
+                label = "C",
+                value = c,
+                onValueChange = { c = it },
+                range = 0f..1f,
+                modifier = Modifier.weight(1f)
+            )
+            PropertyField(
+                label = "D",
+                value = d,
+                onValueChange = { d = it },
+                range = 0f..1f,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
 private fun PropertyField(
     label: String,
     value: Float,
@@ -401,6 +605,70 @@ private fun PropertyField(
                 text = label, style = AppTheme.typography.label2, color = AppTheme.colors.text
             )
         })
+}
+
+@Composable
+private fun StaticTransformPropertySection(
+    title: String,
+    keyframe: Keyframe.Static,
+    selectedIndex: Int,
+    state: PlaygroundState,
+    properties: List<TransformPropertyConfig>
+) {
+    PropertiesSection(title = title) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            properties.forEach { property ->
+                StaticTransformPropertyField(
+                    keyframe = keyframe,
+                    selectedIndex = selectedIndex,
+                    state = state,
+                    propertyName = property.name,
+                    getValue = property.getValue,
+                    updateValue = property.updateValue
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StaticTransformPropertyField(
+    keyframe: Keyframe.Static,
+    selectedIndex: Int,
+    state: PlaygroundState,
+    propertyName: String,
+    getValue: (TransformProperties) -> Float?,
+    updateValue: (TransformProperties, Float?) -> TransformProperties
+) {
+    var textValue by remember(getValue(keyframe.transform)) {
+        mutableStateOf(getValue(keyframe.transform)?.let {
+            ((it * 1000).toInt() / 1000.0).toString()
+        } ?: "")
+    }
+
+    OutlinedTextField(
+        value = textValue,
+        onValueChange = { newValue ->
+            textValue = newValue
+            val floatValue = if (newValue.isEmpty()) null else newValue.toFloatOrNull()
+            state.updateKeyframe(selectedIndex) { old ->
+                (old as Keyframe.Static).copy(
+                    transform = updateValue(old.transform, floatValue)
+                )
+            }
+        },
+        textStyle = AppTheme.typography.body2,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        label = {
+            Text(
+                text = propertyName,
+                style = AppTheme.typography.label2,
+                color = AppTheme.colors.text
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable
