@@ -35,104 +35,43 @@ fun PlaygroundStateProvider(content: @Composable () -> Unit) {
     var keyframes by remember {
         mutableStateOf<List<Keyframe>>(
             listOf(
-                // Translation X
                 Keyframe.Segment(
-                    start = 0f,
-                    end = 0.6f,
-                    from = TransformProperties(translationX = 0f),
-                    to = TransformProperties(translationX = 200f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0.6f,
-                    end = 1.0f,
-                    from = TransformProperties(translationX = 200f),
-                    to = TransformProperties(translationX = 200f),
-                    easing = null
-                ),
-                // Translation Y
-                Keyframe.Segment(
-                    start = 0.4f,
-                    end = 1.0f,
-                    from = TransformProperties(translationY = 0f),
-                    to = TransformProperties(translationY = 100f),
-                    easing = null
-                ),
-                // Scale
-                Keyframe.Segment(
-                    start = 0f,
-                    end = 0.5f,
-                    from = TransformProperties(scaleX = 1f, scaleY = 1f),
-                    to = TransformProperties(scaleX = 1.5f, scaleY = 1.5f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0.5f,
-                    end = 1.0f,
-                    from = TransformProperties(scaleX = 1.5f, scaleY = 1.5f),
-                    to = TransformProperties(scaleX = 1f, scaleY = 1f),
-                    easing = null
-                ),
-                // Alpha
-                Keyframe.Segment(
-                    start = 0.2f,
-                    end = 0.8f,
-                    from = TransformProperties(alpha = 1f),
-                    to = TransformProperties(alpha = 0.3f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0.8f,
-                    end = 1.0f,
-                    from = TransformProperties(alpha = 0.3f),
-                    to = TransformProperties(alpha = 1f),
-                    easing = null
-                ),
-                // Rotation Z
-                Keyframe.Segment(
-                    start = 0f,
-                    end = 1.0f,
-                    from = TransformProperties(rotationZ = 0f),
-                    to = TransformProperties(rotationZ = 360f),
-                    easing = null
-                ),
-                // Rotation Y with camera distance (3D flip)
-                Keyframe.Segment(
-                    start = 0.3f,
-                    end = 0.7f,
-                    from = TransformProperties(rotationY = 0f, cameraDistance = 10f),
-                    to = TransformProperties(rotationY = 180f, cameraDistance = 10f),
-                    easing = null
-                ),
-                // Rotation X
-                Keyframe.Segment(
-                    start = 0.1f,
-                    end = 0.4f,
-                    from = TransformProperties(rotationX = 0f),
-                    to = TransformProperties(rotationX = 45f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0.4f,
-                    end = 0.6f,
-                    from = TransformProperties(rotationX = 45f),
-                    to = TransformProperties(rotationX = 0f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0f,
-                    end = 0.3f,
-                    from = TransformProperties(cameraDistance = 8f),
-                    to = TransformProperties(cameraDistance = 5f),
-                    easing = null
-                ),
-                Keyframe.Segment(
-                    start = 0.7f,
-                    end = 1.0f,
-                    from = TransformProperties(cameraDistance = 5f),
-                    to = TransformProperties(cameraDistance = 8f),
-                    easing = null
-                ),
+                    0f, 0.111f,
+                    from = TransformProperties(skewX = 0f, skewY = 0f),
+                    to = TransformProperties(skewX = 0.15f, skewY = 0.15f),
+                ), Keyframe.Segment(
+                    0.111f, 0.222f,
+                    from = TransformProperties(skewX = 0.15f, skewY = 0.15f),
+                    to = TransformProperties(skewX = -0.15f, skewY = -0.15f),
+                ), Keyframe.Segment(
+                    0.222f, 0.333f,
+                    from = TransformProperties(skewX = -0.15f, skewY = -0.15f),
+                    to = TransformProperties(skewX = 0.075f, skewY = 0.075f),
+                ), Keyframe.Segment(
+                    0.333f, 0.444f,
+                    from = TransformProperties(skewX = 0.075f, skewY = 0.075f),
+                    to = TransformProperties(skewX = -0.0375f, skewY = -0.0375f),
+                ), Keyframe.Segment(
+                    0.444f, 0.555f,
+                    from = TransformProperties(skewX = -0.0375f, skewY = -0.0375f),
+                    to = TransformProperties(skewX = 0.01875f, skewY = 0.01875f),
+                ), Keyframe.Segment(
+                    0.555f, 0.666f,
+                    from = TransformProperties(skewX = 0.01875f, skewY = 0.01875f),
+                    to = TransformProperties(skewX = -0.009375f, skewY = -0.009375f),
+                ), Keyframe.Segment(
+                    0.666f, 0.777f,
+                    from = TransformProperties(skewX = -0.009375f, skewY = -0.009375f),
+                    to = TransformProperties(skewX = 0.0046875f, skewY = 0.0046875f),
+                ), Keyframe.Segment(
+                    0.777f, 0.888f,
+                    from = TransformProperties(skewX = 0.0046875f, skewY = 0.0046875f),
+                    to = TransformProperties(skewX = -0.00234375f, skewY = -0.00234375f),
+                ), Keyframe.Segment(
+                    0.888f, 1f,
+                    from = TransformProperties(skewX = -0.00234375f, skewY = -0.00234375f),
+                    to = TransformProperties(),
+                )
             )
         )
     }
