@@ -104,13 +104,11 @@ fun Demo(
 @Composable
 private fun DemoContent() {
     Box(
-        modifier = Modifier.size(120.dp).background(AppTheme.colors.primary),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.size(120.dp)
     ) {
-        Text(
-            text = "DEMO", color = AppTheme.colors.onPrimary, style = AppTheme.typography.h4.copy(
-                fontWeight = FontWeight.Bold, fontSize = 18.sp
-            )
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(AppTheme.colors.primary)
         )
     }
 }
