@@ -223,16 +223,46 @@ Explore all animations in our interactive playground:
 ```bash
 # Clone the repository
 git clone https://github.com/yourusername/animate-compose.git
-
-# Run the sample app
-./gradlew :sample:app:android:installDebug
 ```
+
+### Running the Sample App
 
 The sample app includes:
 - Visual catalog of all animations
 - Interactive configuration options
 - Code generation for custom presets
 - Performance profiling tools
+
+#### Android
+```bash
+./gradlew :sample:app:android:installDebug
+# or
+./gradlew :sample:app:android:assembleDebug
+```
+
+#### iOS
+```bash
+# Open the project in Xcode
+open sample/app/ios/iosApp.xcodeproj
+
+# Or build from command line
+cd sample/app/ios
+xcodebuild -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 15'
+```
+
+#### Desktop
+```bash
+./gradlew :sample:app:desktop:run
+```
+
+#### Web
+```bash
+# Development server with hot reload
+./gradlew :sample:app:web:jsBrowserDevelopmentRun
+
+# Production build
+./gradlew :sample:app:web:jsBrowserProductionWebpack
+```
 
 ## Contributing
 
