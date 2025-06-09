@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-  pull_request_target:
-    types:
-      - closed
+  workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: write
   pages: write
@@ -15,15 +14,13 @@ permissions:
 
 jobs:
   deploy-to-pages:
-    if: |
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'push' && 'main' || github.event.pull_request.base.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Set up JDK 17
@@ -64,9 +61,5 @@ jobs:
       - name: Force push changes to deploy branch
         run: |
           git add docs
-          if [ "${{ github.event_name }}" == "push" ]; then
-            git commit -m "Deploy to GitHub Pages - Direct push to main"
-          else
-            git commit -m "Deploy to GitHub Pages - PR #${{ github.event.pull_request.number }}"
-          fi
+          git commit -m "Deploy to GitHub Pages from commit ${{ github.sha }}"
           git push --force origin deploy
