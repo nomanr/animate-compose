@@ -6,7 +6,6 @@ on:
       - main
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: write
   pages: write
@@ -52,11 +51,11 @@ jobs:
           rm -rf $DOCS_DIR
           mkdir -p $DOCS_DIR
 
-          # Copy all files from the webpack output
           cp -r $BUILD_DIR/* $DOCS_DIR/
-          
-          # Also copy the processed resources (index.html, styles.css, etc)
           cp -r sample/app/web/build/processedResources/js/main/* $DOCS_DIR/
+
+      - name: Add CNAME file
+        run: echo "animate.nomanr.com" > docs/CNAME
 
       - name: Force push changes to deploy branch
         run: |
