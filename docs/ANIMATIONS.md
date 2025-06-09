@@ -245,19 +245,3 @@ Animated(
 }
 ```
 
-## Combining with Exit Animations
-
-For exit animations, set `animateOnEnter = false`:
-
-```kotlin
-Animated(
-    preset = FadeOut(),
-    animateOnEnter = false,
-    state = animatedState
-) {
-    // Your content
-}
-
-// Trigger exit animation
-animatedState.animate()
-```
