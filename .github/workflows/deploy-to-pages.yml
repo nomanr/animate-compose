@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types:
+      - closed
+
+jobs:
+  deploy-to-pages:
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'push' && 'main' || github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Git user configs
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Switch to deploy branch and force merge main
+        run: |
+          git fetch origin
+          git checkout -B deploy
+          git reset --hard origin/main
+
+      - name: Build Sample Web
+        run: |
+          ./gradlew :sample:app:web:jsBrowserProductionWebpack
+
+      - name: Move dist to root/docs
+        run: |
+          DOCS_DIR=docs
+          BUILD_DIR=sample/app/web/build/kotlin-webpack/js/productionExecutable
+
+          rm -rf $DOCS_DIR
+          mkdir -p $DOCS_DIR
+
+          # Copy all files from the webpack output
+          cp -r $BUILD_DIR/* $DOCS_DIR/
+          
+          # Also copy the processed resources (index.html, styles.css, etc)
+          cp -r sample/app/web/build/processedResources/js/main/* $DOCS_DIR/
+
+      - name: Force push changes to deploy branch
+        run: |
+          git add docs
+          if [ "${{ github.event_name }}" == "push" ]; then
+            git commit -m "Deploy to GitHub Pages - Direct push to main"
+          else
+            git commit -m "Deploy to GitHub Pages - PR #${{ github.event.pull_request.number }}"
+          fi
+          git push --force origin deploy
