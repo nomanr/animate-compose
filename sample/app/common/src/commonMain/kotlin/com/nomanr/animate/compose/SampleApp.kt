@@ -7,6 +7,7 @@ import com.nomanr.animate.compose.navigation.SampleAppNavHost
 import com.nomanr.animate.compose.ui.AdaptiveProvider
 import com.nomanr.animate.compose.ui.AppTheme
 import com.nomanr.animate.compose.ui.components.Scaffold
+import com.nomanr.animate.compose.ui.components.snackbar.SnackbarHost
 
 
 @Composable
@@ -14,7 +15,9 @@ fun SampleApp() {
     val appState = rememberSampleAppState()
     AppTheme {
         AdaptiveProvider(modifier = Modifier.fillMaxSize()) {
-            Scaffold {
+            Scaffold(
+                snackbarHost = { SnackbarHost(appState.snackbarHostState) }
+            ) {
                 SampleAppNavHost(
                     appState = appState,
                 )

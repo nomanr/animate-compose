@@ -34,9 +34,10 @@ import com.nomanr.animate.compose.ui.components.IconButtonVariant
 import com.nomanr.animate.compose.ui.components.Text
 
 @Composable
-
 fun Demo(
-    state: PlaygroundState, modifier: Modifier = Modifier
+    state: PlaygroundState, 
+    modifier: Modifier = Modifier,
+    onCodeCopied: () -> Unit = {}
 ) {
     val animationState = rememberAnimatedState()
     var trigger by remember { mutableStateOf(Pair(-1, true)) }
@@ -77,13 +78,15 @@ fun Demo(
                     onClick = {
                         val code = generateKeyframeCode(state.keyframes, state.originX, state.originY)
                         clipboardManager.setText(AnnotatedString(code))
+                        onCodeCopied()
                     },
                     variant = IconButtonVariant.Secondary
                 ) {
                     Icon(
                         Icons.Default.ContentCopy,
                         contentDescription = "Copy code"
-                    )                }
+                    )
+                }
             }
             
             if (trigger.second) {

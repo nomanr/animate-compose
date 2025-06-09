@@ -30,7 +30,8 @@ fun SampleAppNavHost(
                     navController.navigate(NavRoute.Sample) {
                         popUpTo(NavRoute.Sample) { inclusive = true }
                     }
-                }
+                },
+                snackbarHostState = appState.snackbarHostState
             )
         }
 
