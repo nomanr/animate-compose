@@ -25,6 +25,7 @@ fun SampleScreen(
             isPlaygroundScreen = false,
             onNavigateToPlayground = onNavigateToPlayground
         )
+        
 
         AdaptiveSampleLayout(
             animationSets = animationSetsMap,

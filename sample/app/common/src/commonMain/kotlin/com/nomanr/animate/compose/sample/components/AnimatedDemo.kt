@@ -1,13 +1,9 @@
 package com.nomanr.animate.compose.sample.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,11 +13,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nomanr.animate.compose.animated.Animated
@@ -72,29 +65,4 @@ fun AnimatedContent() {
         color = Color.Black,
         style = AppTheme.typography.h1.copy(fontWeight = FontWeight.Black, fontSize = 50.sp)
     )
-}
-
-@Composable
-fun SkewGrid(
-    skewX: Float,
-    lines: Int = 10,
-    sizeDp: Dp = 150.dp
-) {
-    Box(Modifier.size(sizeDp).border(1.dp, Color.Black).drawWithCache {
-        val mat4 = Matrix(
-            floatArrayOf(
-                1f, 0f, 0f, 0f,
-                skewX, 1f, 0f, 0f,
-                0f, 0f, 1f, 0f,
-                0f, 0f, 0f, 1f
-            )
-        )
-        onDrawWithContent {
-            drawContext.canvas.skew(skewX, 0f)
-            drawContent()
-            drawContext.canvas.restore()
-        }
-    }) {
-        Box(Modifier.size(sizeDp).background(Color.Green))
-    }
 }

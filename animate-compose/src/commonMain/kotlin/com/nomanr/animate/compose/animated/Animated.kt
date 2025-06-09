@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import com.nomanr.animate.compose.core.AnimationPreset
 
-
 @Composable
 fun Animated(
     modifier: Modifier = Modifier,
@@ -24,7 +23,7 @@ fun Animated(
     durationMillis: Int = 1000,
     enabled: Boolean = true,
     repeat: Boolean = false,
-    animateOnEnter: Boolean = false,
+    animateOnEnter: Boolean = true,
     state: AnimatedState = rememberAnimatedState(),
     content: @Composable () -> Unit
 ) {
