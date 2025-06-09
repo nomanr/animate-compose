@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate.compose</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+    <script type="application/javascript" src="skiko.js"></script>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+    <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="51181081-fb9a-4953-9af6-5b8f8b8a9b9a"
+    ></script>
+
+    <meta property="og:title" content="Animate-Compose">
+    <meta property="og:description" content="Build and copy compose animations
+">
+    <meta property="og:image"
+          content="https://raw.githubusercontent.com/nomanr/animate-compose/main/images/open-graph.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+</head>
+<body>
+<canvas id="ComposeTarget"></canvas>
+<script type="application/javascript" src="composeApp.js"></script>
+
+<script>
+    const canvas = document.getElementById('ComposeTarget');
+
+    const preventScroll = (event) => {
+        event.preventDefault();
+    };
+
+    canvas.addEventListener('wheel', preventScroll, { passive: false });
+    canvas.addEventListener('touchmove', preventScroll, { passive: false });
+</script>
+</body>
+</html>
