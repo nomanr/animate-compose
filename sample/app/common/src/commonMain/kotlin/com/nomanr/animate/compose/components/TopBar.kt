@@ -35,7 +35,9 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AppTopbar(
-    onNavigateToPlayground: (() -> Unit)? = null
+    isPlaygroundScreen: Boolean = false,
+    onNavigateToPlayground: (() -> Unit)? = null,
+    onNavigateToSample: (() -> Unit)? = null
 ) {
     val openUrl = rememberOpenUrl()
     val adaptiveInfo = currentAdaptiveInfo()
@@ -59,11 +61,15 @@ fun AppTopbar(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-//                        Logo()
+                        Logo()
                         Spacer(Modifier.width(8.dp))
-//                        Docs()
+                        Docs()
                         if (!adaptiveInfo.isCompact) {
-                            Playground(onNavigateToPlayground)
+                            if (isPlaygroundScreen) {
+                                Animations(onNavigateToSample)
+                            } else {
+                                Playground(onNavigateToPlayground)
+                            }
                         }
                     }
 
@@ -91,14 +97,24 @@ fun Docs() {
 
 @Composable
 fun Playground(onNavigateToPlayground: (() -> Unit)? = null) {
-//    Animated(preset = HeartBeat(heartScale = 1.1f), repeat = true, durationMillis = 2000) {
+    Animated(preset = HeartBeat(heartScale = 1.1f), repeat = true, durationMillis = 2000) {
         Button(
             variant = ButtonVariant.Ghost,
             onClick = { onNavigateToPlayground?.invoke() }
         ) {
             Text(text = "Playground", style = AppTheme.typography.h5)
         }
-//    }
+    }
+}
+
+@Composable
+fun Animations(onNavigateToSample: (() -> Unit)? = null) {
+    Button(
+        variant = ButtonVariant.Ghost,
+        onClick = { onNavigateToSample?.invoke() }
+    ) {
+        Text(text = "Animations", style = AppTheme.typography.h5)
+    }
 }
 
 @Composable

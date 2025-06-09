@@ -26,7 +26,10 @@ fun PlaygroundScreen(
         val state = LocalPlaygroundState.current
 
         Column(modifier = Modifier.fillMaxSize()) {
-            AppTopbar()
+            AppTopbar(
+                isPlaygroundScreen = true,
+                onNavigateToSample = onNavigateToSample
+            )
 
             Row(
                 modifier = Modifier.fillMaxSize().background(AppTheme.colors.background),

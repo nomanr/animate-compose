@@ -21,7 +21,10 @@ fun SampleScreen(
     var currentAnimation by remember { mutableStateOf(animationSetsMap.first().animations.first()) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppTopbar(onNavigateToPlayground = onNavigateToPlayground)
+        AppTopbar(
+            isPlaygroundScreen = false,
+            onNavigateToPlayground = onNavigateToPlayground
+        )
 
         AdaptiveSampleLayout(
             animationSets = animationSetsMap,
