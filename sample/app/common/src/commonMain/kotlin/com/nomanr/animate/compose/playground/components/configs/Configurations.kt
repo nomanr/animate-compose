@@ -39,6 +39,8 @@ fun Configurations(
     ) {
 
         AnimationDuration()
+        
+        TransformOrigin(state)
 
         val selectedKeyframe = state.selectedKeyframeIndex?.let { index ->
             state.keyframes.getOrNull(index)

@@ -75,7 +75,7 @@ fun Demo(
             ) {
                 IconButton(
                     onClick = {
-                        val code = generateKeyframeCode(state.keyframes)
+                        val code = generateKeyframeCode(state.keyframes, state.originX, state.originY)
                         clipboardManager.setText(AnnotatedString(code))
                     },
                     variant = IconButtonVariant.Secondary

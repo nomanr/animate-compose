@@ -3,7 +3,7 @@ package com.nomanr.animate.compose.playground.components
 import com.nomanr.animate.compose.core.Keyframe
 import com.nomanr.animate.compose.core.TransformProperties
 
-fun generateKeyframeCode(keyframes: List<Keyframe>): String {
+fun generateKeyframeCode(keyframes: List<Keyframe>, originX: Float = 0.5f, originY: Float = 0.5f): String {
     val sb = StringBuilder()
     
     // Package and imports
@@ -87,7 +87,14 @@ fun generateKeyframeCode(keyframes: List<Keyframe>): String {
     sb.appendLine("        Modifier.animateKeyframe(")
     sb.appendLine("            progress = progress,")
     sb.appendLine("            keyframes = keyframes,")
-    sb.appendLine("            transformOrigin = TransformOrigin.Center")
+    
+    // Generate transform origin
+    if (originX == 0.5f && originY == 0.5f) {
+        sb.appendLine("            transformOrigin = TransformOrigin.Center")
+    } else {
+        sb.appendLine("            transformOrigin = TransformOrigin(${originX}f, ${originY}f)")
+    }
+    
     sb.appendLine("        )")
     sb.appendLine("}")
     
