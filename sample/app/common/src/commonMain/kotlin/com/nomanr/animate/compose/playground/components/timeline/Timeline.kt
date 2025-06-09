@@ -47,7 +47,11 @@ import kotlin.time.TimeSource
 fun Timeline(
     state: PlaygroundState, modifier: Modifier = Modifier
 ) {
-    // Handle animation playback
+
+    LaunchedEffect(Unit){
+        state.play()
+    }
+
     LaunchedEffect(state.isPlaying) {
         if (state.isPlaying) {
             val startTime = state.currentTime
