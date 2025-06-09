@@ -90,7 +90,11 @@ fun AppTopbar(
 
 @Composable
 fun Docs() {
-    Button(variant = ButtonVariant.Ghost) {
+    val openUrl = rememberOpenUrl()
+    Button(
+        variant = ButtonVariant.Ghost,
+        onClick = { openUrl("https://github.com/nomanr/animate-compose#readme") }
+    ) {
         Text(text = "Docs", style = AppTheme.typography.h5)
     }
 }
