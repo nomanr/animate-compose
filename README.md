@@ -231,7 +231,6 @@ The sample app includes:
 - Visual catalog of all animations
 - Interactive configuration options
 - Code generation for custom presets
-- Performance profiling tools
 
 #### Android
 ```bash
